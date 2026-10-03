@@ -10,12 +10,12 @@ using var md5 = MD5.Create();
 
 var ecludingList = new string[]
 {
-    //"ClassicUO.exe.config"
+    //"RuneUO.exe.config"
 };
 
 
 var cuoBinPath = Path.GetFullPath(args[0]);
-Console.WriteLine("CUOPATH: {0}", cuoBinPath);
+Console.WriteLine("PATH: {0}", cuoBinPath);
 
 var version = args[1];
 Console.WriteLine("VERSION: {0}", version);

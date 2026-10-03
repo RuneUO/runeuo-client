@@ -219,25 +219,11 @@ namespace ClassicUO.Assets
         {
             _ours.Clear();
 
-            string folder = Path.Combine(FileManager.BasePath, "Sounds");
-
-            if (!Directory.Exists(folder))
-            {
-                return;
-            }
-
-            foreach (string path in Directory.EnumerateFiles(folder, "*.wav"))
-            {
-                if (int.TryParse(Path.GetFileNameWithoutExtension(path), out int id)
-                    && id >= 0 && id < MAX_SOUND_DATA_INDEX_COUNT)
-                {
-                    _ours[id] = path;
-                }
-            }
+            LooseFiles.Gather(FileManager.BasePath, "Sounds", ".wav", MAX_SOUND_DATA_INDEX_COUNT, _ours);
 
             if (_ours.Count > 0)
             {
-                Log.Trace($"{_ours.Count} sound(s) of our own in {folder}");
+                Log.Trace($"{_ours.Count} sound(s) of our own");
             }
         }
 
@@ -251,15 +237,10 @@ namespace ClassicUO.Assets
         /// </summary>
         private static byte[] ReadWave(string path)
         {
-            byte[] raw;
+            byte[] raw = LooseFiles.Read(path);
 
-            try
+            if (raw == null)
             {
-                raw = File.ReadAllBytes(path);
-            }
-            catch (IOException e)
-            {
-                Log.Warn($"could not read {path}: {e.Message}");
                 return null;
             }
 
@@ -281,13 +262,20 @@ namespace ClassicUO.Assets
                 string kind = Encoding.ASCII.GetString(raw, at, 4);
                 int size = BitConverter.ToInt32(raw, at + 4);
 
-                if (size < 0 || at + 8 + size > raw.Length)
+                if (size < 0 || size > raw.Length - at - 8)
                 {
                     size = raw.Length - at - 8;
                 }
 
                 if (kind == "fmt " && size >= 16)
                 {
+                    if (BitConverter.ToInt16(raw, at + 8) != 1)
+                    {
+                        Log.Warn($"{Path.GetFileName(path)} is not PCM, so it is being ignored");
+
+                        return null;
+                    }
+
                     channels = BitConverter.ToInt16(raw, at + 10);
                     rate = BitConverter.ToInt32(raw, at + 12);
                     bits = BitConverter.ToInt16(raw, at + 22);

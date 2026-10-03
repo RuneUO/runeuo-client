@@ -99,6 +99,8 @@ namespace ClassicUO.IO
                         var extra1 = ReadInt32();
                         var extra2 = ReadInt32();
 
+                        // Patched files can repeat a hash; the later entry wins instead of throwing.
+                        _hashes.Remove(hash);
                         _hashes.Add
                         (
                             hash,
@@ -118,6 +120,8 @@ namespace ClassicUO.IO
                     }
                     else
                     {
+                        // Patched files can repeat a hash; the later entry wins instead of throwing.
+                        _hashes.Remove(hash);
                         _hashes.Add
                         (
                             hash,

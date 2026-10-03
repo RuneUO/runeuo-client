@@ -35,6 +35,8 @@ namespace ClassicUO.Assets
         public bool UseUOPGumps = false;
         public UOFile File => _file;
 
+        public IEnumerable<int> OurIds => _ours.Keys;
+
         public override void Load()
         {
             string path = FileManager.GetUOFilePath("gumpartLegacyMUL.uop");
@@ -131,25 +133,11 @@ namespace ClassicUO.Assets
         {
             _ours.Clear();
 
-            string folder = Path.Combine(FileManager.BasePath, "Gumps");
-
-            if (!Directory.Exists(folder))
-            {
-                return;
-            }
-
-            foreach (string path in Directory.EnumerateFiles(folder, "*.gump"))
-            {
-                if (int.TryParse(Path.GetFileNameWithoutExtension(path), out int id)
-                    && id >= 0 && id < MAX_GUMP_DATA_INDEX_COUNT)
-                {
-                    _ours[id] = path;
-                }
-            }
+            LooseFiles.Gather(FileManager.BasePath, "Gumps", ".gump", MAX_GUMP_DATA_INDEX_COUNT, _ours);
 
             if (_ours.Count > 0)
             {
-                Log.Trace($"{_ours.Count} gump(s) of our own in {folder}");
+                Log.Trace($"{_ours.Count} gump(s) of our own");
             }
         }
 
@@ -164,15 +152,10 @@ namespace ClassicUO.Assets
         /// </summary>
         private GumpInfo ReadOurs(string path)
         {
-            byte[] raw;
+            byte[] raw = LooseFiles.Read(path);
 
-            try
+            if (raw == null)
             {
-                raw = System.IO.File.ReadAllBytes(path);
-            }
-            catch (IOException e)
-            {
-                Log.Warn($"could not read {path}: {e.Message}");
                 return default;
             }
 
@@ -276,11 +259,21 @@ namespace ClassicUO.Assets
         /// units of four bytes - and then pairs of (colour, run), the colour being 16-bit with
         /// zero meaning transparent, which is why a mostly-empty gump costs so little.
         /// </summary>
+        private const ulong MAX_GUMP_PIXELS = 4096 * 4096;
+
         private GumpInfo Decode(scoped ref StackDataReader reader, uint w, uint h, ushort color)
         {
-            Span<uint> pixels = new uint[w * h];
             var len = reader.Remaining;
             var halfLen = len >> 2;
+
+            // Sizes and row offsets come from the file; a bad one must not allocate gigabytes,
+            // seek outside the entry or spin for billions of iterations.
+            if (w == 0 || h == 0 || (ulong)w * h > MAX_GUMP_PIXELS || h > halfLen)
+            {
+                return default;
+            }
+
+            Span<uint> pixels = new uint[w * h];
 
             var start = reader.Position;
             var rowLookup = new int[h];
@@ -288,9 +281,16 @@ namespace ClassicUO.Assets
 
             for (var y = 0; y < h; ++y)
             {
+                var next = (y < h - 1) ? rowLookup[y + 1] : halfLen;
+
+                if (rowLookup[y] < h || rowLookup[y] > halfLen || next > halfLen)
+                {
+                    break;
+                }
+
                 reader.Seek(start + (rowLookup[y] << 2));
                 var pixelIndex = (int)(y * w);
-                var gsize = (y < h - 1) ? rowLookup[y + 1] - rowLookup[y] : halfLen - rowLookup[y];
+                var gsize = next - rowLookup[y];
                 for (var i = 0; i < gsize; ++i)
                 {
                     var value = reader.ReadUInt16LE();

@@ -484,15 +484,14 @@ namespace ClassicUO.Assets
 
                 int maxBlockCount = w * h;
 
-                if (mapPatchesCount != 0)
-                {
-                    UOFileMul difl = _mapDifl[i];
-                    UOFileMul dif = _mapDif[i];
+                UOFileMul mapDifl = _mapDifl[i];
+                UOFileMul mapDif = _mapDif[i];
 
-                    if (difl == null || dif == null || difl.Length == 0 || dif.Length == 0)
-                    {
-                        continue;
-                    }
+                // Missing land patch files skip only the land patches, statics are applied below.
+                if (mapPatchesCount != 0 && mapDifl != null && mapDif != null && mapDifl.Length != 0 && mapDif.Length != 0)
+                {
+                    UOFileMul difl = mapDifl;
+                    UOFileMul dif = mapDif;
 
                     mapPatchesCount = Math.Min(mapPatchesCount, (int)difl.Length >> 2);
 
@@ -585,7 +584,7 @@ namespace ClassicUO.Assets
 
                 if (maxBlockCount < 1)
                 {
-                    return;
+                    continue;
                 }
 
                 if (_currentMapFiles[i] is UOFileMul mul && mul.Length != 0)

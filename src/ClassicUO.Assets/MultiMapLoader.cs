@@ -35,13 +35,19 @@ namespace ClassicUO.Assets
                 _file = new UOFile(path);
             }
 
-            _facets = Directory.GetFiles(FileManager.BasePath, "*.mul", SearchOption.TopDirectoryOnly)
-                .Select(s => Regex.Match(s, "facet0.*\\.mul", RegexOptions.IgnoreCase))
-                .Where(s => s.Success)
-                .Select(s => Path.Combine(FileManager.BasePath, s.Value))
-                .OrderBy(s => s)
-                .Select(s => new UOFileMul(s))
-                .ToArray();
+            // Indexed by the number in the name, so a missing facet01.mul does not shift facet02 onto map 1.
+            // The extension is matched ignoring case, FACET00.MUL is common on Linux copies of Windows installs.
+            _facets = new UOFileMul[MapLoader.MAPS_COUNT];
+
+            foreach (string file in Directory.EnumerateFiles(FileManager.BasePath, "facet*.mul", new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive }))
+            {
+                var match = Regex.Match(Path.GetFileName(file), "^facet(\\d+)\\.mul$", RegexOptions.IgnoreCase);
+
+                if (match.Success && int.TryParse(match.Groups[1].Value, out int facet) && facet < _facets.Length)
+                {
+                    _facets[facet] = new UOFileMul(file);
+                }
+            }
         }
 
         public unsafe MultiMapInfo LoadMap

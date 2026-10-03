@@ -33,21 +33,20 @@ RuneUO can load shard-specific assets as loose files placed in the Ultima Online
 | Item art | `Art/Statics/<itemId>.art` | Same run-length data as the art archive |
 | Land art | `Art/Land/<landId>.art` | 1012 raw pixels of a land tile |
 
-Folder and file names are case-sensitive on Linux. Invalid files are logged and the original asset is used instead. Custom assets can be reloaded in-game from the Options menu without restarting the client.
+Folder and file names are matched ignoring case on every platform. Invalid files are logged and the original asset is used instead. Custom assets can be reloaded in-game from the Options menu without restarting the client.
 
 Other changes over ClassicUO include animations stored only in `verdata.mul`, additional mount mappings and fixes to tiled buttons and map patches. See the commit history for details.
 
 # Build
 ```
 git clone --recursive https://github.com/RuneUO/runeuo-client.git
-cd runeuo-client/scripts
-bash build-naot.sh
+bash runeuo-client/scripts/build-naot.sh
 ```
 Binaries are placed in the `bin/dist` folder. The executable is `RuneUO.exe` (`RuneUO` launcher script on Linux and macOS).
 > [!WARNING]
 > To execute .sh scripts on Windows, use Git Bash, which is installed with Git: https://git-scm.com/download/win
 
-Requirements: [.NET 10 SDK](https://dotnet.microsoft.com/download).
+Requirements: [.NET 10 SDK](https://dotnet.microsoft.com/download). Builds are x64 only, because the launcher hosts are x64.
 
 # Contribute
 Contributions are welcome. Open an issue or a pull request in this repository.

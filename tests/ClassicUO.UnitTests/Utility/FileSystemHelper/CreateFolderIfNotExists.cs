@@ -17,5 +17,21 @@ namespace ClassicUO.UnitTests.Utility.FileSystemHelper
 
             Directory.Delete(tempPath, true);
         }
+
+        [Theory]
+        [InlineData("..")]
+        [InlineData(".")]
+        [InlineData("../../etc")]
+        [InlineData("..\\..\\Windows")]
+        public void Parts_From_The_Server_Stay_Inside_The_Base_Folder(string part)
+        {
+            var tempPath = Path.Combine(Path.GetTempPath(), nameof(CreateFolderIfNotExists) + "_escape");
+
+            var createdPath = ClassicUO.Utility.FileSystemHelper.CreateFolderIfNotExists(tempPath, part, "Character");
+
+            Path.GetFullPath(createdPath).Should().StartWith(Path.GetFullPath(tempPath) + Path.DirectorySeparatorChar);
+
+            Directory.Delete(tempPath, true);
+        }
     }
 }

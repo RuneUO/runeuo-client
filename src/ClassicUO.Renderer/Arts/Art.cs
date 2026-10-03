@@ -6,12 +6,14 @@ using Microsoft.Xna.Framework.Graphics;
 using SDL3;
 using System;
 using System.Buffers;
+using System.Collections.Generic;
 
 namespace ClassicUO.Renderer.Arts
 {
     public sealed class Art
     {
         private readonly SpriteInfo[] _spriteInfos;
+        private readonly bool[] _missing;
         private readonly TextureAtlas _atlas;
         private readonly PixelPicker _picker = new PixelPicker();
         private readonly Rectangle[] _realArtBounds;
@@ -23,16 +25,45 @@ namespace ClassicUO.Renderer.Arts
             _artLoader = artLoader;
             _huesLoader = huesLoader;
             _atlas = new TextureAtlas(device, 4096, 4096, SurfaceFormat.Color);
-            _spriteInfos = new SpriteInfo[_artLoader.File.Entries.Length];
+            // Sized for every id a shard can add as a loose file, not only the archive's.
+            _spriteInfos = new SpriteInfo[Math.Max(_artLoader.File.Entries.Length, ArtLoader.MAX_STATIC_DATA_INDEX_COUNT)];
+            _missing = new bool[_spriteInfos.Length];
             _realArtBounds = new Rectangle[_spriteInfos.Length];
         }
 
         public void Reload()
         {
+            // Only ids that were or now are loose files can change. Clearing everything would
+            // upload every sprite again into new atlas space that is never freed.
+            var stale = new HashSet<int>();
+            CollectOurs(stale);
             _artLoader.LoadOurs();
-            Array.Clear(_spriteInfos);
-            Array.Clear(_realArtBounds);
-            _picker.Clear();
+            CollectOurs(stale);
+
+            foreach (int idx in stale)
+            {
+                if (idx >= _spriteInfos.Length)
+                    continue;
+
+                _spriteInfos[idx] = default;
+                _missing[idx] = false;
+
+                if (idx >= ArtLoader.MAX_LAND_DATA_INDEX_COUNT)
+                {
+                    _realArtBounds[idx - ArtLoader.MAX_LAND_DATA_INDEX_COUNT] = default;
+                    _picker.Remove((ulong)(idx - ArtLoader.MAX_LAND_DATA_INDEX_COUNT));
+                }
+            }
+        }
+
+        private void CollectOurs(HashSet<int> into)
+        {
+            into.UnionWith(_artLoader.OurLandIds);
+
+            foreach (int id in _artLoader.OurStaticIds)
+            {
+                into.Add(id + ArtLoader.MAX_LAND_DATA_INDEX_COUNT);
+            }
         }
 
         public ref readonly SpriteInfo GetLand(uint idx)
@@ -46,6 +77,9 @@ namespace ClassicUO.Renderer.Arts
             if (idx >= _spriteInfos.Length)
                 return ref SpriteInfo.Empty;
 
+            if (_missing[idx])
+                return ref Get(0);
+
             ref var spriteInfo = ref _spriteInfos[idx];
 
             if (spriteInfo.Texture == null)
@@ -55,9 +89,12 @@ namespace ClassicUO.Renderer.Arts
                 if (artInfo.Pixels.IsEmpty && idx > 0)
                 {
                     // Trying to load a texture that does not exist in the client MULs
-                    // Degrading gracefully and only crash if not even the fallback ItemID exists
+                    // Degrading gracefully and only crash if not even the fallback ItemID exists.
+                    // Remembered, so it is logged once instead of on every frame it is drawn.
+                    _missing[idx] = true;
+
                     Log.Error(
-                        $"Texture not found for sprite: idx: {idx}; itemid: {(idx > 0x4000 ? idx - 0x4000 : '-')}"
+                        $"Texture not found for sprite: idx: {idx}; itemid: {(idx > 0x4000 ? (idx - 0x4000).ToString() : "-")}"
                     );
                     return ref Get(0); // ItemID of "UNUSED" placeholder
                 }

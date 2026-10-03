@@ -142,7 +142,13 @@ namespace ClassicUO.Network
             if (data.IsEmpty)
                 return;
 
-            (fromPlugins ? _pluginsBuffer : _buffer).Enqueue(data);
+            var target = fromPlugins ? _pluginsBuffer : _buffer;
+
+            // Plugins append from their own threads; ParsePackets locks the same buffer.
+            lock (target)
+            {
+                target.Enqueue(data);
+            }
         }
 
         private void AnalyzePacket(World world, ReadOnlySpan<byte> data, int offset)
@@ -5070,8 +5076,10 @@ namespace ClassicUO.Network
 
             if (list.Count != 0)
             {
-                Span<char> span = stackalloc char[totalLength];
-                ValueStringBuilder sb = new ValueStringBuilder(span);
+                // The total comes from the server, so cap the stack buffer; the builder grows from the pool.
+                ValueStringBuilder sb = totalLength <= 512
+                    ? new ValueStringBuilder(stackalloc char[512])
+                    : new ValueStringBuilder(totalLength + list.Count);
 
                 foreach (var s in list)
                 {
@@ -5143,7 +5151,13 @@ namespace ClassicUO.Network
             House house
         )
         {
-            //byte* decompressedBytes = stackalloc byte[dlen];
+            if (clen < 0 || dlen <= 0 || sourcePosition < 0 || clen > source.Length - sourcePosition)
+            {
+                Log.Warn($"Invalid custom house plane: clen {clen}, dlen {dlen}");
+
+                return;
+            }
+
             bool ismovable = item.ItemData.IsMultiMovable;
 
             byte[] buffer = null;

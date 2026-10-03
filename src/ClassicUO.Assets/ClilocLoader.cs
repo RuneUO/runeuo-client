@@ -42,6 +42,14 @@ namespace ClassicUO.Assets
 
         public void Reload()
         {
+            // Keep the current strings if the archive cannot be read, rather than show only numbers.
+            if (!File.Exists(FileManager.GetUOFilePath(string.IsNullOrEmpty(_cliloc) ? "Cliloc.enu" : _cliloc)))
+            {
+                Log.Warn("cliloc not found, keeping the loaded strings");
+
+                return;
+            }
+
             _entries.Clear();
             Load();
         }
@@ -133,7 +141,7 @@ namespace ClassicUO.Assets
                     added++;
                 }
             }
-            catch (IOException e)
+            catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
             {
                 Log.Warn($"could not read {path}: {e.Message}");
                 return;

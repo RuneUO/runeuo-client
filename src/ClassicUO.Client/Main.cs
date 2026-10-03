@@ -48,7 +48,7 @@ namespace ClassicUO
             DllMap.Init();
 
             CUOEnviroment.GameThread = Thread.CurrentThread;
-            CUOEnviroment.GameThread.Name = "CUO_MAIN_THREAD";
+            CUOEnviroment.GameThread.Name = "RUNEUO_MAIN_THREAD";
 #if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
             {
@@ -87,7 +87,7 @@ namespace ClassicUO
 
                 using (LogFile crashfile = new LogFile(path, "crash.txt"))
                 {
-                    crashfile.WriteAsync(sb.ToString()).RunSynchronously();
+                    crashfile.Write(sb.ToString());
                 }
             };
 #endif
@@ -118,14 +118,14 @@ namespace ClassicUO
 
             Settings.GlobalSettings = ConfigurationResolver.Load(globalSettingsPath, SettingsJsonContext.RealDefault.Settings);
 
-            ReadSettingsFromArgs(args);
-
             // still invalid, cannot load settings
             if (Settings.GlobalSettings == null)
             {
                 Settings.GlobalSettings = new Settings();
                 Settings.GlobalSettings.Save();
             }
+
+            ReadSettingsFromArgs(args);
 
             if (string.IsNullOrWhiteSpace(Settings.GlobalSettings.Language))
             {
@@ -244,244 +244,256 @@ namespace ClassicUO
                     }
                 }
 
-                Log.Trace($"ARG: {cmd}, VALUE: {value}");
+                Log.Trace($"ARG: {cmd}, VALUE: {(cmd.StartsWith("password") ? "***" : value)}");
 
-                switch (cmd)
+                try
                 {
-                    // Here we have it! Using `-settings` option we can now set the filepath that will be used
-                    // to load and save ClassicUO main settings instead of default `./settings.json`
-                    // NOTE: All individual settings like `username`, `password`, etc passed in command-line options
-                    // will override and overwrite those in the settings file because they have higher priority
-                    case "settings":
-                        Settings.CustomSettingsFilepath = value;
+                    ReadSettingFromArg(cmd, value);
+                }
+                catch (Exception e) when (e is FormatException || e is OverflowException)
+                {
+                    Log.Warn($"Invalid value for -{cmd}: {e.Message}");
+                }
+            }
+        }
 
-                        break;
+        private static void ReadSettingFromArg(string cmd, string value)
+        {
+            switch (cmd)
+            {
+                // Here we have it! Using `-settings` option we can now set the filepath that will be used
+                // to load and save ClassicUO main settings instead of default `./settings.json`
+                // NOTE: All individual settings like `username`, `password`, etc passed in command-line options
+                // will override and overwrite those in the settings file because they have higher priority
+                case "settings":
+                    Settings.CustomSettingsFilepath = value;
 
-                    case "highdpi":
-                        CUOEnviroment.IsHighDPI = true;
+                    break;
 
-                        break;
+                case "highdpi":
+                    CUOEnviroment.IsHighDPI = true;
 
-                    case "username":
-                        Settings.GlobalSettings.Username = value;
+                    break;
 
-                        break;
+                case "username":
+                    Settings.GlobalSettings.Username = value;
 
-                    case "password":
-                        Settings.GlobalSettings.Password = Crypter.Encrypt(value);
+                    break;
 
-                        break;
+                case "password":
+                    Settings.GlobalSettings.Password = Crypter.Encrypt(value);
 
-                    case "password_enc": // Non-standard setting, similar to `password` but for already encrypted password
-                        Settings.GlobalSettings.Password = value;
+                    break;
 
-                        break;
+                case "password_enc": // Non-standard setting, similar to `password` but for already encrypted password
+                    Settings.GlobalSettings.Password = value;
 
-                    case "ip":
-                        Settings.GlobalSettings.IP = value;
+                    break;
 
-                        break;
+                case "ip":
+                    Settings.GlobalSettings.IP = value;
 
-                    case "port":
-                        Settings.GlobalSettings.Port = ushort.Parse(value);
+                    break;
 
-                        break;
+                case "port":
+                    Settings.GlobalSettings.Port = ushort.Parse(value);
 
-                    case "filesoverride":
-                    case "uofilesoverride":
-                        Settings.GlobalSettings.OverrideFile = value;
+                    break;
 
-                        break;
+                case "filesoverride":
+                case "uofilesoverride":
+                    Settings.GlobalSettings.OverrideFile = value;
 
-                    case "ultimaonlinedirectory":
-                    case "uopath":
-                        Settings.GlobalSettings.UltimaOnlineDirectory = value;
+                    break;
 
-                        break;
+                case "ultimaonlinedirectory":
+                case "uopath":
+                    Settings.GlobalSettings.UltimaOnlineDirectory = value;
 
-                    case "profilespath":
-                        Settings.GlobalSettings.ProfilesPath = value;
+                    break;
 
-                        break;
+                case "profilespath":
+                    Settings.GlobalSettings.ProfilesPath = value;
 
-                    case "clientversion":
-                        Settings.GlobalSettings.ClientVersion = value;
+                    break;
 
-                        break;
+                case "clientversion":
+                    Settings.GlobalSettings.ClientVersion = value;
 
-                    case "lastcharactername":
-                    case "lastcharname":
-                        LastCharacterManager.OverrideLastCharacter(value);
+                    break;
 
-                        break;
+                case "lastcharactername":
+                case "lastcharname":
+                    LastCharacterManager.OverrideLastCharacter(value);
 
-                    case "lastservernum":
-                        Settings.GlobalSettings.LastServerNum = ushort.Parse(value);
+                    break;
 
-                        break;
+                case "lastservernum":
+                    Settings.GlobalSettings.LastServerNum = ushort.Parse(value);
 
-                    case "last_server_name":
-                        Settings.GlobalSettings.LastServerName = value;
-                        break;
+                    break;
 
-                    case "fps":
-                        int v = int.Parse(value);
+                case "last_server_name":
+                    Settings.GlobalSettings.LastServerName = value;
+                    break;
 
-                        if (v < Constants.MIN_FPS)
+                case "fps":
+                    int v = int.Parse(value);
+
+                    if (v < Constants.MIN_FPS)
+                    {
+                        v = Constants.MIN_FPS;
+                    }
+                    else if (v > Constants.MAX_FPS)
+                    {
+                        v = Constants.MAX_FPS;
+                    }
+
+                    Settings.GlobalSettings.FPS = v;
+
+                    break;
+
+                case "debug":
+                    CUOEnviroment.Debug = true;
+
+                    break;
+
+                case "profiler":
+                    Profiler.Enabled = bool.Parse(value);
+
+                    break;
+
+                case "saveaccount":
+                    Settings.GlobalSettings.SaveAccount = bool.Parse(value);
+
+                    break;
+
+                case "autologin":
+                    Settings.GlobalSettings.AutoLogin = bool.Parse(value);
+
+                    break;
+
+                case "reconnect":
+                    Settings.GlobalSettings.Reconnect = bool.Parse(value);
+
+                    break;
+
+                case "reconnect_time":
+
+                    if (!int.TryParse(value, out int reconnectTime) || reconnectTime < 1000)
+                    {
+                        reconnectTime = 1000;
+                    }
+
+                    Settings.GlobalSettings.ReconnectTime = reconnectTime;
+
+                    break;
+
+                case "login_music":
+                case "music":
+                    Settings.GlobalSettings.LoginMusic = bool.Parse(value);
+
+                    break;
+
+                case "login_music_volume":
+                case "music_volume":
+                    Settings.GlobalSettings.LoginMusicVolume = int.Parse(value);
+
+                    break;
+
+                case "fixed_time_step":
+                    Settings.GlobalSettings.FixedTimeStep = bool.Parse(value);
+
+                    break;
+
+                case "skiploginscreen":
+                    CUOEnviroment.SkipLoginScreen = true;
+
+                    break;
+
+                case "plugins":
+                    Settings.GlobalSettings.Plugins = string.IsNullOrEmpty(value) ? new string[0] : value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    break;
+
+                case "use_verdata":
+                    Settings.GlobalSettings.UseVerdata = bool.Parse(value);
+
+                    break;
+
+                case "maps_layouts":
+
+                    Settings.GlobalSettings.MapsLayouts = value;
+
+                    break;
+
+                case "encryption":
+                    Settings.GlobalSettings.Encryption = byte.Parse(value);
+
+                    break;
+
+                case "force_driver":
+                    if (byte.TryParse(value, out byte res))
+                    {
+                        switch (res)
                         {
-                            v = Constants.MIN_FPS;
-                        }
-                        else if (v > Constants.MAX_FPS)
-                        {
-                            v = Constants.MAX_FPS;
-                        }
+                            case 1: // OpenGL
+                                Settings.GlobalSettings.ForceDriver = 1;
 
-                        Settings.GlobalSettings.FPS = v;
-
-                        break;
-
-                    case "debug":
-                        CUOEnviroment.Debug = true;
-
-                        break;
-
-                    case "profiler":
-                        Profiler.Enabled = bool.Parse(value);
-
-                        break;
-
-                    case "saveaccount":
-                        Settings.GlobalSettings.SaveAccount = bool.Parse(value);
-
-                        break;
-
-                    case "autologin":
-                        Settings.GlobalSettings.AutoLogin = bool.Parse(value);
-
-                        break;
-
-                    case "reconnect":
-                        Settings.GlobalSettings.Reconnect = bool.Parse(value);
-
-                        break;
-
-                    case "reconnect_time":
-
-                        if (!int.TryParse(value, out int reconnectTime) || reconnectTime < 1000)
-                        {
-                            reconnectTime = 1000;
-                        }
-
-                        Settings.GlobalSettings.ReconnectTime = reconnectTime;
-
-                        break;
-
-                    case "login_music":
-                    case "music":
-                        Settings.GlobalSettings.LoginMusic = bool.Parse(value);
-
-                        break;
-
-                    case "login_music_volume":
-                    case "music_volume":
-                        Settings.GlobalSettings.LoginMusicVolume = int.Parse(value);
-
-                        break;
-
-                    case "fixed_time_step":
-                        Settings.GlobalSettings.FixedTimeStep = bool.Parse(value);
-
-                        break;
-
-                    case "skiploginscreen":
-                        CUOEnviroment.SkipLoginScreen = true;
-
-                        break;
-
-                    case "plugins":
-                        Settings.GlobalSettings.Plugins = string.IsNullOrEmpty(value) ? new string[0] : value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                        break;
-
-                    case "use_verdata":
-                        Settings.GlobalSettings.UseVerdata = bool.Parse(value);
-
-                        break;
-
-                    case "maps_layouts":
-
-                        Settings.GlobalSettings.MapsLayouts = value;
-
-                        break;
-
-                    case "encryption":
-                        Settings.GlobalSettings.Encryption = byte.Parse(value);
-
-                        break;
-
-                    case "force_driver":
-                        if (byte.TryParse(value, out byte res))
-                        {
-                            switch (res)
-                            {
-                                case 1: // OpenGL
-                                    Settings.GlobalSettings.ForceDriver = 1;
-
-                                    break;
-
-                                case 2: // Vulkan
-                                    Settings.GlobalSettings.ForceDriver = 2;
-
-                                    break;
-
-                                default: // use default
-                                    Settings.GlobalSettings.ForceDriver = 0;
-
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            Settings.GlobalSettings.ForceDriver = 0;
-                        }
-
-                        break;
-
-                    case "packetlog":
-
-                        PacketLogger.Default.Enabled = true;
-                        PacketLogger.Default.CreateFile();
-
-                        break;
-
-                    case "language":
-
-                        switch (value?.ToUpperInvariant())
-                        {
-                            case "RUS": Settings.GlobalSettings.Language = "RUS"; break;
-                            case "FRA": Settings.GlobalSettings.Language = "FRA"; break;
-                            case "DEU": Settings.GlobalSettings.Language = "DEU"; break;
-                            case "ESP": Settings.GlobalSettings.Language = "ESP"; break;
-                            case "JPN": Settings.GlobalSettings.Language = "JPN"; break;
-                            case "KOR": Settings.GlobalSettings.Language = "KOR"; break;
-                            case "PTB": Settings.GlobalSettings.Language = "PTB"; break;
-                            case "ITA": Settings.GlobalSettings.Language = "ITA"; break;
-                            case "CHT": Settings.GlobalSettings.Language = "CHT"; break;
-                            default:
-
-                                Settings.GlobalSettings.Language = "ENU";
                                 break;
 
+                            case 2: // Vulkan
+                                Settings.GlobalSettings.ForceDriver = 2;
+
+                                break;
+
+                            default: // use default
+                                Settings.GlobalSettings.ForceDriver = 0;
+
+                                break;
                         }
+                    }
+                    else
+                    {
+                        Settings.GlobalSettings.ForceDriver = 0;
+                    }
 
-                        break;
+                    break;
 
-                    case "no_server_ping":
+                case "packetlog":
 
-                        CUOEnviroment.NoServerPing = true;
+                    PacketLogger.Default.Enabled = true;
+                    PacketLogger.Default.CreateFile();
 
-                        break;
-                }
+                    break;
+
+                case "language":
+
+                    switch (value?.ToUpperInvariant())
+                    {
+                        case "RUS": Settings.GlobalSettings.Language = "RUS"; break;
+                        case "FRA": Settings.GlobalSettings.Language = "FRA"; break;
+                        case "DEU": Settings.GlobalSettings.Language = "DEU"; break;
+                        case "ESP": Settings.GlobalSettings.Language = "ESP"; break;
+                        case "JPN": Settings.GlobalSettings.Language = "JPN"; break;
+                        case "KOR": Settings.GlobalSettings.Language = "KOR"; break;
+                        case "PTB": Settings.GlobalSettings.Language = "PTB"; break;
+                        case "ITA": Settings.GlobalSettings.Language = "ITA"; break;
+                        case "CHT": Settings.GlobalSettings.Language = "CHT"; break;
+                        default:
+
+                            Settings.GlobalSettings.Language = "ENU";
+                            break;
+
+                    }
+
+                    break;
+
+                case "no_server_ping":
+
+                    CUOEnviroment.NoServerPing = true;
+
+                    break;
             }
         }
     }

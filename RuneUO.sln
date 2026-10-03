@@ -18,9 +18,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "monokickstart", "monokickstart", "{D7DD340F-1EE2-4F8A-AA3E-A8FC76098AD6}"
 	ProjectSection(SolutionItems) = preProject
 		tools\monokickstart\Accessibility.dll = tools\monokickstart\Accessibility.dll
-		tools\monokickstart\ClassicUO = tools\monokickstart\ClassicUO
-		tools\monokickstart\ClassicUO.bin.osx = tools\monokickstart\ClassicUO.bin.osx
-		tools\monokickstart\ClassicUO.bin.x86_64 = tools\monokickstart\ClassicUO.bin.x86_64
+		tools\monokickstart\RuneUO = tools\monokickstart\RuneUO
+		tools\monokickstart\RuneUO.bin.osx = tools\monokickstart\RuneUO.bin.osx
+		tools\monokickstart\RuneUO.bin.x86_64 = tools\monokickstart\RuneUO.bin.x86_64
 		tools\monokickstart\Microsoft.CSharp.dll = tools\monokickstart\Microsoft.CSharp.dll
 		tools\monokickstart\Mono.Posix.dll = tools\monokickstart\Mono.Posix.dll
 		tools\monokickstart\Mono.Security.dll = tools\monokickstart\Mono.Security.dll
@@ -46,8 +46,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "settings", "settings", "{21AF20E5-1A3A-414D-9B1F-AB8F3800E567}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		ClassicUO.licenseheader = ClassicUO.licenseheader
-		ClassicUO.sln.DotSettings = ClassicUO.sln.DotSettings
+		RuneUO.licenseheader = RuneUO.licenseheader
+		RuneUO.sln.DotSettings = RuneUO.sln.DotSettings
 		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject

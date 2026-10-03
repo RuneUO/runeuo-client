@@ -80,6 +80,11 @@ namespace ClassicUO.Renderer
             m_Data.Clear();
         }
 
+        public void Remove(ulong textureID)
+        {
+            m_IDs.Remove(textureID);
+        }
+
         public void Set(ulong textureID, int width, int height, ReadOnlySpan<uint> pixels)
         {
             if (Has(textureID))

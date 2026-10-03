@@ -751,10 +751,7 @@ namespace ClassicUO.Network
 
         internal static bool OnPluginRecv(ref byte[] data, ref int length)
         {
-            lock (PacketHandlers.Handler)
-            {
-                PacketHandlers.Handler.Append(data.AsSpan(0, length), true);
-            }
+            PacketHandlers.Handler.Append(data.AsSpan(0, length), true);
 
             return true;
         }
@@ -773,10 +770,7 @@ namespace ClassicUO.Network
         {
             if (buffer != IntPtr.Zero && length > 0)
             {
-                lock (PacketHandlers.Handler)
-                {
-                    PacketHandlers.Handler.Append(new Span<byte>(buffer.ToPointer(), length), true);
-                }
+                PacketHandlers.Handler.Append(new Span<byte>(buffer.ToPointer(), length), true);
             }
 
             return true;
