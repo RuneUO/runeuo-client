@@ -389,15 +389,9 @@ namespace RuneUO.Game.Map
                 }
             }
 
-            if (Node != null)
-            {
-                if (Node.Next != null || Node.Previous != null)
-                {
-                    Node.List?.Remove(Node);
-                }
-
-                Node = null;
-            }
+            // A lone node has no neighbours but is still in the list.
+            Node?.List?.Remove(Node);
+            Node = null;
 
             IsDestroyed = true;
 

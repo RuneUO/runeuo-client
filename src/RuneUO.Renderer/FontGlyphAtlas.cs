@@ -28,7 +28,10 @@ namespace RuneUO.Renderer
     public sealed class FontGlyphAtlas : IDisposable
     {
         private readonly Dictionary<long, GlyphAtlasEntry> _cache = new Dictionary<long, GlyphAtlasEntry>();
-        private readonly Dictionary<(long, uint), GlyphAtlasEntry> _coloredCache = new Dictionary<(long, uint), GlyphAtlasEntry>();
+        // Colors come from server HTML, so the cache is capped to keep the atlas from growing forever.
+        private const int MAX_COLORED_GLYPHS = 16384;
+
+        private readonly Dictionary<long, GlyphAtlasEntry> _coloredCache = new Dictionary<long, GlyphAtlasEntry>();
         private readonly TextureAtlas _atlas;
         private readonly FontsLoader _fontsLoader;
 
@@ -79,8 +82,12 @@ namespace RuneUO.Renderer
                 return GetEntry(font, character, isUnicode, hasBorder, isSolid, isItalic);
             }
 
-            long baseKey = MakeKey(font, character, isUnicode, hasBorder, isSolid, isItalic);
-            var key = (baseKey, color);
+            long key = (MakeKey(font, character, isUnicode, hasBorder, isSolid, isItalic) << 32) | color;
+
+            if (_coloredCache.Count >= MAX_COLORED_GLYPHS && !_coloredCache.ContainsKey(key))
+            {
+                return GetEntry(font, character, isUnicode, hasBorder, isSolid, isItalic);
+            }
 
             ref var entry = ref CollectionsMarshal.GetValueRefOrAddDefault(_coloredCache, key, out bool exists);
 

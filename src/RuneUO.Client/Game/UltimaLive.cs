@@ -60,7 +60,7 @@ namespace RuneUO.Game
             {
                 case 0xFF: //hash query, for the blocks around us
                 {
-                    if (_UL == null || p.Length < 15)
+                    if (_UL?._filesMap == null || p.Length < 15)
                     {
                         return;
                     }
@@ -173,7 +173,7 @@ namespace RuneUO.Game
 
                 case 0x00: //statics update
                 {
-                    if (_UL == null || p.Length < 15)
+                    if (_UL?._filesMap == null || p.Length < 15)
                     {
                         return;
                     }
@@ -364,6 +364,13 @@ namespace RuneUO.Game
                     for (int i = 0; i < maps; i++)
                     {
                         int mapNumber = p.ReadUInt8();
+
+                        if (mapNumber >= sbyte.MaxValue)
+                        {
+                            p.Skip(8);
+                            continue;
+                        }
+
                         validMaps.Add(mapNumber);
 
                         _UL.MapSizeWrapSize[mapNumber, 0] = Math.Min((ushort) Client.Game.UO.FileManager.Maps.MapsDefaultSize[0, 0], p.ReadUInt16BE());
@@ -461,7 +468,7 @@ namespace RuneUO.Game
         private static void OnUpdateTerrainPacket(World world, ref StackDataReader p)
         {
             // Registered for every server, so a non UltimaLive shard can send it too.
-            if (_UL == null || p.Length < 201)
+            if (_UL?._filesMap == null || p.Length < 201)
             {
                 return;
             }

@@ -13,7 +13,10 @@ namespace RuneUO.IO
         public MMFileReader(FileStream stream) : base(stream)
         {
             if (Length <= 0)
+            {
+                _file = new BinaryReader(Stream.Null);
                 return;
+            }
 
             _mmf = MemoryMappedFile.CreateFromFile
             (

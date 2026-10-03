@@ -1697,28 +1697,12 @@ namespace RuneUO.Game.UI.Gumps
 
                                             string[] splits = line.Split(',');
 
-                                            if (splits.Length <= 1)
+                                            WMapMarker marker = ParseMarker(splits);
+
+                                            if (marker != null)
                                             {
-                                                continue;
+                                                markerFile.Markers.Add(marker);
                                             }
-
-                                            WMapMarker marker = new WMapMarker
-                                            {
-                                                X = int.Parse(splits[0]),
-                                                Y = int.Parse(splits[1]),
-                                                MapId = int.Parse(splits[2]),
-                                                Name = splits[3],
-                                                MarkerIconName = splits[4].ToLower(),
-                                                Color = GetColor(splits[5]),
-                                                ZoomIndex = splits.Length == 7 ? int.Parse(splits[6]) : 3
-                                            };
-
-                                            if (_markerIcons.TryGetValue(splits[4].ToLower(), out Texture2D value))
-                                            {
-                                                marker.MarkerIcon = value;
-                                            }
-
-                                            markerFile.Markers.Add(marker);
                                         }
                                     }
                                 }
@@ -1853,11 +1837,12 @@ namespace RuneUO.Game.UI.Gumps
 
                     string[] splits = line.Split(',');
 
-                    if (splits.Length <= 1)
+                    WMapMarker marker = ParseMarker(splits);
+
+                    if (marker != null)
                     {
-                        continue;
+                        tempList.Add(marker);
                     }
-                    tempList.Add(ParseMarker(splits));
                 }
             }
 
@@ -3217,19 +3202,30 @@ namespace RuneUO.Game.UI.Gumps
         /// Parser String to Marker
         /// </summary>
         /// <param name="splits">Array of string contain information about Marker</param>
-        /// <returns>Marker</returns>
+        /// <returns>Marker, or null when the line is malformed</returns>
         internal static WMapMarker ParseMarker(string[] splits)
         {
+            int zoomIndex = 3;
+
+            if (splits.Length < 6
+                || !int.TryParse(Truncate(splits[0], 4), out int x)
+                || !int.TryParse(Truncate(splits[1], 4), out int y)
+                || !int.TryParse(splits[2], out int mapId)
+                || (splits.Length == 7 && !int.TryParse(splits[6], out zoomIndex)))
+            {
+                return null;
+            }
+
             WMapMarker marker = new WMapMarker
             {
-                X = int.Parse(Truncate(splits[0], 4)),
-                Y = int.Parse(Truncate(splits[1], 4)),
-                MapId = int.Parse(splits[2]),
+                X = x,
+                Y = y,
+                MapId = mapId,
                 Name = Truncate(splits[3], 25),
                 MarkerIconName = splits[4].ToLower(),
                 Color = GetColor(Truncate(splits[5], 10)),
                 ColorName = Truncate(splits[5], 10),
-                ZoomIndex = splits.Length == 7 ? int.Parse(splits[6]) : 3
+                ZoomIndex = zoomIndex
             };
 
             if (_markerIcons.TryGetValue(splits[4].ToLower(), out Texture2D value))

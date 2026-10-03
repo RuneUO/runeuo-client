@@ -85,10 +85,7 @@ namespace RuneUO.Game.Map
             else if (chunk.IsDestroyed)
             {
                 // make sure node is clear
-                if (chunk.Node != null && (chunk.Node.Previous != null || chunk.Node.Next != null))
-                {
-                    chunk.Node.List?.Remove(chunk.Node);
-                }
+                chunk.Node?.List?.Remove(chunk.Node);
 
                 LinkedListNode<int> node = _usedIndices.AddLast(block);
                 chunk.X = chunkX;

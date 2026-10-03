@@ -339,16 +339,10 @@ namespace RuneUO.Assets
             var offset = fileIdx.Position + offsetAddress;
             var end = fileIdx.Position + fileIdx.Length;
 
-            if (offset >= end)
+            if (offset >= end || offset + (actionCount * MAX_DIRECTIONS * sizeof(AnimIdxBlock)) > end)
             {
-                return ReadOnlySpan<AnimationDirection>.Empty;
+                return VerdataOnlyDirections(fileIndex, offsetAddress, actionCount * MAX_DIRECTIONS);
             }
-
-            if (offset + (actionCount * MAX_DIRECTIONS * sizeof(AnimIdxBlock)) > end)
-            {
-                return ReadOnlySpan<AnimationDirection>.Empty;
-            }
-
 
             fileIdx.Seek(offsetAddress, SeekOrigin.Begin);
 
@@ -378,6 +372,20 @@ namespace RuneUO.Assets
             }
 
             return directions;
+        }
+
+        // Bodies past the end of anim.idx can still exist as verdata patches.
+        private ReadOnlySpan<AnimationDirection> VerdataOnlyDirections(int fileIndex, long offsetAddress, int size)
+        {
+            if (fileIndex != 0 || VerdataAnimationBlocks.Count == 0)
+            {
+                return ReadOnlySpan<AnimationDirection>.Empty;
+            }
+
+            var directions = new AnimationDirection[size];
+            ApplyVerdataPatches(directions, offsetAddress / sizeof(AnimIdxBlock));
+
+            return Array.Exists(directions, d => d.IsVerdata) ? directions : ReadOnlySpan<AnimationDirection>.Empty;
         }
 
         private Dictionary<uint, UOFileIndex5D> _verdataAnimationBlocks;

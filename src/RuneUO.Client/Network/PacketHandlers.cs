@@ -5200,7 +5200,7 @@ namespace RuneUO.Network
                             multiHeight = (short)(maxY - minY + 1);
                         }
 
-                        c = dlen >> 1;
+                        c = multiHeight > 0 ? dlen >> 1 : 0;
 
                         for (uint i = 0; i < c; i++)
                         {
@@ -6531,520 +6531,527 @@ namespace RuneUO.Network
                     continue;
                 }
 
-                string entry = gparams[0];
+                try
+                {
+                    string entry = gparams[0];
 
-                if (string.Equals(entry, "button", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    gump.Add(new Button(gparams), page);
-                }
-                else if (
-                    string.Equals(
-                        entry,
-                        "buttontileart",
-                        StringComparison.InvariantCultureIgnoreCase
-                    )
-                )
-                {
-                    gump.Add(new ButtonTileArt(gparams), page);
-                }
-                else if (
-                    string.Equals(
-                        entry,
-                        "checkertrans",
-                        StringComparison.InvariantCultureIgnoreCase
-                    )
-                )
-                {
-                    var checkerTrans = new CheckerTrans(gparams);
-                    gump.Add(checkerTrans, page);
-                    ApplyTrans(
-                        gump,
-                        page,
-                        checkerTrans.X,
-                        checkerTrans.Y,
-                        checkerTrans.Width,
-                        checkerTrans.Height
-                    );
-                }
-                else if (
-                    string.Equals(entry, "croppedtext", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.Add(new CroppedText(gparams, lines), page);
-                }
-                else if (
-                    string.Equals(entry, "tilepicasgumppic", StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(entry, "gumppic", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    GumpPic pic;
-                    var isVirtue = gparams.Count >= 6
-                        && gparams[5].IndexOf(
-                            "virtuegumpitem",
+                    if (string.Equals(entry, "button", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        gump.Add(new Button(gparams), page);
+                    }
+                    else if (
+                        string.Equals(
+                            entry,
+                            "buttontileart",
                             StringComparison.InvariantCultureIgnoreCase
-                        ) >= 0;
-
-                    if (isVirtue)
+                        )
+                    )
                     {
-                        pic = new VirtueGumpPic(world, gparams);
-                        pic.ContainsByBounds = true;
+                        gump.Add(new ButtonTileArt(gparams), page);
+                    }
+                    else if (
+                        string.Equals(
+                            entry,
+                            "checkertrans",
+                            StringComparison.InvariantCultureIgnoreCase
+                        )
+                    )
+                    {
+                        var checkerTrans = new CheckerTrans(gparams);
+                        gump.Add(checkerTrans, page);
+                        ApplyTrans(
+                            gump,
+                            page,
+                            checkerTrans.X,
+                            checkerTrans.Y,
+                            checkerTrans.Width,
+                            checkerTrans.Height
+                        );
+                    }
+                    else if (
+                        string.Equals(entry, "croppedtext", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.Add(new CroppedText(gparams, lines), page);
+                    }
+                    else if (
+                        string.Equals(entry, "tilepicasgumppic", StringComparison.InvariantCultureIgnoreCase) ||
+                        string.Equals(entry, "gumppic", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        GumpPic pic;
+                        var isVirtue = gparams.Count >= 6
+                            && gparams[5].IndexOf(
+                                "virtuegumpitem",
+                                StringComparison.InvariantCultureIgnoreCase
+                            ) >= 0;
 
-                        string s,
-                            lvl;
-
-                        switch (pic.Hue)
+                        if (isVirtue)
                         {
-                            case 2403:
-                                lvl = "";
+                            pic = new VirtueGumpPic(world, gparams);
+                            pic.ContainsByBounds = true;
 
-                                break;
+                            string s,
+                                lvl;
 
-                            case 1154:
-                            case 1547:
-                            case 2213:
-                            case 235:
-                            case 18:
-                            case 2210:
-                            case 1348:
-                                lvl = "Seeker of ";
+                            switch (pic.Hue)
+                            {
+                                case 2403:
+                                    lvl = "";
 
-                                break;
+                                    break;
 
-                            case 2404:
-                            case 1552:
-                            case 2216:
-                            case 2302:
-                            case 2118:
-                            case 618:
-                            case 2212:
-                            case 1352:
-                                lvl = "Follower of ";
-
-                                break;
-
-                            case 43:
-                            case 53:
-                            case 1153:
-                            case 33:
-                            case 318:
-                            case 67:
-                            case 98:
-                                lvl = "Knight of ";
-
-                                break;
-
-                            case 2406:
-                                if (pic.Graphic == 0x6F)
-                                {
+                                case 1154:
+                                case 1547:
+                                case 2213:
+                                case 235:
+                                case 18:
+                                case 2210:
+                                case 1348:
                                     lvl = "Seeker of ";
-                                }
-                                else
-                                {
+
+                                    break;
+
+                                case 2404:
+                                case 1552:
+                                case 2216:
+                                case 2302:
+                                case 2118:
+                                case 618:
+                                case 2212:
+                                case 1352:
+                                    lvl = "Follower of ";
+
+                                    break;
+
+                                case 43:
+                                case 53:
+                                case 1153:
+                                case 33:
+                                case 318:
+                                case 67:
+                                case 98:
                                     lvl = "Knight of ";
-                                }
 
-                                break;
+                                    break;
 
-                            default:
-                                lvl = "";
+                                case 2406:
+                                    if (pic.Graphic == 0x6F)
+                                    {
+                                        lvl = "Seeker of ";
+                                    }
+                                    else
+                                    {
+                                        lvl = "Knight of ";
+                                    }
 
-                                break;
+                                    break;
+
+                                default:
+                                    lvl = "";
+
+                                    break;
+                            }
+
+                            switch (pic.Graphic)
+                            {
+                                case 0x69:
+                                    s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 2);
+
+                                    break;
+
+                                case 0x6A:
+                                    s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 7);
+
+                                    break;
+
+                                case 0x6B:
+                                    s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 5);
+
+                                    break;
+
+                                case 0x6D:
+                                    s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 6);
+
+                                    break;
+
+                                case 0x6E:
+                                    s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 1);
+
+                                    break;
+
+                                case 0x6F:
+                                    s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 3);
+
+                                    break;
+
+                                case 0x70:
+                                    s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 4);
+
+                                    break;
+
+                                case 0x6C:
+                                default:
+                                    s = Client.Game.UO.FileManager.Clilocs.GetString(1051000);
+
+                                    break;
+                            }
+
+                            if (string.IsNullOrEmpty(s))
+                            {
+                                s = "Unknown virtue";
+                            }
+
+                            pic.SetTooltip(lvl + s, 100);
                         }
-
-                        switch (pic.Graphic)
+                        else
                         {
-                            case 0x69:
-                                s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 2);
-
-                                break;
-
-                            case 0x6A:
-                                s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 7);
-
-                                break;
-
-                            case 0x6B:
-                                s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 5);
-
-                                break;
-
-                            case 0x6D:
-                                s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 6);
-
-                                break;
-
-                            case 0x6E:
-                                s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 1);
-
-                                break;
-
-                            case 0x6F:
-                                s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 3);
-
-                                break;
-
-                            case 0x70:
-                                s = Client.Game.UO.FileManager.Clilocs.GetString(1051000 + 4);
-
-                                break;
-
-                            case 0x6C:
-                            default:
-                                s = Client.Game.UO.FileManager.Clilocs.GetString(1051000);
-
-                                break;
+                            pic = new GumpPic(gparams);
                         }
 
-                        if (string.IsNullOrEmpty(s))
-                        {
-                            s = "Unknown virtue";
-                        }
-
-                        pic.SetTooltip(lvl + s, 100);
+                        gump.Add(pic, page);
                     }
-                    else
-                    {
-                        pic = new GumpPic(gparams);
-                    }
-
-                    gump.Add(pic, page);
-                }
-                else if (
-                    string.Equals(
-                        entry,
-                        "gumppictiled",
-                        StringComparison.InvariantCultureIgnoreCase
-                    )
-                )
-                {
-                    gump.Add(new GumpPicTiled(gparams), page);
-                }
-                else if (
-                    string.Equals(entry, "htmlgump", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.Add(new HtmlControl(gparams, lines), page);
-                }
-                else if (
-                    string.Equals(entry, "xmfhtmlgump", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.Add(
-                        new HtmlControl(
-                            int.Parse(gparams[1]),
-                            int.Parse(gparams[2]),
-                            int.Parse(gparams[3]),
-                            int.Parse(gparams[4]),
-                            int.Parse(gparams[6]) == 1,
-                            int.Parse(gparams[7]) != 0,
-                            gparams[6] != "0" && gparams[7] == "2",
-                            Client.Game.UO.FileManager.Clilocs.GetString(int.Parse(gparams[5].Replace("#", ""))),
-                            0,
-                            true
+                    else if (
+                        string.Equals(
+                            entry,
+                            "gumppictiled",
+                            StringComparison.InvariantCultureIgnoreCase
                         )
-                        {
-                            IsFromServer = true
-                        },
-                        page
-                    );
-                }
-                else if (
-                    string.Equals(
-                        entry,
-                        "xmfhtmlgumpcolor",
-                        StringComparison.InvariantCultureIgnoreCase
                     )
-                )
-                {
-                    int color = int.Parse(gparams[8]);
-
-                    if (color == 0x7FFF)
                     {
-                        color = 0x00FFFFFF;
+                        gump.Add(new GumpPicTiled(gparams), page);
                     }
-
-                    gump.Add(
-                        new HtmlControl(
-                            int.Parse(gparams[1]),
-                            int.Parse(gparams[2]),
-                            int.Parse(gparams[3]),
-                            int.Parse(gparams[4]),
-                            int.Parse(gparams[6]) == 1,
-                            int.Parse(gparams[7]) != 0,
-                            gparams[6] != "0" && gparams[7] == "2",
-                            Client.Game.UO.FileManager.Clilocs.GetString(int.Parse(gparams[5].Replace("#", ""))),
-                            color,
-                            true
+                    else if (
+                        string.Equals(entry, "htmlgump", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.Add(new HtmlControl(gparams, lines), page);
+                    }
+                    else if (
+                        string.Equals(entry, "xmfhtmlgump", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.Add(
+                            new HtmlControl(
+                                int.Parse(gparams[1]),
+                                int.Parse(gparams[2]),
+                                int.Parse(gparams[3]),
+                                int.Parse(gparams[4]),
+                                int.Parse(gparams[6]) == 1,
+                                int.Parse(gparams[7]) != 0,
+                                gparams[6] != "0" && gparams[7] == "2",
+                                Client.Game.UO.FileManager.Clilocs.GetString(int.Parse(gparams[5].Replace("#", ""))),
+                                0,
+                                true
+                            )
+                            {
+                                IsFromServer = true
+                            },
+                            page
+                        );
+                    }
+                    else if (
+                        string.Equals(
+                            entry,
+                            "xmfhtmlgumpcolor",
+                            StringComparison.InvariantCultureIgnoreCase
                         )
-                        {
-                            IsFromServer = true
-                        },
-                        page
-                    );
-                }
-                else if (
-                    string.Equals(entry, "xmfhtmltok", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    int color = int.Parse(gparams[7]);
-
-                    if (color == 0x7FFF)
-                    {
-                        color = 0x00FFFFFF;
-                    }
-
-                    StringBuilder sb = null;
-
-                    if (gparams.Count >= 9)
-                    {
-                        sb = new StringBuilder();
-
-                        for (int i = 9; i < gparams.Count; i++)
-                        {
-                            sb.Append('\t');
-                            sb.Append(gparams[i]);
-                        }
-                    }
-
-                    gump.Add(
-                        new HtmlControl(
-                            int.Parse(gparams[1]),
-                            int.Parse(gparams[2]),
-                            int.Parse(gparams[3]),
-                            int.Parse(gparams[4]),
-                            int.Parse(gparams[5]) == 1,
-                            int.Parse(gparams[6]) != 0,
-                            gparams[5] != "0" && gparams[6] == "2",
-                            sb == null
-                                ? Client.Game.UO.FileManager.Clilocs.GetString(
-                                    int.Parse(gparams[8].Replace("#", ""))
-                                )
-                                : Client.Game.UO.FileManager.Clilocs.Translate(
-                                    int.Parse(gparams[8].Replace("#", "")),
-                                    sb.ToString().Trim('@').Replace('@', '\t')
-                                ),
-                            color,
-                            true
-                        )
-                        {
-                            IsFromServer = true
-                        },
-                        page
-                    );
-                }
-                else if (string.Equals(entry, "page", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    if (gparams.Count >= 2)
-                    {
-                        page = int.Parse(gparams[1]);
-                    }
-                }
-                else if (
-                    string.Equals(entry, "resizepic", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.Add(new ResizePic(gparams), page);
-                }
-                else if (string.Equals(entry, "text", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    if (gparams.Count >= 5)
-                    {
-                        gump.Add(new Label(gparams, lines), page);
-                    }
-                }
-                else if (
-                    string.Equals(
-                        entry,
-                        "textentrylimited",
-                        StringComparison.InvariantCultureIgnoreCase
                     )
-                    || string.Equals(
-                        entry,
-                        "textentry",
-                        StringComparison.InvariantCultureIgnoreCase
-                    )
-                )
-                {
-                    StbTextBox textBox = new StbTextBox(gparams, lines);
-
-                    if (!textBoxFocused)
                     {
-                        textBox.SetKeyboardFocus();
-                        textBoxFocused = true;
-                    }
+                        int color = int.Parse(gparams[8]);
 
-                    gump.Add(textBox, page);
-                }
-                else if (
-                    string.Equals(entry, "tilepichue", StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(entry, "tilepic", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.Add(new StaticPic(gparams), page);
-                }
-                else if (
-                    string.Equals(entry, "noclose", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.CanCloseWithRightClick = false;
-                }
-                else if (
-                    string.Equals(entry, "nodispose", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.CanCloseWithEsc = false;
-                }
-                else if (
-                    string.Equals(entry, "nomove", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.CanMove = false;
-                }
-                else if (
-                    string.Equals(entry, "group", StringComparison.InvariantCultureIgnoreCase)
-                    || string.Equals(entry, "endgroup", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    group++;
-                }
-                else if (string.Equals(entry, "radio", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    gump.Add(new RadioButton(group, gparams, lines), page);
-                }
-                else if (
-                    string.Equals(entry, "checkbox", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.Add(new Checkbox(gparams, lines), page);
-                }
-                else if (
-                    string.Equals(entry, "tooltip", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    string text = null;
-
-                    if (gparams.Count > 2 && gparams[2].Length != 0)
-                    {
-                        string args = gparams[2];
-
-                        for (int i = 3; i < gparams.Count; i++)
+                        if (color == 0x7FFF)
                         {
-                            args += '\t' + gparams[i];
+                            color = 0x00FFFFFF;
                         }
 
-                        if (args.Length == 0)
+                        gump.Add(
+                            new HtmlControl(
+                                int.Parse(gparams[1]),
+                                int.Parse(gparams[2]),
+                                int.Parse(gparams[3]),
+                                int.Parse(gparams[4]),
+                                int.Parse(gparams[6]) == 1,
+                                int.Parse(gparams[7]) != 0,
+                                gparams[6] != "0" && gparams[7] == "2",
+                                Client.Game.UO.FileManager.Clilocs.GetString(int.Parse(gparams[5].Replace("#", ""))),
+                                color,
+                                true
+                            )
+                            {
+                                IsFromServer = true
+                            },
+                            page
+                        );
+                    }
+                    else if (
+                        string.Equals(entry, "xmfhtmltok", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        int color = int.Parse(gparams[7]);
+
+                        if (color == 0x7FFF)
+                        {
+                            color = 0x00FFFFFF;
+                        }
+
+                        StringBuilder sb = null;
+
+                        if (gparams.Count >= 9)
+                        {
+                            sb = new StringBuilder();
+
+                            for (int i = 9; i < gparams.Count; i++)
+                            {
+                                sb.Append('\t');
+                                sb.Append(gparams[i]);
+                            }
+                        }
+
+                        gump.Add(
+                            new HtmlControl(
+                                int.Parse(gparams[1]),
+                                int.Parse(gparams[2]),
+                                int.Parse(gparams[3]),
+                                int.Parse(gparams[4]),
+                                int.Parse(gparams[5]) == 1,
+                                int.Parse(gparams[6]) != 0,
+                                gparams[5] != "0" && gparams[6] == "2",
+                                sb == null
+                                    ? Client.Game.UO.FileManager.Clilocs.GetString(
+                                        int.Parse(gparams[8].Replace("#", ""))
+                                    )
+                                    : Client.Game.UO.FileManager.Clilocs.Translate(
+                                        int.Parse(gparams[8].Replace("#", "")),
+                                        sb.ToString().Trim('@').Replace('@', '\t')
+                                    ),
+                                color,
+                                true
+                            )
+                            {
+                                IsFromServer = true
+                            },
+                            page
+                        );
+                    }
+                    else if (string.Equals(entry, "page", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        if (gparams.Count >= 2)
+                        {
+                            page = int.Parse(gparams[1]);
+                        }
+                    }
+                    else if (
+                        string.Equals(entry, "resizepic", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.Add(new ResizePic(gparams), page);
+                    }
+                    else if (string.Equals(entry, "text", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        if (gparams.Count >= 5)
+                        {
+                            gump.Add(new Label(gparams, lines), page);
+                        }
+                    }
+                    else if (
+                        string.Equals(
+                            entry,
+                            "textentrylimited",
+                            StringComparison.InvariantCultureIgnoreCase
+                        )
+                        || string.Equals(
+                            entry,
+                            "textentry",
+                            StringComparison.InvariantCultureIgnoreCase
+                        )
+                    )
+                    {
+                        StbTextBox textBox = new StbTextBox(gparams, lines);
+
+                        if (!textBoxFocused)
+                        {
+                            textBox.SetKeyboardFocus();
+                            textBoxFocused = true;
+                        }
+
+                        gump.Add(textBox, page);
+                    }
+                    else if (
+                        string.Equals(entry, "tilepichue", StringComparison.InvariantCultureIgnoreCase) ||
+                        string.Equals(entry, "tilepic", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.Add(new StaticPic(gparams), page);
+                    }
+                    else if (
+                        string.Equals(entry, "noclose", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.CanCloseWithRightClick = false;
+                    }
+                    else if (
+                        string.Equals(entry, "nodispose", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.CanCloseWithEsc = false;
+                    }
+                    else if (
+                        string.Equals(entry, "nomove", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.CanMove = false;
+                    }
+                    else if (
+                        string.Equals(entry, "group", StringComparison.InvariantCultureIgnoreCase)
+                        || string.Equals(entry, "endgroup", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        group++;
+                    }
+                    else if (string.Equals(entry, "radio", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        gump.Add(new RadioButton(group, gparams, lines), page);
+                    }
+                    else if (
+                        string.Equals(entry, "checkbox", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.Add(new Checkbox(gparams, lines), page);
+                    }
+                    else if (
+                        string.Equals(entry, "tooltip", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        string text = null;
+
+                        if (gparams.Count > 2 && gparams[2].Length != 0)
+                        {
+                            string args = gparams[2];
+
+                            for (int i = 3; i < gparams.Count; i++)
+                            {
+                                args += '\t' + gparams[i];
+                            }
+
+                            if (args.Length == 0)
+                            {
+                                text = Client.Game.UO.FileManager.Clilocs.GetString(int.Parse(gparams[1]));
+                                Log.Error(
+                                    $"String '{args}' too short, something wrong with gump tooltip: {text}"
+                                );
+                            }
+                            else
+                            {
+                                text = Client.Game.UO.FileManager.Clilocs.Translate(
+                                    int.Parse(gparams[1]),
+                                    args,
+                                    false
+                                );
+                            }
+                        }
+                        else
                         {
                             text = Client.Game.UO.FileManager.Clilocs.GetString(int.Parse(gparams[1]));
-                            Log.Error(
-                                $"String '{args}' too short, something wrong with gump tooltip: {text}"
-                            );
                         }
-                        else
+
+                        Control last =
+                            gump.Children.Count != 0 ? gump.Children[gump.Children.Count - 1] : null;
+
+                        if (last != null)
                         {
-                            text = Client.Game.UO.FileManager.Clilocs.Translate(
-                                int.Parse(gparams[1]),
-                                args,
-                                false
-                            );
+                            if (last.HasTooltip)
+                            {
+                                if (last.Tooltip is string s)
+                                {
+                                    s += '\n' + text;
+                                    last.SetTooltip(s);
+                                }
+                            }
+                            else
+                            {
+                                last.SetTooltip(text);
+                            }
+
+                            last.Priority = ClickPriority.High;
+                            last.AcceptMouseInput = true;
                         }
+                    }
+                    else if (
+                        string.Equals(
+                            entry,
+                            "itemproperty",
+                            StringComparison.InvariantCultureIgnoreCase
+                        )
+                    )
+                    {
+                        if (world.ClientFeatures.TooltipsEnabled && gump.Children.Count != 0)
+                        {
+                            gump.Children[gump.Children.Count - 1].SetTooltip(
+                                SerialHelper.Parse(gparams[1])
+                            );
+
+                            if (
+                                uint.TryParse(gparams[1], out uint s)
+                                && (!world.OPL.TryGetRevision(s, out uint rev) || rev == 0)
+                            )
+                            {
+                                AddMegaClilocRequest(s);
+                            }
+                        }
+                    }
+                    else if (
+                        string.Equals(entry, "noresize", StringComparison.InvariantCultureIgnoreCase)
+                    ) { }
+                    else if (
+                        string.Equals(entry, "mastergump", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        gump.MasterGumpSerial = gparams.Count > 0 ? SerialHelper.Parse(gparams[1]) : 0;
+                    }
+                    else if (string.Equals(entry, "picinpichued", StringComparison.InvariantCultureIgnoreCase) ||
+                        string.Equals(entry, "picinpicphued", StringComparison.InvariantCultureIgnoreCase) ||
+                        string.Equals(entry, "picinpic", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    {
+                        if (gparams.Count > 7)
+                        {
+                            var g = gump.Add(new GumpPicInPic(gparams), page);
+
+                            if (gparams.Count > 8)
+                            {
+                                g.Hue = UInt16Converter.Parse(gparams[8]);
+
+                                if (string.Equals(entry, "picinpicphued", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    g.IsPartialHue = true;
+                                }
+                            }
+                        }
+                    }
+                    else if (string.Equals(entry, "\0", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        //This gump is null terminated: Breaking
+                        break;
+                    }
+                    else if (string.Equals(entry, "gumppichued", StringComparison.InvariantCultureIgnoreCase) ||
+                             string.Equals(entry, "gumppicphued", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        if (gparams.Count >= 3)
+                            gump.Add(new GumpPic(gparams));
+                    }
+                    else if (string.Equals(entry, "togglelimitgumpscale", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        // ??
                     }
                     else
                     {
-                        text = Client.Game.UO.FileManager.Clilocs.GetString(int.Parse(gparams[1]));
-                    }
-
-                    Control last =
-                        gump.Children.Count != 0 ? gump.Children[gump.Children.Count - 1] : null;
-
-                    if (last != null)
-                    {
-                        if (last.HasTooltip)
-                        {
-                            if (last.Tooltip is string s)
-                            {
-                                s += '\n' + text;
-                                last.SetTooltip(s);
-                            }
-                        }
-                        else
-                        {
-                            last.SetTooltip(text);
-                        }
-
-                        last.Priority = ClickPriority.High;
-                        last.AcceptMouseInput = true;
+                        Log.Warn($"Invalid Gump Command: \"{gparams[0]}\"");
                     }
                 }
-                else if (
-                    string.Equals(
-                        entry,
-                        "itemproperty",
-                        StringComparison.InvariantCultureIgnoreCase
-                    )
-                )
+                catch (Exception ex)
                 {
-                    if (world.ClientFeatures.TooltipsEnabled && gump.Children.Count != 0)
-                    {
-                        gump.Children[gump.Children.Count - 1].SetTooltip(
-                            SerialHelper.Parse(gparams[1])
-                        );
-
-                        if (
-                            uint.TryParse(gparams[1], out uint s)
-                            && (!world.OPL.TryGetRevision(s, out uint rev) || rev == 0)
-                        )
-                        {
-                            AddMegaClilocRequest(s);
-                        }
-                    }
-                }
-                else if (
-                    string.Equals(entry, "noresize", StringComparison.InvariantCultureIgnoreCase)
-                ) { }
-                else if (
-                    string.Equals(entry, "mastergump", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    gump.MasterGumpSerial = gparams.Count > 0 ? SerialHelper.Parse(gparams[1]) : 0;
-                }
-                else if (string.Equals(entry, "picinpichued", StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(entry, "picinpicphued", StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(entry, "picinpic", StringComparison.InvariantCultureIgnoreCase)
-                )
-                {
-                    if (gparams.Count > 7)
-                    {
-                        var g = gump.Add(new GumpPicInPic(gparams), page);
-
-                        if (gparams.Count > 8)
-                        {
-                            g.Hue = UInt16Converter.Parse(gparams[8]);
-
-                            if (string.Equals(entry, "picinpicphued", StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                g.IsPartialHue = true;
-                            }
-                        }
-                    }
-                }
-                else if (string.Equals(entry, "\0", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    //This gump is null terminated: Breaking
-                    break;
-                }
-                else if (string.Equals(entry, "gumppichued", StringComparison.InvariantCultureIgnoreCase) ||
-                         string.Equals(entry, "gumppicphued", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    if (gparams.Count >= 3)
-                        gump.Add(new GumpPic(gparams));
-                }
-                else if (string.Equals(entry, "togglelimitgumpscale", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    // ??
-                }
-                else
-                {
-                    Log.Warn($"Invalid Gump Command: \"{gparams[0]}\"");
+                    Log.Warn($"Bad gump entry in 0x{gumpID:X8}: {ex.Message}");
                 }
             }
 

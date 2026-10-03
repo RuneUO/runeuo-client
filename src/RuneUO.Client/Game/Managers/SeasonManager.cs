@@ -3,6 +3,7 @@
 using RuneUO.Assets;
 using System;
 using System.IO;
+using RuneUO.Utility.Logging;
 
 namespace RuneUO.Game.Managers
 {
@@ -42,17 +43,15 @@ namespace RuneUO.Game.Managers
             _winterGraphic = new ushort[ArtLoader.MAX_STATIC_DATA_INDEX_COUNT];
             _desolationGraphic = new ushort[ArtLoader.MAX_STATIC_DATA_INDEX_COUNT];
 
-            if (!File.Exists(_seasonsFile))
+            try
             {
-                CreateDefaultSeasonsFile();
-            }
-
-            using (StreamReader reader = new StreamReader(_seasonsFile))
-            {
-                while (!reader.EndOfStream)
+                if (!File.Exists(_seasonsFile))
                 {
-                    string line = reader.ReadLine();
+                    CreateDefaultSeasonsFile();
+                }
 
+                foreach (string line in File.ReadLines(_seasonsFile))
+                {
                     if (string.IsNullOrEmpty(line) || line.StartsWith("#") || line.StartsWith("//"))
                     {
                         continue;
@@ -60,89 +59,47 @@ namespace RuneUO.Game.Managers
 
                     string[] seasonLine = line.Split(',');
 
-                    if (seasonLine.Length < 4)
+                    if (seasonLine.Length < 4 || !TryParseId(seasonLine[2], out ushort orig) || !TryParseId(seasonLine[3], out ushort replace))
                     {
                         continue;
                     }
 
-                    ushort orig = seasonLine[2].StartsWith("0x", StringComparison.InvariantCultureIgnoreCase) ?
-                        Convert.ToUInt16(seasonLine[2], 16) :
-                        Convert.ToUInt16(seasonLine[2]);
+                    bool isStatic = seasonLine[1].Trim().StartsWith("static", StringComparison.InvariantCultureIgnoreCase);
 
-                    ushort replace = seasonLine[3].StartsWith("0x", StringComparison.InvariantCultureIgnoreCase) ?
-                        Convert.ToUInt16(seasonLine[3], 16) :
-                        Convert.ToUInt16(seasonLine[3]);
-
-                    bool isStatic = seasonLine[1].StartsWith("static", StringComparison.InvariantCultureIgnoreCase);
-
-                    switch (seasonLine[0].ToLower())
+                    if (!isStatic && orig >= ArtLoader.MAX_LAND_DATA_INDEX_COUNT)
                     {
-                        case "spring":
+                        continue;
+                    }
 
-                            if (isStatic)
-                            {
-                                _springGraphic[orig] = replace;
-                            }
-                            else
-                            {
-                                _springLandTile[orig] = replace;
-                            }
+                    (ushort[] land, ushort[] statics) = seasonLine[0].Trim().ToLowerInvariant() switch
+                    {
+                        "spring" => (_springLandTile, _springGraphic),
+                        "summer" => (_summerLandTile, _summerGraphic),
+                        "fall" => (_fallLandTile, _fallGraphic),
+                        "winter" => (_winterLandTile, _winterGraphic),
+                        "desolation" => (_desolationLandTile, _desolationGraphic),
+                        _ => (null, null)
+                    };
 
-                            break;
-
-                        case "summer":
-
-                            if (isStatic)
-                            {
-                                _summerGraphic[orig] = replace;
-                            }
-                            else
-                            {
-                                _summerLandTile[orig] = replace;
-                            }
-
-                            break;
-
-                        case "fall":
-
-                            if (isStatic)
-                            {
-                                _fallGraphic[orig] = replace;
-                            }
-                            else
-                            {
-                                _fallLandTile[orig] = replace;
-                            }
-
-                            break;
-
-                        case "winter":
-
-                            if (isStatic)
-                            {
-                                _winterGraphic[orig] = replace;
-                            }
-                            else
-                            {
-                                _winterLandTile[orig] = replace;
-                            }
-
-                            break;
-
-                        case "desolation":
-                            if (isStatic)
-                            {
-                                _desolationGraphic[orig] = replace;
-                            }
-                            else
-                            {
-                                _desolationLandTile[orig] = replace;
-                            }
-
-                            break;
+                    if (land != null)
+                    {
+                        (isStatic ? statics : land)[orig] = replace;
                     }
                 }
             }
+            catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
+            {
+                Log.Error($"Unable to read {_seasonsFile}: {e.Message}");
+            }
+        }
+
+        private static bool TryParseId(string text, out ushort id)
+        {
+            text = text.Trim();
+
+            return text.StartsWith("0x", StringComparison.InvariantCultureIgnoreCase)
+                ? ushort.TryParse(text.AsSpan(2), System.Globalization.NumberStyles.HexNumber, null, out id)
+                : ushort.TryParse(text, out id);
         }
 
         public static ushort GetSeasonGraphic(Season season, ushort graphic)

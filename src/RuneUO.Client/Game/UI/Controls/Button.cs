@@ -217,7 +217,7 @@ namespace RuneUO.Game.UI.Controls
 
             if (!string.IsNullOrEmpty(_caption))
             {
-                RenderedText textTexture = _fontTexture[_entered ? 1 : 0];
+                RenderedText textTexture = _fontTexture[_entered && _fontTexture[1] != null ? 1 : 0];
 
                 if (FontCenter)
                 {
