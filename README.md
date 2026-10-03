@@ -33,7 +33,7 @@ RuneUO can load shard-specific assets as loose files placed in the Ultima Online
 | Item art | `Art/Statics/<itemId>.art` | Same run-length data as the art archive |
 | Land art | `Art/Land/<landId>.art` | 1012 raw pixels of a land tile |
 
-Folder and file names are case-sensitive on Linux. Invalid files are logged and the original asset is used instead. Custom assets can be reloaded in-game from the Options menu without restarting the client.
+Folder and file names are matched ignoring case on every platform. Invalid files are logged and the original asset is used instead. Custom assets can be reloaded in-game from the Options menu without restarting the client.
 
 Other changes over ClassicUO include animations stored only in `verdata.mul`, additional mount mappings and fixes to tiled buttons and map patches. See the commit history for details.
 

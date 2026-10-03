@@ -27,6 +27,13 @@ namespace ClassicUO.Renderer.Sounds
         public void Reload()
         {
             _soundsLoader.LoadOurs();
+
+            // Release the audio voices, dropping the references alone leaks them.
+            foreach (var sound in _sounds)
+            {
+                sound?.Dispose();
+            }
+
             Array.Clear(_sounds);
         }
 

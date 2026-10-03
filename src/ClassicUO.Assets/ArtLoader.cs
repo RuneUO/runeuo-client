@@ -40,6 +40,10 @@ namespace ClassicUO.Assets
 
         public UOFile File => _file;
 
+        public IEnumerable<int> OurStaticIds => _ourStatics.Keys;
+
+        public IEnumerable<int> OurLandIds => _ourLand.Keys;
+
 
         public override void Load()
         {
@@ -80,46 +84,14 @@ namespace ClassicUO.Assets
             // Two folders and not one, keyed by the numbers a shard author actually types - the
             // item id a `new Item(0x2818)` uses, and the land tile id. The archive's own indexing
             // puts statics 0x4000 along from land in a single run, and nobody thinks in those.
-            Gather(Path.Combine(FileManager.BasePath, "Art", "Statics"),
-                   _ourStatics, MAX_STATIC_DATA_INDEX_COUNT - MAX_LAND_DATA_INDEX_COUNT);
+            LooseFiles.Gather(FileManager.BasePath, "Art/Statics", ".art",
+                              MAX_STATIC_DATA_INDEX_COUNT - MAX_LAND_DATA_INDEX_COUNT, _ourStatics);
 
-            Gather(Path.Combine(FileManager.BasePath, "Art", "Land"),
-                   _ourLand, MAX_LAND_DATA_INDEX_COUNT);
+            LooseFiles.Gather(FileManager.BasePath, "Art/Land", ".art", MAX_LAND_DATA_INDEX_COUNT, _ourLand);
 
             if (_ourStatics.Count > 0 || _ourLand.Count > 0)
             {
                 Log.Trace($"{_ourStatics.Count} static(s) and {_ourLand.Count} land tile(s) of our own");
-            }
-        }
-
-        private static void Gather(string folder, Dictionary<int, string> into, int limit)
-        {
-            if (!Directory.Exists(folder))
-            {
-                return;
-            }
-
-            foreach (string path in Directory.EnumerateFiles(folder, "*.art"))
-            {
-                if (int.TryParse(Path.GetFileNameWithoutExtension(path), out int id)
-                    && id >= 0 && id < limit)
-                {
-                    into[id] = path;
-                }
-            }
-        }
-
-        private static byte[] Slurp(string path)
-        {
-            try
-            {
-                return System.IO.File.ReadAllBytes(path);
-            }
-            catch (IOException e)
-            {
-                Log.Warn($"could not read {path}: {e.Message}");
-
-                return null;
             }
         }
 
@@ -134,7 +106,7 @@ namespace ClassicUO.Assets
             width = 0;
             height = 0;
 
-            var raw = Slurp(path);
+            var raw = LooseFiles.Read(path);
 
             if (raw == null || raw.Length < 8)
             {
@@ -178,7 +150,7 @@ namespace ClassicUO.Assets
         /// <summary>One land tile of ours: 1,012 pixels of diamond and nothing else.</summary>
         private static uint[] OurLand(string path)
         {
-            var raw = Slurp(path);
+            var raw = LooseFiles.Read(path);
 
             if (raw == null)
             {
