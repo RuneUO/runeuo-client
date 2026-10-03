@@ -48,6 +48,16 @@ Binaries are placed in the `bin/dist` folder. The executable is `RuneUO.exe` (`R
 
 Requirements: [.NET 10 SDK](https://dotnet.microsoft.com/download). Builds are x64 only, because the launcher hosts are x64.
 
+# Publish to the Rune UO portal
+RuneUO is the portal's official client. The launcher installs it once and starts it with the game files of each server set to use it. `scripts/deploy-portal.sh` publishes a release, one platform at a time. Each publish replaces that platform's whole client on the portal.
+```
+export RUNE_PORTAL_URL=https://play.example.com RUNE_PORTAL_USER=admin
+scripts/deploy-portal.sh --release                       # the zips of the RuneUO-main-release GitHub release (all three platforms)
+scripts/deploy-portal.sh --zip RuneUO-win-x64-release.zip --platform win-x64 --version 1.1.0.42
+scripts/deploy-portal.sh --build --version 1.1.0.42      # build this machine's platform and publish it
+```
+The script signs in as a portal admin. It reads the password from `RUNE_PORTAL_PASSWORD` or asks for it. `--dry-run` prepares the zips without uploading them, and `--help` lists every option. An admin can also upload the same zip from the portal, in Admin → Launcher → RuneUO client.
+
 # Contribute
 Contributions are welcome. Open an issue or a pull request in this repository.
 
