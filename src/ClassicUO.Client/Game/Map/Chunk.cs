@@ -119,12 +119,13 @@ namespace ClassicUO.Game.Map
                 {
                     if (sb.Color != 0 && sb.Color != 0xFFFF)
                     {
-                        int pos = (sb.Y << 3) + sb.X;
-
-                        if (pos >= 64)
+                        // Both checked, X = 9 with Y = 0 would pass a check on the sum alone.
+                        if (sb.X >= 8 || sb.Y >= 8)
                         {
                             continue;
                         }
+
+                        int pos = (sb.Y << 3) + sb.X;
 
                         Static staticObject = Static.Create(_world, sb.Color, sb.Hue, pos);
                         staticObject.X = (ushort)(bx + sb.X);

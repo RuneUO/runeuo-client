@@ -238,6 +238,7 @@ namespace ClassicUO.Game
             r.Cell = cell;
             r.Align = align;
             r.MaxWidth = maxWidth;
+            r.MaxHeight = 0;
             r.IsHTML = isHTML;
             r.RecalculateWidthByInfo = recalculateWidthByInfo;
             r.Width = 0;

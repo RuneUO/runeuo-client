@@ -45,8 +45,15 @@ namespace ClassicUO.Assets
             Span<byte> buf = stackalloc byte[Unsafe.SizeOf<AnimDataFrame>()];
             _file.Read(buf);
 
-            var span = MemoryMarshal.Cast<byte, AnimDataFrame>(buf);
-            return span[0];
+            var frame = MemoryMarshal.Cast<byte, AnimDataFrame>(buf)[0];
+
+            // FrameData holds 64 entries; a larger count from the file would index past it.
+            if (frame.FrameCount > 64)
+            {
+                frame.FrameCount = 64;
+            }
+
+            return frame;
 
         }
     }

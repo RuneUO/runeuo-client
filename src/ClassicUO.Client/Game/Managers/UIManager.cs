@@ -603,39 +603,41 @@ namespace ClassicUO.Game.Managers
         {
             if (_needSort)
             {
+                // Collect first: moving the node being iterated detaches it, and the loop used to
+                // stop at the first moved gump and leave the others unsorted.
+                List<LinkedListNode<Gump>> over = null;
+                List<LinkedListNode<Gump>> under = null;
+
                 for (LinkedListNode<Gump> el = Gumps.First; el != null; el = el.Next)
                 {
-                    Gump c = el.Value;
-
-                    if (c.LayerOrder == UILayer.Default)
+                    if (el.Value.LayerOrder == UILayer.Over)
                     {
-                        continue;
+                        (over ??= new List<LinkedListNode<Gump>>()).Add(el);
                     }
-
-                    if (c.LayerOrder == UILayer.Under)
+                    else if (el.Value.LayerOrder == UILayer.Under && el != Gumps.Last)
                     {
-                        for (LinkedListNode<Gump> first = Gumps.First; first != null; first = first.Next)
+                        (under ??= new List<LinkedListNode<Gump>>()).Add(el);
+                    }
+                }
+
+                if (under != null)
+                {
+                    foreach (LinkedListNode<Gump> node in under)
+                    {
+                        if (node != Gumps.Last)
                         {
-                            if (first.Value == c)
-                            {
-                                if (c != Gumps.Last.Value)
-                                {
-                                    Gumps.Remove(first);
-                                    Gumps.AddBefore(Gumps.Last, first);
-                                }
-                            }
+                            Gumps.Remove(node);
+                            Gumps.AddBefore(Gumps.Last, node);
                         }
                     }
-                    else if (c.LayerOrder == UILayer.Over)
+                }
+
+                if (over != null)
+                {
+                    for (int i = over.Count - 1; i >= 0; i--)
                     {
-                        for (LinkedListNode<Gump> first = Gumps.First; first != null; first = first.Next)
-                        {
-                            if (first.Value == c)
-                            {
-                                Gumps.Remove(first);
-                                Gumps.AddFirst(c);
-                            }
-                        }
+                        Gumps.Remove(over[i]);
+                        Gumps.AddFirst(over[i]);
                     }
                 }
 
