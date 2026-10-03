@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "RuneUO": {
+      "commandName": "Project",
+      "commandLineArgs": "-skiploginscreen "
+    },
+    "RuneUO No SkipLoginScreen": {
+      "commandName": "Project"
+    }
+  }
+}
