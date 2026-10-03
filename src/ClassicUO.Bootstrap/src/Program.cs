@@ -168,7 +168,11 @@ sealed class ClassicUOHost : IPluginHandler
 
     public void Run(string[] args)
     {
-        var libName = "./cuo";
+        // The client resolves Data, Logs and settings.json from the working directory,
+        // so pin it to the install folder whatever folder the launcher started us from.
+        Environment.CurrentDirectory = AppContext.BaseDirectory;
+
+        var libName = System.IO.Path.Combine(AppContext.BaseDirectory, "cuo");
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
@@ -188,14 +192,14 @@ sealed class ClassicUOHost : IPluginHandler
             throw new NotSupportedException("OS not suported");
         }
 
-        Console.WriteLine("RuneUO lib loaded: {0}", libName);
-        
         var libPtr = Native.LoadLibrary(libName);
         if (libPtr == IntPtr.Zero)
         {
-            Console.WriteLine("Failed to load {0}. Maybe it doesn't exists.", libName);
-            throw new DllNotFoundException($"Failed to load {libName}. Maybe it doesn't exists.");
+            Console.WriteLine("Failed to load {0}. Maybe it doesn't exist.", libName);
+            throw new DllNotFoundException($"Failed to load {libName}. Maybe it doesn't exist.");
         }
+
+        Console.WriteLine("RuneUO lib loaded: {0}", libName);
 
         unsafe
         {

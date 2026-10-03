@@ -199,7 +199,7 @@ namespace ClassicUO.Game.UI.Gumps
                     using (LogFile writer = new LogFile(CUOEnviroment.ExecutablePath, "dump_gameobject.txt"))
                     {
                         writer.Write("###################################################");
-                        writer.Write($"CUO version: {CUOEnviroment.Version}");
+                        writer.Write($"{CUOEnviroment.Name} version: {CUOEnviroment.Version}");
                         writer.Write($"OBJECT TYPE: {_obj.GetType()}");
 
                         foreach (KeyValuePair<string, string> item in dict.OrderBy(s => s.Key))

@@ -539,7 +539,7 @@ namespace ClassicUO.Game.Managers
             }
             catch (Exception e)
             {
-                Log.Error($"Error while reading skillgrp.mul, using CUO defaults! exception given is: {e}");
+                Log.Error($"Error while reading skillgrp.mul, using default groups! exception given is: {e}");
 
                 return false;
             }
