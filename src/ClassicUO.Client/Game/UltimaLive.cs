@@ -97,6 +97,9 @@ namespace ClassicUO.Game
                         return;
                     }
 
+                    // Normally created by the map definition update, which may not have arrived yet.
+                    _UL.MapCRCs ??= new ushort[sbyte.MaxValue][];
+
                     if (_UL.MapCRCs[mapId] == null)
                     {
                         _UL.MapCRCs[mapId] = new ushort[blocks];
@@ -178,13 +181,15 @@ namespace ClassicUO.Game
 
                     p.Seek(3);
                     int block = (int) p.ReadUInt32BE();
-                    int length = (int) p.ReadUInt32BE();
-                    int totalLength = length * 7;
+                    uint length = p.ReadUInt32BE();
 
-                    if (p.Length < totalLength + 15)
+                    // Checked before multiplying, a large count from the server overflows.
+                    if (length > (uint) (p.Length - 15) / 7)
                     {
                         return;
                     }
+
+                    int totalLength = (int) length * 7;
 
                     p.Seek(14);
                     int mapId = p.ReadUInt8();
@@ -201,7 +206,7 @@ namespace ClassicUO.Game
                         return;
                     }
 
-                    if (world.Map == null || mapId != world.Map.Index)
+                    if (world.Map == null || mapId != world.Map.Index || _UL._filesIdxStatics?[mapId] == null || _UL._filesStatics?[mapId] == null)
                     {
                         return;
                     }
@@ -308,7 +313,7 @@ namespace ClassicUO.Game
                         //UIManager.GetGump<WorldMapGump>()?.UpdateMap();
                         //instead of recalculating the CRC block 2 times, in case of terrain + statics update, we only set the actual block to ushort maxvalue, so it will be recalculated on next hash query
                         //also the server should always send FIRST the landdata packet, and only AFTER land the statics packet
-                        _UL.MapCRCs[mapId][block] = ushort.MaxValue;
+                        _UL.InvalidateCRC(mapId, block);
                     }
 
                     break;
@@ -444,8 +449,24 @@ namespace ClassicUO.Game
             }
         }
 
+        private void InvalidateCRC(int mapId, int block)
+        {
+            ushort[] crcs = MapCRCs?[mapId];
+
+            if (crcs != null && block >= 0 && block < crcs.Length)
+            {
+                crcs[block] = ushort.MaxValue;
+            }
+        }
+
         private static void OnUpdateTerrainPacket(World world, ref StackDataReader p)
         {
+            // Registered for every server, so a non UltimaLive shard can send it too.
+            if (_UL == null || p.Length < 201)
+            {
+                return;
+            }
+
             int block = (int) p.ReadUInt32BE();
             Span<byte> landData = stackalloc byte[LAND_BLOCK_LENGTH];
 
@@ -457,7 +478,7 @@ namespace ClassicUO.Game
             p.Seek(200);
             byte mapId = p.ReadUInt8();
 
-            if (world.Map == null || mapId != world.Map.Index)
+            if (world.Map == null || mapId != world.Map.Index || mapId >= _UL._filesMap.Length || _UL._filesMap[mapId] == null)
             {
                 return;
             }
@@ -470,7 +491,7 @@ namespace ClassicUO.Game
                 _UL._filesMap[mapId].WriteArray(block * 196 + 4, landData);
 
                 //instead of recalculating the CRC block 2 times, in case of terrain + statics update, we only set the actual block to ushort maxvalue, so it will be recalculated on next hash query
-                _UL.MapCRCs[mapId][block] = ushort.MaxValue;
+                _UL.InvalidateCRC(mapId, block);
                 int blockX = block / mapHeightInBlocks, blockY = block % mapHeightInBlocks;
                 int minx = Math.Max(0, blockX - 1), miny = Math.Max(0, blockY - 1);
                 blockX = Math.Min(mapWidthInBlocks, blockX + 1);
@@ -521,6 +542,11 @@ namespace ClassicUO.Game
 
                         foreach (var headObj in mapChunk.Tiles)
                         {
+                            if (headObj == null)
+                            {
+                                continue;
+                            }
+
                             var next = headObj.TNext;
                             while (next != null)
                             {

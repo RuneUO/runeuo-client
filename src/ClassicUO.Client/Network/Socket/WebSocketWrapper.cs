@@ -45,6 +45,12 @@ sealed class WebSocketWrapper : SocketWrapper
         {
             await _webSocket.SendAsync(copy.AsMemory().Slice(0, count), WebSocketMessageType.Binary, true, _tokenSource.Token);
         }
+        catch (Exception e)
+        {
+            // async void: an exception escaping here would end the process. The receive loop reports the disconnect.
+            if (!IsCanceled)
+                Log.Warn($"WebSocket send failed: {e.Message}");
+        }
         finally
         {
             Shared.Return(copy);
@@ -145,12 +151,13 @@ sealed class WebSocketWrapper : SocketWrapper
         var buffer = Shared.Rent(4096);
         var memory = buffer.AsMemory();
         var position = 0;
+        var errorReported = false;
 
         try
         {
             while (IsConnected)
             {
-                GrowReceiveBufferIfNeeded(ref buffer, ref memory);
+                GrowReceiveBufferIfNeeded(ref buffer, ref memory, position);
 
                 var receiveResult = await _webSocket.ReceiveAsync(memory.Slice(position), _tokenSource.Token);
 
@@ -175,34 +182,47 @@ sealed class WebSocketWrapper : SocketWrapper
         {
             Log.Trace("WebSocket OperationCanceledException on websocket " + (IsCanceled ? "(was requested)" : "(remote cancelled)"));
         }
-        catch (Exception e)
+        catch (Exception e) when (!IsCanceled)
         {
             Log.Trace($"WebSocket error in StartReceiveAsync {e}");
             InvokeOnError(SocketError.SocketError);
+            errorReported = true;
+        }
+        catch (Exception)
+        {
+            // Disposed or disconnected on request, nothing to report.
         }
         finally
         {
             Shared.Return(buffer);
         }
 
-        if (!IsCanceled)
+        if (!IsCanceled && !errorReported)
             InvokeOnError(SocketError.ConnectionReset);
     }
 
     // This is probably unnecessary, but WebSocket frames can be up to 2^63 bytes so we put some cap on it, yet to see packets larger than 4KB come through.
     // We peek the raw tcp socket available bytes, grow if the frame is bigger, we're naively assuming no compression.
-    private void GrowReceiveBufferIfNeeded(ref byte[] buffer, ref Memory<byte> memory)
+    // A message split over several frames keeps the bytes already received at the front of the buffer.
+    private void GrowReceiveBufferIfNeeded(ref byte[] buffer, ref Memory<byte> memory, int position)
     {
-        if (_rawSocket.Available <= buffer.Length)
+        // Always leave room for at least one byte, or ReceiveAsync gets an empty buffer and spins.
+        var needed = position + Math.Max(_rawSocket?.Available ?? 0, 1);
+
+        if (needed <= buffer.Length)
             return;
 
-        if (_rawSocket.Available > MAX_RECEIVE_BUFFER_SIZE)
-            throw new SocketException((int)SocketError.MessageSize, $"WebSocket message frame too large: {_rawSocket.Available} > {MAX_RECEIVE_BUFFER_SIZE}");
+        if (needed > MAX_RECEIVE_BUFFER_SIZE)
+            throw new SocketException((int)SocketError.MessageSize, $"WebSocket message frame too large: {needed} > {MAX_RECEIVE_BUFFER_SIZE}");
 
-        Log.Trace($"WebSocket growing receive buffer {buffer.Length} bytes to {_rawSocket.Available} bytes");
+        var size = Math.Min(MAX_RECEIVE_BUFFER_SIZE, Math.Max(needed, buffer.Length * 2));
 
+        Log.Trace($"WebSocket growing receive buffer {buffer.Length} bytes to {size} bytes");
+
+        var bigger = Shared.Rent(size);
+        buffer.AsSpan(0, position).CopyTo(bigger);
         Shared.Return(buffer);
-        buffer = Shared.Rent(_rawSocket.Available);
+        buffer = bigger;
         memory = buffer.AsMemory();
     }
 
@@ -224,5 +244,17 @@ sealed class WebSocketWrapper : SocketWrapper
 
     public override void Dispose()
     {
+        try
+        {
+            _tokenSource?.Cancel();
+        }
+        catch (ObjectDisposedException)
+        {
+        }
+
+        _webSocket?.Dispose();
+        _webSocket = null;
+        _rawSocket?.Dispose();
+        _rawSocket = null;
     }
 }

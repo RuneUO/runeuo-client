@@ -126,7 +126,7 @@ namespace ClassicUO.Network
             if (string.IsNullOrEmpty(ip))
                 throw new ArgumentNullException(nameof(ip));
 
-            var isWebsocketAddress = ip.ToLowerInvariant().Substring(0, 2) is "ws" or "wss";
+            var isWebsocketAddress = ip.StartsWith("ws://", StringComparison.OrdinalIgnoreCase) || ip.StartsWith("wss://", StringComparison.OrdinalIgnoreCase);
             var addr = $"{(isWebsocketAddress ? "" : "tcp://")}{ip}:{port}";
 
             if (!Uri.TryCreate(addr, UriKind.RelativeOrAbsolute, out var uri))
@@ -144,7 +144,7 @@ namespace ClassicUO.Network
         {
             _isCompressionEnabled = false;
             Statistics.Reset();
-            _socket.Disconnect();
+            _socket?.Disconnect();
         }
 
         public void EnableCompression()
@@ -234,19 +234,20 @@ namespace ClassicUO.Network
 
             PacketLogger.Default?.Log(message, true);
 
-            if (!skipEncryption)
-            {
-                Encryption?.Encrypt(!_isCompressionEnabled, message, message, message.Length);
-            }
-
+            // Plugins send from their own threads; the cipher is stateful, so encrypt and enqueue
+            // under one lock or packets leave in a different order than they were encrypted.
             lock (_sendStream)
             {
-                //_socket.Send(data, 0, length);
-                _sendStream.Enqueue(message);
-            }
+                if (!skipEncryption)
+                {
+                    Encryption?.Encrypt(!_isCompressionEnabled, message, message, message.Length);
+                }
 
-            Statistics.TotalBytesSent += (uint)message.Length;
-            Statistics.TotalPacketsSent++;
+                _sendStream.Enqueue(message);
+
+                Statistics.TotalBytesSent += (uint)message.Length;
+                Statistics.TotalPacketsSent++;
+            }
         }
 
         private void ProcessEncryption(Span<byte> buffer)

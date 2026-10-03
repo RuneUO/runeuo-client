@@ -23,6 +23,15 @@ namespace ClassicUO.Utility
                 {
                     parts[i] = parts[i].Replace(invalid[j].ToString(), "");
                 }
+
+                // Parts can come from the server (shard and character names). Both separators are
+                // removed on every OS, and "." or ".." would leave the parent folder.
+                parts[i] = parts[i].Replace("/", "").Replace("\\", "").Trim().TrimEnd('.');
+
+                if (parts[i].Length == 0)
+                {
+                    parts[i] = "_";
+                }
             }
 
             StringBuilder sb = new StringBuilder();

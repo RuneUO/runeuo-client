@@ -142,7 +142,13 @@ namespace ClassicUO.Network
             if (data.IsEmpty)
                 return;
 
-            (fromPlugins ? _pluginsBuffer : _buffer).Enqueue(data);
+            var target = fromPlugins ? _pluginsBuffer : _buffer;
+
+            // Plugins append from their own threads; ParsePackets locks the same buffer.
+            lock (target)
+            {
+                target.Enqueue(data);
+            }
         }
 
         private void AnalyzePacket(World world, ReadOnlySpan<byte> data, int offset)
