@@ -10,13 +10,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Company>ClassicUO</Company>
-    <Authors>KaRaShO'</Authors>
+    <Company>RuneUO</Company>
+    <Authors>RuneUO contributors, ClassicUO contributors</Authors>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
-    <Copyright>ClassicUO</Copyright>
-    <PackageProjectUrl>https://www.classicuo.eu/</PackageProjectUrl>
-    <Description>An open source implementation of the Ultima Online Classic Client.</Description>
+    <Copyright>Copyright (c) andreakarasho and ClassicUO contributors, RuneUO contributors</Copyright>
+    <PackageProjectUrl>https://github.com/RuneUO/runeuo-client</PackageProjectUrl>
+    <Description>RuneUO, an Ultima Online client based on ClassicUO.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IS_DEV_BUILD)' == 'true'">

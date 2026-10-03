@@ -385,18 +385,11 @@ Hue: {1}</value>
   </data>
   <data name="YourUODirectoryIsInvalid" xml:space="preserve">
     <value>Your Ultima Online directory seems to be invalid.
-Download the official Launcher to setup and run your game.
-
-Link: classicuo.eu</value>
+Use the Rune UO launcher to set up and run your game.</value>
   </data>
   <data name="YourUOClientVersionIsInvalid" xml:space="preserve">
     <value>Your Ultima Online client version seems to be invalid.
-Download the official Launcher to setup and run your game.
-
-Link: classicuo.eu</value>
-  </data>
-  <data name="ClassicUOLink" xml:space="preserve">
-    <value>https://classicuo.eu</value>
+Use the Rune UO launcher to set up and run your game.</value>
   </data>
   <data name="ItBeginsToRain" xml:space="preserve">
     <value>It begins to rain.</value>
@@ -507,7 +500,7 @@ Ultima Online?</value>
     <value>Screenshot stored in: {0}</value>
   </data>
   <data name="WindowTitle0" xml:space="preserve">
-    <value>ClassicUO - {0}</value>
+    <value>RuneUO - {0}</value>
   </data>
   <data name="Invariant" xml:space="preserve">
     <value>Invariant</value>

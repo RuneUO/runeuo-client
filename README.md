@@ -43,7 +43,7 @@ git clone --recursive https://github.com/RuneUO/runeuo-client.git
 cd runeuo-client/scripts
 bash build-naot.sh
 ```
-Binaries are placed in the `bin/dist` folder.
+Binaries are placed in the `bin/dist` folder. The executable is `RuneUO.exe` (`RuneUO` launcher script on Linux and macOS).
 > [!WARNING]
 > To execute .sh scripts on Windows, use Git Bash, which is installed with Git: https://git-scm.com/download/win
 

@@ -28,9 +28,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Information (please complete the following information):**
  - OS: [e.g. win7, win10, win10.17134] (just run `ver` in a command prompt) (for linux-distros `cat /etc/lsb-release`)
- - ClassicUO Version: (can be fetched from the login screen)
+ - RuneUO Version: (shown on the login screen)
  - [ ] Using DEV Version?
- - Launcher: [classicuo_launcher, uof launcher, ...]
+ - Launched from: [Rune UO launcher, other]
 
 **Additional context**
  - How many clients do you run in parallel: 

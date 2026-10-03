@@ -20,9 +20,9 @@ AppDomain.CurrentDomain.UnhandledException += (s, e) =>
     sb.AppendLine("######################## [START LOG] ########################");
 
 #if DEV_BUILD
-    sb.AppendLine($"ClassicUO [DEV_BUILD] - {version} - {dt}");
+    sb.AppendLine($"RuneUO [DEV_BUILD] - {version} - {dt}");
 #else
-    sb.AppendLine($"ClassicUO [STANDARD_BUILD] - {version} - {dt}");
+    sb.AppendLine($"RuneUO [STANDARD_BUILD] - {version} - {dt}");
 #endif
 
     sb.AppendLine($"OS: {Environment.OSVersion.Platform} {(Environment.Is64BitOperatingSystem ? "x64" : "x86")}");
@@ -188,7 +188,7 @@ sealed class ClassicUOHost : IPluginHandler
             throw new NotSupportedException("OS not suported");
         }
 
-        Console.WriteLine("ClassicUO lib loaded: {0}", libName);
+        Console.WriteLine("RuneUO lib loaded: {0}", libName);
         
         var libPtr = Native.LoadLibrary(libName);
         if (libPtr == IntPtr.Zero)

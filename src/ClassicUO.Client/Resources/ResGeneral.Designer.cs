@@ -196,15 +196,6 @@ namespace ClassicUO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://classicuo.eu.
-        /// </summary>
-        public static string ClassicUOLink {
-            get {
-                return ResourceManager.GetString("ClassicUOLink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ClientViewRange is now {0}..
         /// </summary>
         public static string ClientViewRangeIsNow0 {
@@ -1029,7 +1020,7 @@ namespace ClassicUO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ClassicUO - {0}.
+        ///   Looks up a localized string similar to RuneUO - {0}.
         /// </summary>
         public static string WindowTitle0 {
             get {
@@ -1210,9 +1201,7 @@ namespace ClassicUO.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Your Ultima Online client version seems to be invalid.
-        ///Download the official Launcher to setup and run your game.
-        ///
-        ///Link: classicuo.eu.
+        ///Use the Rune UO launcher to set up and run your game.
         /// </summary>
         public static string YourUOClientVersionIsInvalid {
             get {
@@ -1222,9 +1211,7 @@ namespace ClassicUO.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Your Ultima Online directory seems to be invalid.
-        ///Download the official Launcher to setup and run your game.
-        ///
-        ///Link: classicuo.eu.
+        ///Use the Rune UO launcher to set up and run your game.
         /// </summary>
         public static string YourUODirectoryIsInvalid {
             get {
