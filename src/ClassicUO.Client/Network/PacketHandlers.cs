@@ -89,6 +89,20 @@ namespace ClassicUO.Network
                         break;
                     }
 
+                    if (packetlength < offset)
+                    {
+                        Log.Error($"Malformed packet ID: {packetID:X2} | len: {packetlength}");
+
+                        stream.Clear();
+
+                        if (allowPlugins)
+                        {
+                            socket.Disconnect();
+                        }
+
+                        break;
+                    }
+
                     if (stream.Length < packetlength)
                     {
                         Log.Warn(
@@ -111,7 +125,7 @@ namespace ClassicUO.Network
                     // TODO: the pluging function should allow Span<byte> or unsafe type only.
                     // The current one is a bad style decision.
                     // It will be fixed once the new plugin system is done.
-                    if (!allowPlugins || Plugin.ProcessRecvPacket(packetBuffer, ref packetlength))
+                    if (!allowPlugins || Plugin.ProcessRecvPacket(ref packetBuffer, ref packetlength))
                     {
                         AnalyzePacket(world, packetBuffer.AsSpan(0, packetlength), offset);
 
@@ -143,7 +157,14 @@ namespace ClassicUO.Network
                 var buffer = new StackDataReader(data);
                 buffer.Seek(offset);
 
-                bufferReader(world, ref buffer);
+                try
+                {
+                    bufferReader(world, ref buffer);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"Packet 0x{data[0]:X2} ({data.Length} bytes) failed: {ex}");
+                }
             }
         }
 
@@ -3462,10 +3483,30 @@ namespace ClassicUO.Network
         {
             string url = p.ReadASCII();
 
-            if (!string.IsNullOrEmpty(url))
+            if (!PlatformHelper.TryGetWebUrl(url, out string webUrl))
             {
-                PlatformHelper.LaunchBrowser(url);
+                Log.Warn($"Ignored invalid url from server: {url}");
+
+                return;
             }
+
+            UIManager.Add(
+                new MessageBoxGump(
+                    world,
+                    300,
+                    200,
+                    string.Format(ResGeneral.ServerWantsToOpen0, webUrl),
+                    ok =>
+                    {
+                        if (ok)
+                        {
+                            PlatformHelper.LaunchBrowser(webUrl);
+                        }
+                    },
+                    false,
+                    MessageButtonType.OK_CANCEL
+                )
+            );
         }
 
         private static void TipWindow(World world, ref StackDataReader p)
@@ -5367,21 +5408,26 @@ namespace ClassicUO.Network
             }
         }
 
+        private const int MAX_COMPRESSED_GUMP_SIZE = 0x400000;
+
         private static void OpenCompressedGump(World world, ref StackDataReader p)
         {
             uint sender = p.ReadUInt32BE();
             uint gumpID = p.ReadUInt32BE();
             uint x = p.ReadUInt32BE();
             uint y = p.ReadUInt32BE();
-            uint clen = p.ReadUInt32BE() - 4;
-            int dlen = (int)p.ReadUInt32BE();
-            byte[] decData = System.Buffers.ArrayPool<byte>.Shared.Rent(dlen);
+
+            if (!TryReadCompressed(ref p, out byte[] decData, out int dlen))
+            {
+                Log.Warn($"Invalid compressed gump layout: 0x{gumpID:X8}");
+
+                return;
+            }
+
             string layout;
 
             try
             {
-                ZLib.Decompress(p.Buffer.Slice(p.Position, (int)clen), decData.AsSpan(0, dlen));
-
                 layout = Encoding.UTF8.GetString(decData.AsSpan(0, dlen));
             }
             finally
@@ -5389,83 +5435,76 @@ namespace ClassicUO.Network
                 System.Buffers.ArrayPool<byte>.Shared.Return(decData);
             }
 
-            p.Skip((int)clen);
+            uint linesNum = p.Remaining >= 4 ? p.ReadUInt32BE() : 0;
 
-            uint linesNum = p.ReadUInt32BE();
+            if (linesNum == 0)
+            {
+                CreateGump(world, sender, gumpID, (int)x, (int)y, layout, Array.Empty<string>());
+
+                return;
+            }
+
+            if (!TryReadCompressed(ref p, out decData, out dlen) || linesNum > (uint)dlen / 2)
+            {
+                if (decData != null)
+                {
+                    System.Buffers.ArrayPool<byte>.Shared.Return(decData);
+                }
+
+                Log.Warn($"Invalid compressed gump lines: 0x{gumpID:X8}");
+
+                return;
+            }
+
             string[] lines = new string[linesNum];
 
             try
             {
-                if (linesNum != 0)
+                var reader = new StackDataReader(decData.AsSpan(0, dlen));
+
+                for (int i = 0; i < linesNum; ++i)
                 {
-                    clen = p.ReadUInt32BE() - 4;
-                    dlen = (int)p.ReadUInt32BE();
-                    decData = System.Buffers.ArrayPool<byte>.Shared.Rent(dlen);
+                    int length = reader.Remaining >= 2 ? reader.ReadUInt16BE() : 0;
 
-                    try
-                    {
-                        ZLib.Decompress(p.Buffer.Slice(p.Position, (int)clen), decData.AsSpan(0, dlen));
-                        p.Skip((int)clen);
-
-                        var reader = new StackDataReader(decData.AsSpan(0, dlen));
-
-                        for (int i = 0; i < linesNum; ++i)
-                        {
-                            int remaining = reader.Remaining;
-
-                            if (remaining >= 2)
-                            {
-                                int length = reader.ReadUInt16BE();
-
-                                if (length > 0)
-                                {
-                                    lines[i] = reader.ReadUnicodeBE(length);
-                                }
-                                else
-                                {
-                                    lines[i] = string.Empty;
-                                }
-                            }
-                            else
-                            {
-                                lines[i] = string.Empty;
-                            }
-                        }
-
-                        reader.Release();
-
-                        //for (int i = 0, index = 0; i < linesNum && index < dlen; i++)
-                        //{
-                        //    int length = ((decData[index++] << 8) | decData[index++]) << 1;
-                        //    int true_length = 0;
-
-                        //    for (int k = 0; k < length && true_length < length && index + true_length < dlen; ++k, true_length += 2)
-                        //    {
-                        //        ushort c = (ushort)(((decData[index + true_length] << 8) | decData[index + true_length + 1]) << 1);
-
-                        //        if (c == '\0')
-                        //        {
-                        //            break;
-                        //        }
-                        //    }
-
-                        //    lines[i] = Encoding.BigEndianUnicode.GetString(decData, index, true_length);
-
-                        //    index += length;
-                        //}
-                    }
-                    finally
-                    {
-                        System.Buffers.ArrayPool<byte>.Shared.Return(decData);
-                    }
+                    lines[i] = length > 0 ? reader.ReadUnicodeBE(length) : string.Empty;
                 }
 
-                CreateGump(world, sender, gumpID, (int)x, (int)y, layout, lines);
+                reader.Release();
             }
             finally
             {
-                //System.Buffers.ArrayPool<string>.Shared.Return(lines);
+                System.Buffers.ArrayPool<byte>.Shared.Return(decData);
             }
+
+            CreateGump(world, sender, gumpID, (int)x, (int)y, layout, lines);
+        }
+
+        private static bool TryReadCompressed(ref StackDataReader p, out byte[] data, out int length)
+        {
+            data = null;
+            length = 0;
+
+            if (p.Remaining < 8)
+            {
+                return false;
+            }
+
+            uint clen = p.ReadUInt32BE();
+            uint dlen = p.ReadUInt32BE();
+
+            if (clen < 4 || clen - 4 > (uint)p.Remaining || dlen > MAX_COMPRESSED_GUMP_SIZE)
+            {
+                return false;
+            }
+
+            clen -= 4;
+            length = (int)dlen;
+            data = System.Buffers.ArrayPool<byte>.Shared.Rent(length);
+
+            ZLib.Decompress(p.Buffer.Slice(p.Position, (int)clen), data.AsSpan(0, length));
+            p.Skip((int)clen);
+
+            return true;
         }
 
         private static void UpdateMobileStatus(World world, ref StackDataReader p)

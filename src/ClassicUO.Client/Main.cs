@@ -56,9 +56,9 @@ namespace ClassicUO
                 sb.AppendLine("######################## [START LOG] ########################");
 
 #if DEV_BUILD
-                sb.AppendLine($"ClassicUO [DEV_BUILD] - {CUOEnviroment.Version} - {DateTime.Now}");
+                sb.AppendLine($"{CUOEnviroment.Name} [DEV_BUILD] - {CUOEnviroment.Version} - {DateTime.Now}");
 #else
-                sb.AppendLine($"ClassicUO [STANDARD_BUILD] - {CUOEnviroment.Version} - {DateTime.Now}");
+                sb.AppendLine($"{CUOEnviroment.Name} [STANDARD_BUILD] - {CUOEnviroment.Version} - {DateTime.Now}");
 #endif
 
                 sb.AppendLine
@@ -199,7 +199,6 @@ namespace ClassicUO
                     Client.ShowErrorMessage(ResGeneral.YourUOClientVersionIsInvalid);
                 }
 
-                PlatformHelper.LaunchBrowser(ResGeneral.ClassicUOLink);
             }
             else
             {

@@ -373,9 +373,14 @@ sealed class Plugin
             var tmp = data;
             result = _onRecv(ref data, ref length);
 
+            // Keep the caller's buffer; a packet that no longer fits is rejected by the caller.
             if (!ReferenceEquals(tmp, data))
             {
-                Array.Copy(data, tmp, length);
+                if (length >= 0 && length <= tmp.Length)
+                {
+                    Array.Copy(data, tmp, length);
+                }
+
                 data = tmp;
             }
         }
@@ -397,9 +402,14 @@ sealed class Plugin
             var tmp = data;
             result = _onSend(ref data, ref length);
 
+            // Keep the caller's buffer; a packet that no longer fits is rejected by the caller.
             if (!ReferenceEquals(tmp, data))
             {
-                Array.Copy(data, tmp, length);
+                if (length >= 0 && length <= tmp.Length)
+                {
+                    Array.Copy(data, tmp, length);
+                }
+
                 data = tmp;
             }
         }

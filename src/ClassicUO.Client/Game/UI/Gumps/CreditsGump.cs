@@ -14,6 +14,7 @@ namespace ClassicUO.Game.UI.Gumps
         //TODO
         private const string CREDITS =
 @"
+RuneUO - based on ClassicUO
 Copyright(R) ClassicUO 2021
 
 This project does not distribute any copyrighted game assets.
@@ -30,8 +31,11 @@ Ultima Online(R) 2021 Electronic Arts Inc. All Rights Reserved.
 
 
 
-                [Lead Developer]
+                [ClassicUO Lead Developer]
                 Karasho' - https://github.com/andreakarasho
+
+                [RuneUO]
+                https://github.com/RuneUO/runeuo-client
 ";
 
         public CreditsGump(World world) : base(world, 0, 0)

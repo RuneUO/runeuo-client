@@ -15,8 +15,42 @@ namespace ClassicUO.Utility.Platforms
         public static readonly bool IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         public static readonly bool IsOSX = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
+        public static bool TryGetWebUrl(string url, out string webUrl)
+        {
+            webUrl = null;
+
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return false;
+            }
+
+            url = url.Trim();
+
+            if (!url.Contains("://"))
+            {
+                url = "http://" + url;
+            }
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri) ||
+                (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            {
+                return false;
+            }
+
+            webUrl = uri.AbsoluteUri;
+
+            return true;
+        }
+
         public static void LaunchBrowser(string url)
         {
+            if (!TryGetWebUrl(url, out url))
+            {
+                Log.Warn("Blocked non-web url");
+
+                return;
+            }
+
             try
             {
                 if (IsWindows)

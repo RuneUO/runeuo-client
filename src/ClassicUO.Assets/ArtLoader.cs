@@ -6,6 +6,7 @@ using ClassicUO.Utility.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace ClassicUO.Assets
@@ -164,7 +165,14 @@ namespace ClassicUO.Assets
             var buf = new byte[raw.Length - 8];
             Array.Copy(raw, 8, buf, 0, buf.Length);
 
-            return Runs(buf, width, height);
+            var pixels = Runs(buf, width, height);
+
+            if (pixels == null)
+            {
+                Log.Warn($"{Path.GetFileName(path)} has broken rows");
+            }
+
+            return pixels;
         }
 
         /// <summary>One land tile of ours: 1,012 pixels of diamond and nothing else.</summary>
@@ -285,7 +293,17 @@ namespace ClassicUO.Assets
             var buf = new byte[entry.Length];
             file.Read(buf);
 
-            return Runs(buf, width, height);
+            var pixels = Runs(buf, width, height);
+
+            if (pixels == null)
+            {
+                width = 0;
+                height = 0;
+
+                return Array.Empty<uint>();
+            }
+
+            return pixels;
         }
 
         /// <summary>
@@ -299,50 +317,70 @@ namespace ClassicUO.Assets
         /// stores no transparent pixel at all, which is why a tree costs so much less than the
         /// box it stands in.
         /// </summary>
-        private static unsafe uint[] Runs(byte[] buf, short width, short height)
+        internal static uint[] Runs(byte[] buf, short width, short height)
         {
-            var data = new uint[width * height];
-
-            fixed (byte* startPtr = buf)
+            if (width <= 0 || height <= 0)
             {
-                ushort* lineoffsets = (ushort*)startPtr;
-                byte* datastart = (byte*)startPtr + height * 2;
-                int x = 0;
-                int y = 0;
-                var ptr = (ushort*)(datastart + lineoffsets[0] * 2);
+                return null;
+            }
 
-                while (y < height)
+            var words = MemoryMarshal.Cast<byte, ushort>(buf.AsSpan());
+
+            if (words.Length < height)
+            {
+                return null;
+            }
+
+            var data = new uint[width * height];
+            int x = 0;
+            int y = 0;
+            int at = height + words[0];
+
+            while (y < height)
+            {
+                if (at + 2 > words.Length)
                 {
-                    ushort xoffs = *ptr++;
-                    ushort run = *ptr++;
+                    return null;
+                }
 
-                    if (xoffs + run >= 2048)
+                int xoffs = words[at++];
+                int run = words[at++];
+
+                if (xoffs + run >= 2048)
+                {
+                    break;
+                }
+
+                if (xoffs + run != 0)
+                {
+                    x += xoffs;
+
+                    int pos = y * width + x;
+
+                    if (at + run > words.Length || pos + run > data.Length)
                     {
-                        break;
+                        return null;
                     }
 
-                    if (xoffs + run != 0)
+                    for (int j = 0; j < run; ++j, ++pos)
                     {
-                        x += xoffs;
-                        int pos = y * width + x;
+                        ushort val = words[at++];
 
-                        for (int j = 0; j < run; ++j, ++pos)
+                        if (val != 0)
                         {
-                            ushort val = *ptr++;
-
-                            if (val != 0)
-                            {
-                                data[pos] = HuesHelper.Color16To32(val) | 0xFF_00_00_00;
-                            }
+                            data[pos] = HuesHelper.Color16To32(val) | 0xFF_00_00_00;
                         }
-
-                        x += run;
                     }
-                    else
+
+                    x += run;
+                }
+                else
+                {
+                    x = 0;
+
+                    if (++y < height)
                     {
-                        x = 0;
-                        ++y;
-                        ptr = (ushort*)(datastart + lineoffsets[y] * 2);
+                        at = height + words[y];
                     }
                 }
             }

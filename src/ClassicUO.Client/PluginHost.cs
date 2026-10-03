@@ -216,6 +216,9 @@ namespace ClassicUO
         [MarshalAs(UnmanagedType.FunctionPtr)]
         private readonly dOnPluginReflectionCommand _reflectionCmd = reflectionCmd;
 
+        // Plugins read the result after the call returns, so it must outlive the stack frame.
+        private static readonly bool* _reflectionResult = (bool*)NativeMemory.AllocZeroed(1);
+
 
         static short getPacketLength(int id)
         {
@@ -248,7 +251,10 @@ namespace ClassicUO
 
                     switch (subCmd.Item2)
                     {
-                        case -1: return (IntPtr)Unsafe.AsPointer(ref res);
+                        case -1:
+                            *_reflectionResult = res;
+
+                            return (IntPtr)_reflectionResult;
                         case 0:
                             Client.Game.UO.World.Player.Pathfinder.AutoWalking = false;
                             break;
@@ -261,7 +267,9 @@ namespace ClassicUO
                 case 4:
                     var args = Unsafe.AsRef<(int, int, int, int, int)>(cmd.ToPointer());
                     bool started = Client.Game.UO?.World?.Player?.Pathfinder?.WalkTo(args.Item2, args.Item3, args.Item4, args.Item5) ?? false;
-                    return (IntPtr)Unsafe.AsPointer(ref started);
+                    *_reflectionResult = started;
+
+                    return (IntPtr)_reflectionResult;
             }
 
             return IntPtr.Zero;
@@ -309,24 +317,36 @@ namespace ClassicUO
                 Marshal.FreeHGlobal(uoAssetsPtr);
         }
 
-        public bool PacketIn(ArraySegment<byte> buffer)
+        public bool PacketIn(byte[] data, ref int length)
         {
-            if (_packetIn == null || buffer.Array == null || buffer.Count <= 0)
+            if (_packetIn == null || data == null || length <= 0)
                 return true;
 
-            var len = buffer.Count;
-            fixed (byte* ptr = buffer.Array)
-                return _packetIn((IntPtr)ptr, ref len);
+            var len = length;
+            bool result;
+
+            fixed (byte* ptr = data)
+                result = _packetIn((IntPtr)ptr, ref len);
+
+            length = Math.Clamp(len, 0, length);
+
+            return result;
         }
 
-        public bool PacketOut(Span<byte> buffer)
+        public bool PacketOut(ref Span<byte> buffer)
         {
             if (_packetOut == null || buffer.IsEmpty)
                 return true;
 
             var len = buffer.Length;
+            bool result;
+
             fixed (byte* ptr = buffer)
-                return _packetOut((IntPtr)ptr, ref len);
+                result = _packetOut((IntPtr)ptr, ref len);
+
+            buffer = buffer.Slice(0, Math.Clamp(len, 0, buffer.Length));
+
+            return result;
         }
 
         public unsafe int SdlEvent(SDL.SDL_Event* ev)
@@ -362,7 +382,7 @@ namespace ClassicUO
         public void GetCommandList(out IntPtr listPtr, out int listCount);
         public unsafe int SdlEvent(SDL3.SDL.SDL_Event* ev);
         public void UpdatePlayerPosition(int x, int y, int z);
-        public bool PacketIn(ArraySegment<byte> buffer);
-        public bool PacketOut(Span<byte> buffer);
+        public bool PacketIn(byte[] data, ref int length);
+        public bool PacketOut(ref Span<byte> buffer);
     }
 }

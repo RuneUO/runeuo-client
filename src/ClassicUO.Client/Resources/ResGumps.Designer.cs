@@ -1061,7 +1061,7 @@ namespace ClassicUO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ClassicUO Version {0}.
+        ///   Looks up a localized string similar to RuneUO Version {0}.
         /// </summary>
         public static string CUOVersion0 {
             get {
@@ -3361,7 +3361,7 @@ namespace ClassicUO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reproduce sounds and music when ClassicUO is not focused.
+        ///   Looks up a localized string similar to Reproduce sounds and music when RuneUO is not focused.
         /// </summary>
         public static string ReproduceSoundsAndMusic {
             get {
@@ -4234,7 +4234,7 @@ namespace ClassicUO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to That&apos;s ClassicUO!.
+        ///   Looks up a localized string similar to That&apos;s RuneUO!.
         /// </summary>
         public static string ThatSClassicUO {
             get {

@@ -69,15 +69,15 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     if ! brew ls --version mono-libgdiplus > /dev/null; then
         brew install mono-libgdiplus
     fi
-    if ! [[ -x ClassicUO.bin.osx ]]; then
-        chmod +x ClassicUO.bin.osx
+    if ! [[ -x RuneUO.bin.osx ]]; then
+        chmod +x RuneUO.bin.osx
     fi
-    ./ClassicUO.bin.osx "$@"
+    ./RuneUO.bin.osx "$@"
 else
-    if ! [[ -x ClassicUO.bin.x86_64 ]]; then
-        chmod +x ClassicUO.bin.x86_64
+    if ! [[ -x RuneUO.bin.x86_64 ]]; then
+        chmod +x RuneUO.bin.x86_64
     fi
 
 	## preemptive is necessary to avoid mono issues with managed plugins.
-    MONO_THREADS_SUSPEND=preemptive ./ClassicUO.bin.x86_64 "$@"
+    MONO_THREADS_SUSPEND=preemptive ./RuneUO.bin.x86_64 "$@"
 fi

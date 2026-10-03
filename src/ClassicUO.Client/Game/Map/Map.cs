@@ -10,8 +10,8 @@ namespace ClassicUO.Game.Map
 {
     internal sealed class Map
     {
-        private static Chunk[] _terrainChunks;
-        private static readonly bool[] _blockAccessList = new bool[0x1000];
+        private readonly Chunk[] _terrainChunks;
+        private readonly bool[] _blockAccessList = new bool[0x1000];
         private readonly LinkedList<int> _usedIndices = new LinkedList<int>();
         private readonly World _world;
 
@@ -22,10 +22,7 @@ namespace ClassicUO.Game.Map
             Index = index;
             BlocksCount = Client.Game.UO.FileManager.Maps.MapBlocksSize[Index, 0] * Client.Game.UO.FileManager.Maps.MapBlocksSize[Index, 1];
 
-            if (_terrainChunks == null || BlocksCount > _terrainChunks.Length)
-                _terrainChunks = new Chunk[BlocksCount];
-
-            ClearBockAccess();
+            _terrainChunks = new Chunk[BlocksCount];
         }
 
         public readonly int BlocksCount;
@@ -57,9 +54,16 @@ namespace ClassicUO.Game.Map
 
         public Chunk GetChunk2(int chunkX, int chunkY, bool load = true)
         {
+            var maps = Client.Game.UO.FileManager.Maps;
+
+            if (chunkX < 0 || chunkY < 0 || chunkX >= maps.MapBlocksSize[Index, 0] || chunkY >= maps.MapBlocksSize[Index, 1])
+            {
+                return null;
+            }
+
             int block = GetBlock(chunkX, chunkY);
 
-            if (block >= BlocksCount || block >= _terrainChunks.Length)
+            if (block >= BlocksCount)
             {
                 return null;
             }

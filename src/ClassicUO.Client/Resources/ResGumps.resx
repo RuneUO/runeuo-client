@@ -400,7 +400,7 @@
     <value>Combat music</value>
   </data>
   <data name="ReproduceSoundsAndMusic" xml:space="preserve">
-    <value>Reproduce sounds and music when ClassicUO is not focused</value>
+    <value>Reproduce sounds and music when RuneUO is not focused</value>
   </data>
   <data name="BorderlessWindow" xml:space="preserve">
     <value>Borderless window</value>
@@ -542,7 +542,7 @@ delete it?</value>
     <value>Speech font:</value>
   </data>
   <data name="ThatSClassicUO" xml:space="preserve">
-    <value>That's ClassicUO!</value>
+    <value>That's RuneUO!</value>
   </data>
   <data name="ScaleSpeechDelay" xml:space="preserve">
     <value>Scale speech delay</value>
@@ -757,7 +757,7 @@ when amount is or exceeds</value>
     <value>Log in to Ultima Online</value>
   </data>
   <data name="CUOVersion0" xml:space="preserve">
-    <value>ClassicUO Version {0}</value>
+    <value>RuneUO Version {0}</value>
   </data>
   <data name="Autologin" xml:space="preserve">
     <value>Autologin</value>

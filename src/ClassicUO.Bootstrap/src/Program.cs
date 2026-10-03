@@ -20,9 +20,9 @@ AppDomain.CurrentDomain.UnhandledException += (s, e) =>
     sb.AppendLine("######################## [START LOG] ########################");
 
 #if DEV_BUILD
-    sb.AppendLine($"ClassicUO [DEV_BUILD] - {version} - {dt}");
+    sb.AppendLine($"RuneUO [DEV_BUILD] - {version} - {dt}");
 #else
-    sb.AppendLine($"ClassicUO [STANDARD_BUILD] - {version} - {dt}");
+    sb.AppendLine($"RuneUO [STANDARD_BUILD] - {version} - {dt}");
 #endif
 
     sb.AppendLine($"OS: {Environment.OSVersion.Platform} {(Environment.Is64BitOperatingSystem ? "x64" : "x86")}");
@@ -188,7 +188,7 @@ sealed class ClassicUOHost : IPluginHandler
             throw new NotSupportedException("OS not suported");
         }
 
-        Console.WriteLine("ClassicUO lib loaded: {0}", libName);
+        Console.WriteLine("RuneUO lib loaded: {0}", libName);
         
         var libPtr = Native.LoadLibrary(libName);
         if (libPtr == IntPtr.Zero)
@@ -337,20 +337,32 @@ sealed class ClassicUOHost : IPluginHandler
     unsafe bool PacketInPlugin(IntPtr data, ref int length)
     {
         var ok = true;
+        var capacity = length;
 
         foreach (var plugin in _plugins)
         {
             var rentBuf = ArrayPool<byte>.Shared.Rent(length);
+            var newLength = length;
 
             try
             {
                 fixed (byte* ptr = rentBuf)
-                    Buffer.MemoryCopy(data.ToPointer(), ptr, sizeof(byte) * length, sizeof(byte) * length);
+                    Buffer.MemoryCopy(data.ToPointer(), ptr, length, length);
 
-                ok &= plugin.ProcessRecvPacket(ref rentBuf, ref length);
+                ok &= plugin.ProcessRecvPacket(ref rentBuf, ref newLength);
+
+                // The client buffer cannot grow, so a larger packet is dropped.
+                if (newLength < 0 || newLength > capacity || newLength > rentBuf.Length)
+                {
+                    Console.WriteLine("Plugin packet length {0} exceeds buffer {1}, change ignored", newLength, capacity);
+
+                    continue;
+                }
+
+                length = newLength;
 
                 fixed (byte* ptr = rentBuf)
-                    Buffer.MemoryCopy(ptr, data.ToPointer(), sizeof(byte) * length, sizeof(byte) * length);
+                    Buffer.MemoryCopy(ptr, data.ToPointer(), capacity, length);
             }
             finally
             {
@@ -364,20 +376,32 @@ sealed class ClassicUOHost : IPluginHandler
     unsafe bool PacketOutPlugin(IntPtr data, ref int length)
     {
         var ok = true;
+        var capacity = length;
 
         foreach (var plugin in _plugins)
         {
             var rentBuf = ArrayPool<byte>.Shared.Rent(length);
+            var newLength = length;
 
             try
             {
                 fixed (byte* ptr = rentBuf)
-                    Buffer.MemoryCopy(data.ToPointer(), ptr, sizeof(byte) * length, sizeof(byte) * length);
+                    Buffer.MemoryCopy(data.ToPointer(), ptr, length, length);
 
-                ok &= plugin.ProcessSendPacket(ref rentBuf, ref length);
+                ok &= plugin.ProcessSendPacket(ref rentBuf, ref newLength);
+
+                // The client buffer cannot grow, so a larger packet is dropped.
+                if (newLength < 0 || newLength > capacity || newLength > rentBuf.Length)
+                {
+                    Console.WriteLine("Plugin packet length {0} exceeds buffer {1}, change ignored", newLength, capacity);
+
+                    continue;
+                }
+
+                length = newLength;
 
                 fixed (byte* ptr = rentBuf)
-                    Buffer.MemoryCopy(ptr, data.ToPointer(), sizeof(byte) * length, sizeof(byte) * length);
+                    Buffer.MemoryCopy(ptr, data.ToPointer(), capacity, length);
             }
             finally
             {
