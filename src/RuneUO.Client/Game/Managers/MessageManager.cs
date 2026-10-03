@@ -13,20 +13,6 @@ using System.Collections.Generic;
 
 namespace RuneUO.Game.Managers
 {
-    //enum MessageFont : byte
-    //{
-    //    INVALID = 0xFF,
-    //    Bold = 0,
-    //    Shadow = 1,
-    //    BoldShadow = 2,
-    //    Normal = 3,
-    //    Gothic = 4,
-    //    Italic = 5,
-    //    SmallDark = 6,
-    //    Colorful = 7,
-    //    Rune = 8,
-    //    SmallLight = 9
-    //}
 
     internal enum AffixType : byte
     {

@@ -302,29 +302,10 @@ namespace RuneUO.Game.UI.Gumps
                 _isPressing = false;
             };
 
-            //Label name = new Label(World.Player.Name, false, 0x0386, font: 5)
-            //{
-            //    X = 322,
-            //    Y = 308 + _middleGumpRight.Height
-            //};
-
             //Add(name);
         }
 
         public bool IsBuyGump { get; }
-
-        //public void SetIfNameIsFromCliloc(Item it, bool fromcliloc)
-        //{
-        //    if (_shopItems.TryGetValue(it, out var shopItem))
-        //    {
-        //        shopItem.NameFromCliloc = fromcliloc;
-
-        //        if (fromcliloc)
-        //        {
-        //            shopItem.SetName(Client.Game.UO.FileManager.Clilocs.Translate(it.Name, $"\t{it.Amount}\t{it.ItemData.Name}", true));
-        //        }
-        //    }
-        //}
 
         private void ButtonMouseUp(object sender, MouseEventArgs e)
         {

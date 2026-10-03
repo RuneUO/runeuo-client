@@ -1,8 +1,6 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using RuneUO.Utility.Logging;
-using System.Net.WebSockets;
 
 namespace RuneUO.Network.Socket;
 

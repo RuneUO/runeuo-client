@@ -3,7 +3,6 @@
 using System;
 using RuneUO.Game.Managers;
 using RuneUO.Game.UI.Controls;
-using RuneUO.Renderer;
 using SDL3;
 
 namespace RuneUO.Game.UI.Gumps

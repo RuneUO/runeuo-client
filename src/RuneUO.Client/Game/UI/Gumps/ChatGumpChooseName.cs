@@ -2,7 +2,6 @@
 
 using RuneUO.Game.UI.Controls;
 using RuneUO.Network;
-using RuneUO.Renderer;
 using RuneUO.Resources;
 
 namespace RuneUO.Game.UI.Gumps

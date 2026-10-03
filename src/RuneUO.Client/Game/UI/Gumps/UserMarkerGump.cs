@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using RuneUO.Utility;
-using RuneUO.Configuration;
 using RuneUO.Game.UI.Controls;
 using static RuneUO.Game.UI.Gumps.WorldMapGump;
-using RuneUO.Assets;
 using RuneUO.Resources;
 
 namespace RuneUO.Game.UI.Gumps

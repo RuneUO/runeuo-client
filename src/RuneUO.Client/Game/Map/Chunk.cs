@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using RuneUO.Game.GameObjects;
 using RuneUO.Game.Managers;
 using RuneUO.Assets;
-using RuneUO.Utility;
 using System;
 using System.Runtime.InteropServices;
 using System.Buffers;
@@ -232,15 +231,6 @@ namespace RuneUO.Game.Map
                         state = 2;
                         priorityZ++;
                     }
-                    //else if ((m.ItemData.Flags & TileFlag.StairRight) != 0)
-                    //{
-                    //    priorityZ++;
-                    //}
-
-                    //if (m.IsMovable)
-                    //{
-                    //    priorityZ += 1;
-                    //}
 
                     goto default;
 
@@ -251,11 +241,6 @@ namespace RuneUO.Game.Map
                     {
                         priorityZ--;
                     }
-
-                    //if (data.IsSurface)
-                    //{
-                    //    priorityZ--;
-                    //}
 
                     if (data.Height != 0)
                     {

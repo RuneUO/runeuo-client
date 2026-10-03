@@ -1064,11 +1064,6 @@ namespace RuneUO.Renderer
         {
             EnsureStarted();
 
-            //if (_numSprites >= MAX_SPRITES)
-            //{
-            //    Flush();
-            //}
-
             if (_numSprites >= _vertexInfo.Length)
             {
                 //Flush();

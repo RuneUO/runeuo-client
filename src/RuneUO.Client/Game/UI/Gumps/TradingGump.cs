@@ -7,10 +7,8 @@ using RuneUO.Game.UI.Controls;
 using RuneUO.Input;
 using RuneUO.Assets;
 using RuneUO.Network;
-using RuneUO.Renderer;
 using RuneUO.Utility;
 using Microsoft.Xna.Framework;
-using RuneUO.Game.Scenes;
 
 namespace RuneUO.Game.UI.Gumps
 {

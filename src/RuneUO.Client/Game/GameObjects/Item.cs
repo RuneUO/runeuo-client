@@ -12,56 +12,8 @@ namespace RuneUO.Game.GameObjects
 {
     internal partial class Item : Entity
     {
-        //private static readonly QueuedPool<Item> _pool = new QueuedPool<Item>(
-        //    Constants.PREDICTABLE_CHUNKS * 3,
-        //    i =>
-        //    {
-        //        i.IsDestroyed = false;
-        //        i.Graphic = 0;
-        //        i.Amount = 0;
-        //        i.Container = 0xFFFF_FFFF;
-        //        i._isMulti = false;
-        //        i.Layer = 0;
-        //        i.Price = 0;
-        //        i.UsedLayer = false;
-        //        i._displayedGraphic = null;
-        //        i.X = 0;
-        //        i.Y = 0;
-        //        i.Z = 0;
-
-        //        i.LightID = 0;
-        //        i.MultiDistanceBonus = 0;
-        //        i.Flags = 0;
-        //        i.WantUpdateMulti = true;
-        //        i.MultiInfo = null;
-        //        i.MultiGraphic = 0;
-
-        //        i.AlphaHue = 0;
-        //        i.Name = null;
-        //        i.Direction = 0;
-        //        i.AnimIndex = 0;
-        //        i.Hits = 0;
-        //        i.HitsMax = 0;
-        //        i.LastStepTime = 0;
-        //        i.LastAnimationChangeTime = 0;
 
         //        i.Clear();
-
-        //        i.IsClicked = false;
-        //        i.IsDamageable = false;
-        //        i.Offset = Vector3.Zero;
-        //        i.HitsPercentage = 0;
-        //        i.Opened = false;
-        //        i.TextContainer?.Clear();
-        //        i.IsFlipped = false;
-        //        i.FrameInfo = Rectangle.Empty;
-        //        i.ObjectHandlesStatus = ObjectHandlesStatus.NONE;
-        //        i.AlphaHue = 0;
-        //        i.AllowedToDraw = true;
-        //        i.ExecuteAnimation = true;
-        //        i.HitsRequest = HitsRequestStatus.None;
-        //    }
-        //);
 
         private ushort? _displayedGraphic;
         private bool _isMulti;

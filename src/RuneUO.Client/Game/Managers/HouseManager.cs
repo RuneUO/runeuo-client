@@ -52,19 +52,6 @@ namespace RuneUO.Game.Managers
                 int currX = _world.RangeSize.X;
                 int currY = _world.RangeSize.Y;
 
-                //if (World.Player.IsMoving)
-                //{
-                //    Mobile.Step step = World.Player.Steps.Back();
-
-                //    currX = step.X;
-                //    currY = step.Y;
-                //}
-                //else
-                //{
-                //    currX = World.Player.X;
-                //    currY = World.Player.Y;
-                //}
-
                 Item found = _world.Items.Get(serial);
 
                 if (found == null)

@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using RuneUO.Game.GameObjects;
-using RuneUO.Game.Scenes;
 using RuneUO.Input;
 using RuneUO.Resources;
 using RuneUO.Utility.Logging;

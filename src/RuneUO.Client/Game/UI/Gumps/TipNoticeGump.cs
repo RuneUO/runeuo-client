@@ -1,9 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-2-Clause
 
 using RuneUO.Game.UI.Controls;
-using RuneUO.Input;
 using RuneUO.Network;
-using RuneUO.Utility.Collections;
 
 namespace RuneUO.Game.UI.Gumps
 {
@@ -83,23 +81,5 @@ namespace RuneUO.Game.UI.Gumps
         }
 
 
-        //public override void OnPageChanged()
-        //{
-        //    Height = _background.SpecialHeight;
-        //    _scrollArea.Height = _background.SpecialHeight - 96;
-
-        //    foreach (Control c in _scrollArea.Children)
-        //    {
-        //        // if (c is ScrollAreaItem)
-        //        {
-        //            c.OnPageChanged();
-        //        }
-        //    }
-
-        //    if (_prev != null && _next != null)
-        //    {
-        //        _prev.Y = _next.Y = _background.SpecialHeight - 53;
-        //    }
-        //}
     }
 }

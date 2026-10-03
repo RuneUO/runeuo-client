@@ -51,10 +51,6 @@ namespace RuneUO.Renderer
 
         public Vector2 MeasureString(ReadOnlySpan<char> text)
         {
-            if (text == null)
-            {
-                throw new ArgumentNullException("text");
-            }
 
             if (text.Length == 0)
             {

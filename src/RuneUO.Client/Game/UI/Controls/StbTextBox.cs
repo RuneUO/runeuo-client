@@ -375,66 +375,11 @@ namespace RuneUO.Game.UI.Controls
                         return;
                     }
 
-                    //MultilinesFontInfo info = _rendererText.IsUnicode
-                    //                              ? Client.Game.UO.FileManager.Fonts.GetInfoUnicode(
-                    //                                                                    _rendererText.Font,
-                    //                                                                    text,
-                    //                                                                    text.Length,
-                    //                                                                    _rendererText.Align,
-                    //                                                                    (ushort) _rendererText.FontStyle,
-                    //                                                                    realWidth
-                    //                                                                   )
-                    //                              : Client.Game.UO.FileManager.Fonts.GetInfoASCII(
-                    //                                                                  _rendererText.Font,
-                    //                                                                  text,
-                    //                                                                  text.Length,
-                    //                                                                  _rendererText.Align,
-                    //                                                                  (ushort) _rendererText.FontStyle,
-                    //                                                                  realWidth
-                    //                                                                 );
-
 
                     if ((_fontStyle & FontStyle.CropTexture) != 0)
                     {
-                        //string sb = text;
-                        //int total_height = 0;
-                        //int start = 0;
-
-                        //while (info != null)
-                        //{
-                        //    total_height += info.MaxHeight;
-
-                        //    if (total_height >= Height)
-                        //    {
-                        //        if (Text != null && Text.Length <= text.Length)
-                        //            text = Text;
-
-                        //        _stb.CursorIndex = Math.Max(0, text.Length - 1);
-                        //        return;
-                        //    }
 
                         //    uint count = info.Data.Count;
-
-                        //    //if (_stb.CursorIndex >= start && _stb.CursorIndex <= start + info.CharCount)
-                        //    {
-                        //        int pixel_width = 0;
-
-                        //        for (int i = 0; i < count; i++)
-                        //        {
-                        //            pixel_width += _rendererText.GetCharWidth(info.Data[i].Item);
-
-                        //            if (pixel_width >= _rendererText.MaxWidth)
-                        //            {
-                        //                sb = sb.Insert(start + i, "\n");
-                        //                _stb.CursorIndex = start + i + 1;
-                        //                pixel_width = 0;
-                        //            }
-                        //        }
-                        //    }
-
-                        //    start += (int) count;
-                        //    info = info.Next;
-                        //}
 
                         //text = sb.ToString();
                     }
@@ -857,16 +802,6 @@ namespace RuneUO.Game.UI.Controls
                         }
                     }
 
-                    // if (int.TryParse(Stb.text + c, out int val))
-                    // {
-                    //     if (val > _maxCharCount)
-                    //     {
-                    //         _is_writing = false;
-                    //         SetText(_maxCharCount.ToString());
-                    //
-                    //         return;
-                    //     }
-                    // }
                 }
 
 

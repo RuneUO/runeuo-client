@@ -6,7 +6,6 @@ using RuneUO.Game.Data;
 using RuneUO.Game.GameObjects;
 using RuneUO.Game.UI.Gumps;
 using RuneUO.Network;
-using RuneUO.Network.Encryption;
 using RuneUO.Utility.Logging;
 
 namespace RuneUO.Game.Managers
@@ -28,15 +27,6 @@ namespace RuneUO.Game.Managers
         public string Name;
         public readonly uint Serial;
         public int X, Y, HP, Map;
-
-        //public string GetName()
-        //{
-        //    Entity e = World.Get(Serial);
-
-        //    if (e != null && !e.IsDestroyed && !string.IsNullOrEmpty(e.Name) && Name != e.Name)
-        //    {
-        //        Name = e.Name;
-        //    }
 
         //    return string.IsNullOrEmpty(Name) ? "<out of range>" : Name;
         //}
@@ -209,11 +199,6 @@ namespace RuneUO.Game.Managers
                 //GameActions.Print($"SENDING PACKET! {Time.Ticks}");
 
                 _lastPacketSend = Time.Ticks + 250;
-
-                //if (!force && !_can_send)
-                //{
-                //    return;
-                //}
 
                 NetClient.Socket.Send_QueryGuildPosition();
 

@@ -901,11 +901,6 @@ namespace RuneUO.Game.Scenes
                     }
                 }
 
-                //if (SelectedObject.Object is Land || GameObjectHelper.TryGetStaticData(SelectedObject.Object as GameObject, out var itemdata) && itemdata.IsSurface)
-                //{
-                //    if (SelectedObject.Object is GameObject obj && Pathfinder.WalkTo(obj.X, obj.Y, obj.Z, 0))
-                //    {
-
                 //    }
                 //}
             }

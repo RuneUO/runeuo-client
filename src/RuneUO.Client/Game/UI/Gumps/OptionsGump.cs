@@ -120,7 +120,7 @@ namespace RuneUO.Game.UI.Gumps
         private ClickableColorBox _poisonColorPickerBox, _paralyzedColorPickerBox, _invulnerableColorPickerBox;
         private NiceButton _randomizeColorsButton;
         private Checkbox _restorezoomCheckbox, _zoomCheckbox;
-        private InputField _rows, _columns, _highlightAmount, _abbreviatedAmount;
+        private InputField _highlightAmount, _abbreviatedAmount;
 
         // speech
         private Checkbox _scaleSpeechDelay, _saveJournalCheckBox;
@@ -3808,8 +3808,6 @@ namespace RuneUO.Game.UI.Gumps
                     _enableCounters.IsChecked = false;
                     _highlightOnChange.IsChecked = false;
                     _enableAbbreviatedAmount.IsChecked = false;
-                    _columns.SetText("1");
-                    _rows.SetText("1");
                     _cellSize.Value = 40;
                     _highlightOnAmount.IsChecked = false;
                     _highlightAmount.SetText("5");

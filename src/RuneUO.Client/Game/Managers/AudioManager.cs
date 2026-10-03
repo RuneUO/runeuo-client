@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using RuneUO.Utility;
 using RuneUO.Configuration;
 using RuneUO.IO.Audio;
-using RuneUO.Assets;
 using RuneUO.Utility.Logging;
 using Microsoft.Xna.Framework.Audio;
 

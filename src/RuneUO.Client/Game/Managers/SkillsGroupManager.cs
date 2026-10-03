@@ -7,8 +7,6 @@ using System.Text;
 using System.Xml;
 using RuneUO.Configuration;
 using RuneUO.Game.UI.Gumps;
-using RuneUO.IO;
-using RuneUO.Assets;
 using RuneUO.Resources;
 using RuneUO.Utility.Logging;
 

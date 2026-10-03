@@ -4,7 +4,6 @@ using RuneUO.IO;
 using RuneUO.Utility;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace RuneUO.Assets
 {

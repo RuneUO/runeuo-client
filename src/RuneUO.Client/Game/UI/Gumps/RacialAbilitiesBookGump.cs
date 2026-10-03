@@ -4,7 +4,6 @@ using RuneUO.Game.Data;
 using RuneUO.Game.Managers;
 using RuneUO.Game.UI.Controls;
 using RuneUO.Input;
-using RuneUO.Assets;
 using RuneUO.Network;
 using RuneUO.Resources;
 using Microsoft.Xna.Framework;

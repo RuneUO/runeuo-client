@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
-using RuneUO.Configuration;
 using RuneUO.Game.Managers;
-using RuneUO.Game.Scenes;
 using RuneUO.Game.UI.Controls;
-using RuneUO.Renderer;
 using RuneUO.Resources;
 using RuneUO.Utility;
 using Microsoft.Xna.Framework;

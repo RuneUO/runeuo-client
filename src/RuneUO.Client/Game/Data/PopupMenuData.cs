@@ -1,7 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-2-Clause
 
 using RuneUO.IO;
-using RuneUO.Network;
 
 namespace RuneUO.Game.Data
 {

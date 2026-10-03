@@ -6,8 +6,6 @@ using RuneUO.Configuration;
 using RuneUO.Game.Data;
 using RuneUO.Game.GameObjects;
 using RuneUO.Game.UI.Gumps;
-using RuneUO.Assets;
-using RuneUO.Renderer;
 using RuneUO.Utility;
 using Microsoft.Xna.Framework;
 using System;

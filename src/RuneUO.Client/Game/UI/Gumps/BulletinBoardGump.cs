@@ -7,7 +7,6 @@ using RuneUO.Game.UI.Controls;
 using RuneUO.Input;
 using RuneUO.Assets;
 using RuneUO.Network;
-using RuneUO.Renderer;
 using RuneUO.Resources;
 using RuneUO.Utility;
 
@@ -393,17 +392,6 @@ namespace RuneUO.Game.UI.Gumps
                 _buttonRemove.Y = Height - 50;
             }
 
-            //if (!_textBox.IsDisposed && _textBox.IsChanged)
-            //{
-            //    _textBox.Height = System.Math.Max(Client.Game.UO.FileManager.Fonts.GetHeightUnicode(1, _textBox.TxEntry.Text, 220, TEXT_ALIGN_TYPE.TS_LEFT, 0x0) + 20, 40);
-
-            //    foreach (Control c in _scrollArea.Children)
-            //    {
-            //        if (c is ScrollAreaItem)
-            //            c.OnPageChanged();
-            //    }
-            //}
-
             base.Update();
         }
 
@@ -466,12 +454,6 @@ namespace RuneUO.Game.UI.Gumps
                 }
             }
         }
-
-        //public override void OnKeyboardReturn(int textID, string text)
-        //{
-        //    if ((MultiLineBox.PasteRetnCmdID & textID) != 0 && !string.IsNullOrEmpty(text))
-        //        _textBox.TxEntry.InsertString(text.Replace("\r", string.Empty));
-        //}
 
 
         private enum ButtonType

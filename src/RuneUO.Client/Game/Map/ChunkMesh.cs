@@ -6,8 +6,6 @@ using RuneUO.Assets;
 using RuneUO.Configuration;
 using RuneUO.Game.Data;
 using RuneUO.Game.GameObjects;
-using RuneUO.Game.Managers;
-using RuneUO.IO;
 using RuneUO.Renderer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

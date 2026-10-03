@@ -86,19 +86,6 @@ namespace RuneUO.Game.Managers
             //deque.Clear();
 
 
-            //GetEndPosition(
-            //    item,
-            //    deque,
-            //    out ushort currX,
-            //    out ushort currY,
-            //    out sbyte currZ,
-            //    out Direction endDir);
-
-            //if (currX == x && currY == y && currZ == z && endDir == movingDir)
-            //{
-            //    return;
-            //}
-
             if (empty)
             {
                 item.LastStepTime = Time.Ticks;
@@ -165,10 +152,6 @@ namespace RuneUO.Game.Managers
         {
             _items.Remove(serial);
 
-            //if (_items.TryGetValue(serial, out var list))
-            //{
-            //    list.Clear();
-            //}
         }
 
 

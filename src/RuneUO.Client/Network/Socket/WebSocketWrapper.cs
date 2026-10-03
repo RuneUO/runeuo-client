@@ -143,7 +143,7 @@ sealed class WebSocketWrapper : SocketWrapper
         Log.Trace($"Connected WebSocket: {uri}");
 
         // Kicks off the async receiving loop 
-        StartReceiveAsync().ConfigureAwait(false);
+        _ = StartReceiveAsync();
     }
 
     private async Task StartReceiveAsync()

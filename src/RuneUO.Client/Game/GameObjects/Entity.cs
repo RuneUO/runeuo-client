@@ -6,7 +6,6 @@ using RuneUO.Game.Data;
 using RuneUO.Game.Managers;
 using RuneUO.Game.UI.Gumps;
 using RuneUO.Network;
-using RuneUO.Renderer;
 using RuneUO.Utility;
 using static RuneUO.Network.NetClient;
 

@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-using RuneUO.Configuration;
 using RuneUO.Assets;
-using RuneUO.Renderer;
 using RuneUO.Utility;
 
 namespace RuneUO.Game.Data
@@ -209,30 +207,12 @@ namespace RuneUO.Game.Data
 
         public static void CleanCaveTextures()
         {
-            //foreach (ushort graphic in CaveTiles)
-            //{
-            //    ArtTexture texture = Client.Game.UO.FileManager.Arts.GetTexture(graphic);
-
-            //    if (texture != null)
-            //    {
-            //        texture.Ticks = 0;
-            //    }
-            //}
 
             //Client.Game.UO.FileManager.Arts.CleaUnusedResources(short.MaxValue);
         }
 
         public static void CleanTreeTextures()
         {
-            //foreach (ushort graphic in TreeTiles)
-            //{
-            //    ArtTexture texture = Client.Game.UO.FileManager.Arts.GetTexture(graphic);
-
-            //    if (texture != null)
-            //    {
-            //        texture.Ticks = 0;
-            //    }
-            //}
 
             //Client.Game.UO.FileManager.Arts.CleaUnusedResources(short.MaxValue);
         }

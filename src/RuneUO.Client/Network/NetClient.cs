@@ -6,7 +6,6 @@ using RuneUO.Utility.Logging;
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Net.WebSockets;
 using RuneUO.Network.Socket;
 
 namespace RuneUO.Network
@@ -57,7 +56,7 @@ namespace RuneUO.Network
 
         public bool IsConnected => _socket != null && _socket.IsConnected;
         public NetStatistics Statistics { get; }
-        public EncryptionHelper? Encryption { get; private set; }
+        public EncryptionHelper Encryption { get; private set; }
         public PacketsTable PacketsTable { get; private set; }
 
         public uint LocalIP

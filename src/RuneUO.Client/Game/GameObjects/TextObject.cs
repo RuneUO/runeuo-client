@@ -2,38 +2,12 @@
 
 using RuneUO.Game.Data;
 using RuneUO.Game.Managers;
-using RuneUO.Renderer;
-using RuneUO.Utility;
 using Microsoft.Xna.Framework;
 
 namespace RuneUO.Game.GameObjects
 {
     internal class TextObject : BaseGameObject
     {
-        //private static readonly QueuedPool<TextObject> _queue = new QueuedPool<TextObject>
-        //(
-        //    1000,
-        //    o =>
-        //    {
-        //        o.IsDestroyed = false;
-        //        o.Alpha = 0xFF;
-        //        o.Hue = 0;
-        //        o.Time = 0;
-        //        o.IsTransparent = false;
-        //        o.SecondTime = 0;
-        //        o.Type = 0;
-        //        o.X = 0;
-        //        o.Y = 0;
-        //        o.RealScreenPosition = Point.Zero;
-        //        o.OffsetY = 0;
-        //        o.Owner = null;
-        //        o.UnlinkD();
-        //        o.IsTextGump = false;
-        //        o.RenderedText?.Destroy();
-        //        o.RenderedText = null;
-        //        o.Clear();
-        //    }
-        //);
 
         public TextObject(World world) : base(world) { }
 

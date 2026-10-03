@@ -89,15 +89,5 @@ namespace RuneUO.Game.Managers
             Channels.Clear();
         }
 
-        //static ChatManager()
-        //{
-        //    using (StreamReader reader = new StreamReader(File.OpenRead(UOFileManager.GetUOFilePath("Chat.enu"))))
-        //    {
-        //        while (!reader.EndOfStream)
-        //        {
-        //            string line = reader.ReadLine();
-        //        }
-        //    }
-        //}
     }
 }

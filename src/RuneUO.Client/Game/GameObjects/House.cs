@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RuneUO.Game.Managers;
-using RuneUO.Utility.Collections;
 using Microsoft.Xna.Framework;
 
 namespace RuneUO.Game.GameObjects

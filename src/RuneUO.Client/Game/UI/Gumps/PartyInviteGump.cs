@@ -1,6 +1,5 @@
 ﻿// SPDX-License-Identifier: BSD-2-Clause
 
-using RuneUO.Configuration;
 using RuneUO.Game.GameObjects;
 using RuneUO.Game.UI.Controls;
 using RuneUO.Network;

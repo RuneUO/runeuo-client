@@ -185,10 +185,6 @@ namespace RuneUO.Network.Encryption
                     _xor_data[i] = ctx.Digest(i);
                 }
 
-                //using (var md5 = MD5.Create())
-                //{
-                //    _xor_data = md5.ComputeHash(_cipher_table, 0, 256);
-                //}
             }
         }
 

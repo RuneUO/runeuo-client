@@ -187,13 +187,6 @@ namespace RuneUO.Game.Scenes
                                 }
                             }
 
-                            //if (GameObjectHelper.TryGetStaticData(obj2, out var itemdata) && ((ulong) itemdata.Flags & 0x204) == 0 && itemdata.IsRoof)
-                            //{
-                            //    _maxZ = tileZ;
-                            //    World.Map.ClearBockAccess();
-                            //    _maxGroundZ = World.Map.CalculateNearZ(tileZ, playerX, playerY, tileZ);
-                            //    _noDrawRoofs = true;
-                            //}
                         }
                     }
 

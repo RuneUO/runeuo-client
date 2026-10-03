@@ -15,7 +15,6 @@ using RuneUO.Configuration;
 using RuneUO.Game.Scenes;
 using RuneUO.Utility.Logging;
 using RuneUO.Assets;
-using RuneUO.Network;
 
 namespace RuneUO.Game
 {

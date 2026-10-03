@@ -90,7 +90,6 @@ namespace RuneUO.Game.UI.Gumps
         private WMapMarker _gotoMarker;
 
         private int _mapLoading;
-        private uint _mapLoadingTime;
         private Task _loadingTask;
 
         public WorldMapGump(World world) : base
@@ -798,7 +797,7 @@ namespace RuneUO.Game.UI.Gumps
 
                 try
                 {
-                    stream.Read(buffer, 0, buffer.Length);
+                    stream.ReadExactly(buffer, 0, (int)stream.Length);
 
                     StackDataReader reader = new StackDataReader(buffer.AsSpan(0, (int)stream.Length));
 
@@ -1305,19 +1304,7 @@ namespace RuneUO.Game.UI.Gumps
                         }
 
 
-                        //var quantizer = new OctreeQuantizer();
-                        //for (var i = 0; i < buffer.Length; i++)
-                        //{
-                        //    quantizer.AddColor(buffer[i]);
-                        //}
-
                         //var palette = quantizer.GetPalette(256);
-
-                        //for (var i = 0; i < buffer.Length; i++)
-                        //{
-                        //    var paletteIndex = quantizer.GetPaletteIndex(buffer[i]);
-                        //    buffer[i] = palette[paletteIndex];
-                        //}
 
                         //quantizer.Clear();
 
@@ -1935,10 +1922,6 @@ namespace RuneUO.Game.UI.Gumps
                     if (batcher.ClipBegin(gX, gY, gWidth, gHeight))
                     {
                         var str = "Please wait, I'm making the map file...".AsSpan();
-                        //str = str[..(str.Length - (int)_mapLoadingTime % 3)];
-
-                        //if (Time.Ticks > _mapLoadingTime)
-                        //    _mapLoadingTime = Time.Ticks + 1000;
 
                         var strSize = Fonts.Bold.MeasureString(str);
                         var pos = strSize * -0.5f;
@@ -2003,14 +1986,6 @@ namespace RuneUO.Game.UI.Gumps
                 }
                 return true;
             });
-
-            //foreach (House house in World.HouseManager.Houses)
-            //{
-            //    foreach (Multi multi in house.Components)
-            //    {
-            //        batcher.Draw2D(Textures.GetTexture())
-            //    }
-            //}
 
 
             return base.AddToRenderLists(renderLists, x, y, ref layerDepthRef);

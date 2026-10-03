@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 
 namespace RuneUO.Game
 {
@@ -41,8 +40,8 @@ namespace RuneUO.Game
         //       values in index 2 and 3 is for the wrap size of map (virtual size), x and y
         private ushort[,] MapSizeWrapSize;
         public static bool UltimaLiveActive => _UL != null && !string.IsNullOrEmpty(_UL.ShardName);
-        protected string RealShardName;
-        protected string ShardName;
+        private string RealShardName;
+        private string ShardName;
 
         public static void Enable()
         {
@@ -684,32 +683,6 @@ namespace RuneUO.Game
             }
         }
 
-        // private sealed class ULFileMul : UOFileMul
-        // {
-        //     private readonly BinaryWriter _writer;
-
-        //     public ULFileMul(string file, bool isStaticMul) : base(file)
-        //     {
-        //         _writer = new BinaryWriter(File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite));
-        //     }
-
-        //     public override void FillEntries()
-        //     {
-        //     }
-
-        //     public override void Dispose()
-        //     {
-        //         Client.Game.UO.FileManager.Maps.Dispose();
-        //     }
-
-        //     public void WriteArray(long position, byte[] array)
-        //     {
-        //         _writer.Seek((int)position, SeekOrigin.Begin);
-        //         _writer.Write(array, 0, array.Length);
-        //         _writer.Flush();
-        //     }
-        // }
-
         public class ULMapLoader : MapLoader
         {
             private readonly CancellationTokenSource _feedCancel;
@@ -864,15 +837,6 @@ namespace RuneUO.Game
 
                     if (mapFile == null)
                     {
-                        // if (!File.Exists(staticsPath) && File.Exists(oldStatics))
-                        // {
-                        //     CopyFile(oldStatics, staticsPath);
-                        // }
-
-                        // if (!File.Exists(staIdxPath) && File.Exists(oldStaIdx))
-                        // {
-                        //     CopyFile(oldStaIdx, staIdxPath);
-                        // }
 
                         CreateNewPersistentMap(mapId, mapPath, staIdxPath, staticsPath);
                     }
@@ -884,13 +848,6 @@ namespace RuneUO.Game
                             //uop.FillEntries(ref Entries[mapId]);
 
                             //Log.Trace($"UltimaLive -> converting file:\t{mapPath} from {uop.FilePath}");
-
-                            //using (FileStream stream = File.Create(mapPath))
-                            //{
-                            //    var reader = uop.GetReader();
-                            //    for (int x = 0; x < Entries[mapId].Length; x++)
-                            //    {
-                            //        reader.Seek(Entries[mapId][x].Offset);
 
                             //        stream.Write(reader.ReadArray(Entries[mapId][x].Length), 0, Entries[mapId][x].Length);
                             //    }

@@ -308,12 +308,6 @@ namespace RuneUO.Game.Scenes
                 CurrentLoginStep = LoginSteps.Connecting;
             }
 
-            //NetClient.LoginSocket.Disconnected += (o, e) => {
-            //    PopupMessage = ResGeneral.CheckYourConnectionAndTryAgain;
-            //    CurrentLoginStep = LoginSteps.PopUpMessage;
-            //    Log.Error("No Internet Access");
-            //};
-
             NetClient.Socket.Connected -= OnNetClientConnected;
             NetClient.Socket.Disconnected -= OnNetClientDisconnected;
             NetClient.Socket.Connected += OnNetClientConnected;

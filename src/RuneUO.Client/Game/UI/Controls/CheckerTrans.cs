@@ -48,12 +48,6 @@ namespace RuneUO.Game.UI.Controls
             }
         );
 
-        //public CheckerTrans(float alpha = 0.5f)
-        //{
-        //    _alpha = alpha;
-        //    AcceptMouseInput = false;
-        //}
-
         public CheckerTrans(List<string> parts)
         {
             X = int.Parse(parts[1]);

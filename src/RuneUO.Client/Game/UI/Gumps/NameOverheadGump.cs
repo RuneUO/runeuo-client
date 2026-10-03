@@ -268,10 +268,6 @@ namespace RuneUO.Game.UI.Gumps
             {
                 GameActions.PickUp(World, LocalSerial, 0, 0);
 
-                //if (entity.Texture != null)
-                //    GameActions.PickUp(LocalSerial, entity.Texture.Width >> 1, entity.Texture.Height >> 1);
-                //else
-                //    GameActions.PickUp(LocalSerial, 0, 0);
             }
         }
 

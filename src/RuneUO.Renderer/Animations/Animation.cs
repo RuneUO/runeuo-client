@@ -205,19 +205,6 @@ namespace RuneUO.Renderer.Animations
                             }
                         }
 
-                        //if (index.FileIndex == 0)
-                        //{
-                        //    var replaced = isCorpse ? _animationLoader.ReplaceCorpse(ref id, ref hue) : _animationLoader.ReplaceBody(ref id, ref hue);
-                        //    if (replaced)
-                        //    {
-                        //        if (id >= _dataIndex.Length)
-                        //        {
-                        //            Array.Resize(ref _dataIndex, id + 1);
-                        //        }
-
-                        //        index = ref _dataIndex[id];
-                        //    }
-                        //}
                     }
                 }
             } while (index == null);
@@ -388,16 +375,6 @@ namespace RuneUO.Renderer.Animations
         public void UpdateAnimationTable(BodyConvFlags flags)
         {
             _animationLoader.ProcessBodyConvDef(flags);
-            //if (flags != _lastFlags)
-            //{
-            //    if (_lastFlags != (BodyConvFlags)(-1))
-            //    {
-            //        /* This happens when you log out of an account then into another
-            //         * one with different expansions activated. Just reload the anim
-            //         * files from scratch. */
-            //        Array.Clear(_dataIndex, 0, _dataIndex.Length);
-            //        LoadInternal();
-            //    }
 
             //    ProcessBodyConvDef(flags);
             //}

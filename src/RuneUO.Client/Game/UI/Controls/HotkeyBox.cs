@@ -3,7 +3,6 @@
 using System;
 using RuneUO.Input;
 using RuneUO.Assets;
-using RuneUO.Renderer;
 using RuneUO.Utility;
 using SDL3;
 

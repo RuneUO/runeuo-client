@@ -1,6 +1,5 @@
 ﻿using RuneUO.Assets;
 using RuneUO.Game.Data;
-using RuneUO.IO;
 using RuneUO.Utility.Logging;
 using System;
 using System.Collections.Generic;

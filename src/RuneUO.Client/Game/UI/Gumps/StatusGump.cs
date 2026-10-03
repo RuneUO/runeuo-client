@@ -10,7 +10,6 @@ using RuneUO.Assets;
 using RuneUO.Resources;
 using RuneUO.Utility;
 using Microsoft.Xna.Framework;
-using RuneUO.Game.Scenes;
 
 namespace RuneUO.Game.UI.Gumps
 {
@@ -594,12 +593,6 @@ namespace RuneUO.Game.UI.Gumps
                     _lockers[0].Graphic = gumpid;
                 };
 
-                //AddChildren(_lockers[0] = new Button((int)ButtonType.LockerStr, gumpID, gumpID)
-                //{
-                //    X = xOffset,
-                //    Y = 76,
-                //    ButtonAction = ButtonAction.Activate,
-                //});
                 status = World.Player.DexLock;
                 xOffset = Client.Game.UO.FileManager.Gumps.UseUOPGumps ? 28 : 40;
                 gumpID = GetStatLockGraphic(status);
@@ -615,12 +608,6 @@ namespace RuneUO.Game.UI.Gumps
                     _lockers[1].Graphic = gumpid;
                 };
 
-                //AddChildren(_lockers[1] = new Button((int)ButtonType.LockerDex, gumpID, gumpID)
-                //{
-                //    X = xOffset,
-                //    Y = 102,
-                //    ButtonAction = ButtonAction.Activate
-                //});
                 status = World.Player.IntLock;
                 xOffset = Client.Game.UO.FileManager.Gumps.UseUOPGumps ? 28 : 40;
                 gumpID = GetStatLockGraphic(status);
@@ -635,12 +622,6 @@ namespace RuneUO.Game.UI.Gumps
 
                     _lockers[2].Graphic = gumpid;
                 };
-                //AddChildren(_lockers[2] = new Button((int)ButtonType.LockerInt, gumpID, gumpID)
-                //{
-                //    X = xOffset,
-                //    Y = 132,
-                //    ButtonAction = ButtonAction.Activate
-                //});
 
                 if (Client.Game.UO.FileManager.Gumps.UseUOPGumps)
                 {

@@ -294,20 +294,6 @@ namespace RuneUO.Game
                 }
             }
 
-            //switch ((WEATHER_TYPE) Type)
-            //{
-            //    case WEATHER_TYPE.WT_RAIN:
-            //    case WEATHER_TYPE.WT_FIERCE_STORM:
-            //        // TODO: set color
-            //        break;
-            //    case WEATHER_TYPE.WT_SNOW:
-            //    case WEATHER_TYPE.WT_STORM:
-            //        // TODO: set color
-            //        break;
-            //    default:
-            //        break;
-            //}
-
             //Point winpos = ProfileManager.CurrentProfile.GameWindowPosition;
             Point winsize = new Point(Client.Game.Scene.Camera.Bounds.Width, Client.Game.Scene.Camera.Bounds.Height);
 

@@ -1,11 +1,7 @@
 ﻿using RuneUO.Assets;
 using RuneUO.IO.Audio;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RuneUO.Renderer.Sounds
 {

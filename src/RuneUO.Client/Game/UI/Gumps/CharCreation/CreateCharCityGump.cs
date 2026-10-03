@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using RuneUO.Game.Managers;
 using RuneUO.Game.Scenes;
 using RuneUO.Game.UI.Controls;
-using RuneUO.Assets;
-using RuneUO.Renderer;
 using RuneUO.Resources;
 using RuneUO.Utility;
 using RuneUO.Utility.Logging;

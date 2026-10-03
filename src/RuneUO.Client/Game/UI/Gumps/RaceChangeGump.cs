@@ -1,4 +1,3 @@
-using RuneUO.Assets;
 using RuneUO.Configuration;
 using RuneUO.Game.Data;
 using RuneUO.Game.GameObjects;

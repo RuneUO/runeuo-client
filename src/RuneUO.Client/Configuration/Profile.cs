@@ -613,9 +613,6 @@ namespace RuneUO.Configuration
 
                                     break;
 
-                                //case GumpType.TipNotice:
-                                //    gump = new TipNoticeGump();
-                                //    break;
                                 case GumpType.AbilityButton:
                                     gump = new UseAbilityButtonGump(world);
 

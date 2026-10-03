@@ -2,9 +2,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using RuneUO.Configuration;
 using RuneUO.IO;
-using RuneUO.Assets;
 using RuneUO.Renderer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

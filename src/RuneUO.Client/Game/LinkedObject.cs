@@ -10,19 +10,7 @@ namespace RuneUO.Game
         public bool IsEmpty => Items == null;
         public LinkedObject Previous, Next, Items;
 
-        //~LinkedObject()
-        //{
-        //    Clear();
-
         //    LinkedObject item = Next;
-
-        //    while (item != null && item != this)
-        //    {
-        //        LinkedObject next = item.Next;
-        //        item.Next = null;
-        //        item = next;
-        //    }
-        //}
 
         public void PushToBack(LinkedObject item)
         {

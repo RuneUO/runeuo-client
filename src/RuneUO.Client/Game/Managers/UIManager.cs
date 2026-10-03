@@ -483,13 +483,6 @@ namespace RuneUO.Game.Managers
 
             MouseOverControl = gump;
 
-            //for (int i = 0; i < (int) MouseButtonType.Size; i++)
-            //{
-            //    if (_mouseDownControls[i] != null && _mouseDownControls[i] != gump)
-            //    {
-            //        _mouseDownControls[i].InvokeMouseOver(Mouse.Position);
-            //    }
-            //}
         }
 
         private static Control GetMouseOverControl(Point position)

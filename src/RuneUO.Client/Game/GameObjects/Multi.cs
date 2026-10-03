@@ -3,29 +3,11 @@
 using RuneUO.Game.Data;
 using RuneUO.Game.Managers;
 using RuneUO.Assets;
-using RuneUO.Utility;
-using Microsoft.Xna.Framework;
 
 namespace RuneUO.Game.GameObjects
 {
     internal sealed partial class Multi : GameObject
     {
-        //private static readonly QueuedPool<Multi> _pool = new QueuedPool<Multi>
-        //(
-        //    Constants.PREDICTABLE_MULTIS,
-        //    m =>
-        //    {
-        //        m.IsDestroyed = false;
-        //        m.AlphaHue = 0;
-        //        m.FoliageIndex = 0;
-        //        m.IsHousePreview = false;
-        //        m.MultiOffsetX = m.MultiOffsetY = m.MultiOffsetZ = 0;
-        //        m.IsCustom = false;
-        //        m.State = 0;
-        //        m.IsMovable = false;
-        //        m.Offset = Vector3.Zero;
-        //    }
-        //);
         private ushort _originalGraphic;
 
 

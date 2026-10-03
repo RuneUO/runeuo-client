@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BSD-2-Clause
 
 using RuneUO.Configuration;
-using RuneUO.Assets;
 using RuneUO.Renderer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

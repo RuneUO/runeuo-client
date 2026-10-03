@@ -2,8 +2,6 @@
 
 using System;
 using RuneUO.Game.UI.Controls;
-using RuneUO.Assets;
-using RuneUO.Renderer;
 
 namespace RuneUO.Game.UI.Gumps
 {

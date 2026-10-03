@@ -60,15 +60,6 @@ namespace RuneUO.Game.UI.Gumps
             base.Save(writer);
             //writer.WriteStartElement("controls");
 
-            //foreach (InfoBarControl co in _infobarControls)
-            //{
-            //    writer.WriteStartElement("control");
-            //    writer.WriteAttributeString("label", co.Text);
-            //    writer.WriteAttributeString("var", ((int) co.Var).ToString());
-            //    writer.WriteAttributeString("hue", co.Hue.ToString());
-            //    writer.WriteEndElement();
-            //}
-            //writer.WriteEndElement();
         }
 
         public override void Restore(XmlElement xml)
@@ -78,18 +69,6 @@ namespace RuneUO.Game.UI.Gumps
             //XmlElement controlsXml = xml["controls"];
             //_infobarControls.Clear();
 
-            //if (controlsXml != null)
-            //{
-            //    foreach (XmlElement controlXml in controlsXml.GetElementsByTagName("control"))
-            //    {
-            //        InfoBarControl control = new InfoBarControl(controlXml.GetAttribute("label"),
-            //                                                    (InfoBarVars) int.Parse(controlXml.GetAttribute("var")),
-            //                                                    ushort.Parse(controlXml.GetAttribute("hue")));
-
-            //        Add(control);
-            //        _infobarControls.Add(control);
-            //    }
-            //}
         }
 
         public override void Update()

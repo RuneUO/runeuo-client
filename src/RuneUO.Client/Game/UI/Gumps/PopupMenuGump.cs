@@ -3,9 +3,7 @@
 using RuneUO.Game.Data;
 using RuneUO.Game.UI.Controls;
 using RuneUO.Input;
-using RuneUO.Assets;
 using RuneUO.Utility;
-using Microsoft.Xna.Framework;
 
 namespace RuneUO.Game.UI.Gumps
 {

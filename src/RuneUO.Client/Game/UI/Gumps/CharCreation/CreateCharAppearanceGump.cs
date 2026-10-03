@@ -9,10 +9,7 @@ using RuneUO.Game.GameObjects;
 using RuneUO.Game.Managers;
 using RuneUO.Game.UI.Controls;
 using RuneUO.Input;
-using RuneUO.Assets;
-using RuneUO.Renderer;
 using RuneUO.Utility;
-using RuneUO.Renderer.Gumps;
 using RuneUO.Utility.Logging;
 
 namespace RuneUO.Game.UI.Gumps.CharCreation

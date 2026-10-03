@@ -1139,11 +1139,6 @@ namespace RuneUO.Network
                 {
                     //BaseHealthBarGump bar = UIManager.GetGump<BaseHealthBarGump>(serial);
 
-                    //if (bar == null)
-                    //{
-                    //    NetClient.Socket.Send(new PCloseStatusBarGump(serial));
-                    //}
-
                     world.RemoveMobile(serial, true);
                 }
             }
@@ -1319,14 +1314,6 @@ namespace RuneUO.Network
                 GraphicEffectBlendMode.Normal
             );
 
-            //if (effect.AnimDataFrame.FrameCount != 0)
-            //{
-            //    effect.IntervalInMs = (uint) (effect.AnimDataFrame.FrameInterval * 45);
-            //}
-            //else
-            //{
-            //    effect.IntervalInMs = 13;
-            //}
         }
 
         private static void OpenContainer(World world, ref StackDataReader p)
@@ -1882,12 +1869,6 @@ namespace RuneUO.Network
                 world.Player?.UpdateAbilities();
             }
 
-            //if (ItemHold.Serial == item.Serial)
-            //{
-            //    Console.WriteLine("PACKET - ITEM EQUIP");
-            //    ItemHold.Enabled = false;
-            //    ItemHold.Dropped = true;
-            //}
         }
 
         private static void Swing(World world, ref StackDataReader p)
@@ -3603,13 +3584,6 @@ namespace RuneUO.Network
 
                 if (scene != null)
                 {
-                    //Serial serial = p.ReadUInt32BE();
-                    //ushort graphic = p.ReadUInt16BE();
-                    //MessageType type = (MessageType)p.ReadUInt8();
-                    //Hue hue = p.ReadUInt16BE();
-                    //MessageFont font = (MessageFont)p.ReadUInt16BE();
-                    //string lang = p.ReadASCII(4);
-                    //string name = p.ReadASCII(30);
                     Log.Warn("UnicodeTalk received during LoginScene");
 
                     if (p.Length > 48)
@@ -3828,29 +3802,8 @@ namespace RuneUO.Network
                 }
             }
 
-            //for (int i = 0, index = p.Position; i < textLinesCount; i++)
-            //{
-            //    int length = ((p[index++] << 8) | p[index++]) << 1;
-            //    int true_length = 0;
-
-            //    while (true_length < length)
-            //    {
-            //        if (((p[index + true_length++] << 8) | p[index + true_length++]) << 1 == '\0')
-            //        {
-            //            break;
-            //        }
-            //    }
-
             //    unsafe
             //    {
-
-            //        fixed (byte* ptr = &p.Buffer[index])
-            //        {
-            //            lines[i] = Encoding.BigEndianUnicode.GetString(ptr, true_length);
-            //        }
-            //    }
-            //    index += length;
-            //}
 
             CreateGump(world, sender, gumpID, x, y, cmd, lines);
         }
@@ -4163,10 +4116,6 @@ namespace RuneUO.Network
         {
             //uint version = p.ReadUInt32BE();
 
-            //string[] parts = Service.GetByLocalSerial<Settings>().ClientVersion.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-            //byte[] clientVersionBuffer =
-            //    {byte.Parse(parts[0]), byte.Parse(parts[1]), byte.Parse(parts[2]), byte.Parse(parts[3])};
-
             //NetClient.Socket.Send(new PAssistVersion(clientVersionBuffer, version));
         }
 
@@ -4443,27 +4392,6 @@ namespace RuneUO.Network
                     if (Client.Game.UO.FileManager.Maps.ApplyPatches(ref p))
                     {
                         //List<GameObject> list = new List<GameObject>();
-
-                        //foreach (int i in World.Map.GetUsedChunks())
-                        //{
-                        //    Chunk chunk = World.Map.Chunks[i];
-
-                        //    for (int xx = 0; xx < 8; xx++)
-                        //    {
-                        //        for (int yy = 0; yy < 8; yy++)
-                        //        {
-                        //            Tile tile = chunk.Tiles[xx, yy];
-
-                        //            for (GameObject obj = tile.FirstNode; obj != null; obj = obj.Right)
-                        //            {
-                        //                if (!(obj is Static) && !(obj is Land))
-                        //                {
-                        //                    list.Add(obj);
-                        //                }
-                        //            }
-                        //        }
-                        //    }
-                        //}
 
 
                         int map = world.MapIndex;
@@ -5829,15 +5757,6 @@ namespace RuneUO.Network
             //multi.LastX = x;
             //multi.LastY = y;
 
-            //if (World.HouseManager.TryGetHouse(serial, out var house))
-            //{
-            //    foreach (Multi component in house.Components)
-            //    {
-            //        component.LastX = (ushort) (x + component.MultiOffsetX);
-            //        component.LastY = (ushort) (y + component.MultiOffsetY);
-            //    }
-            //}
-
             bool smooth =
                 ProfileManager.CurrentProfile != null
                 && ProfileManager.CurrentProfile.UseSmoothBoatMovement;
@@ -5856,19 +5775,6 @@ namespace RuneUO.Network
             }
             else
             {
-                //UpdateGameObject(serial,
-                //                 multi.Graphic,
-                //                 0,
-                //                 multi.Amount,
-                //                 x,
-                //                 y,
-                //                 (sbyte) z,
-                //                 facingDirection,
-                //                 multi.Hue,
-                //                 multi.Flags,
-                //                 0,
-                //                 2,
-                //                 1);
 
                 multi.SetInWorldTile(x, y, (sbyte)z);
 
@@ -5899,19 +5805,6 @@ namespace RuneUO.Network
                 {
                     continue;
                 }
-
-                //if (SerialHelper.IsMobile(cSerial))
-                //{
-                //    Mobile m = (Mobile) ent;
-
-                //    if (m.Steps.Count != 0)
-                //    {
-                //        ref var step = ref m.Steps.Back();
-
-                //        step.X = cx;
-                //        step.Y = cy;
-                //    }
-                //}
 
                 //ent.LastX = cx;
                 //ent.LastY = cy;
@@ -6102,12 +5995,6 @@ namespace RuneUO.Network
                     Client.Game.UO.GameCursor.ItemHold.Clear();
                 }
         
-                //else if (ItemHold.Graphic == graphic && ItemHold.Amount == amount &&
-                //         ItemHold.Container == containerSerial)
-                //{
-               //     ItemHold.Enabled = false;
-                //    ItemHold.Dropped = false;
-                //}
             }
         
             Entity container = world.Get(containerSerial);
@@ -6437,10 +6324,6 @@ namespace RuneUO.Network
                     // We force to close suddenly.
                     GameActions.RequestMobileStatus(world, serial);
 
-                    //if (TargetManager.LastAttack != serial)
-                    //{
-                    //    GameActions.SendCloseStatus(serial);
-                    //}
                 }
             }
             else

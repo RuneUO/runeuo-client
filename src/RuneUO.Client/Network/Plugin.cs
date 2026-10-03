@@ -3,15 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using RuneUO.Configuration;
 using RuneUO.Game;
 using RuneUO.Game.Data;
 using RuneUO.Game.Managers;
-using RuneUO.IO;
 using RuneUO.Assets;
-using RuneUO.Renderer;
 using RuneUO.Renderer.Batching;
 using RuneUO.Utility.Logging;
 using RuneUO.Utility.Platforms;
@@ -244,11 +241,6 @@ namespace RuneUO.Network
                 {
                     Client.Game.PluginHost?.LoadPlugin(PluginPath);
 
-                    //Client.Game.AssistantHost.OnSocketConnected += (o, e) => {
-                    //    Client.Game.AssistantHost.PluginInitialize(PluginPath);
-                    //};
-                    //Client.Game.AssistantHost.Connect("127.0.0.1", 7777);
-
                     //Assembly asm = Assembly.LoadFile(PluginPath);
                     //Type type = asm.GetType("Assistant.Engine");
 
@@ -469,10 +461,6 @@ namespace RuneUO.Network
 
         private static void GetStaticImage(ushort g, ref CUO_API.ArtInfo info)
         {
-            //Client.Game.UO.FileManager.Arts.TryGetEntryInfo(g, out long address, out long size, out long compressedsize);
-            //info.Address = address;
-            //info.Size = size;
-            //info.CompressedSize = compressedsize;
         }
 
         internal static bool RequestMove(int dir, bool run)
@@ -857,43 +845,6 @@ namespace RuneUO.Network
             RasterizerState lastRasterizeState = device.RasterizerState;
             DepthStencilState lastDepthStencilState = device.DepthStencilState;
             SamplerState lastsampler = device.SamplerStates[0];
-
-            //var blend_snap_AlphaBlendFunction = device.BlendState.AlphaBlendFunction;
-            //var blend_snap_AlphaDestinationBlend = device.BlendState.AlphaDestinationBlend;
-            //var blend_snap_AlphaSourceBlend = device.BlendState.AlphaSourceBlend;
-            //var blend_snap_ColorBlendFunction = device.BlendState.ColorBlendFunction;
-            //var blend_snap_ColorDestinationBlend = device.BlendState.ColorDestinationBlend;
-            //var blend_snap_ColorSourceBlend = device.BlendState.ColorSourceBlend;
-            //var blend_snap_ColorWriteChannels = device.BlendState.ColorWriteChannels;
-            //var blend_snap_ColorWriteChannels1 = device.BlendState.ColorWriteChannels1;
-            //var blend_snap_ColorWriteChannels2 = device.BlendState.ColorWriteChannels2;
-            //var blend_snap_ColorWriteChannels3 = device.BlendState.ColorWriteChannels3;
-            //var blend_snap_BlendFactor = device.BlendState.BlendFactor;
-            //var blend_snap_MultiSampleMask = device.BlendState.MultiSampleMask;
-
-            //var rasterize_snap_CullMode = device.RasterizerState.CullMode;
-            //var rasterize_snap_DepthBias = device.RasterizerState.DepthBias;
-            //var rasterize_snap_FillMode = device.RasterizerState.FillMode;
-            //var rasterize_snap_MultiSampleAntiAlias = device.RasterizerState.MultiSampleAntiAlias;
-            //var rasterize_snap_ScissorTestEnable = device.RasterizerState.ScissorTestEnable;
-            //var rasterize_snap_SlopeScaleDepthBias = device.RasterizerState.SlopeScaleDepthBias;
-
-            //var stencil_snap_DepthBufferEnable = device.DepthStencilState.DepthBufferEnable;
-            //var stencil_snap_DepthBufferWriteEnable = device.DepthStencilState.DepthBufferWriteEnable;
-            //var stencil_snap_DepthBufferFunction = device.DepthStencilState.DepthBufferFunction;
-            //var stencil_snap_StencilEnable = device.DepthStencilState.StencilEnable;
-            //var stencil_snap_StencilFunction = device.DepthStencilState.StencilFunction;
-            //var stencil_snap_StencilPass = device.DepthStencilState.StencilPass;
-            //var stencil_snap_StencilFail = device.DepthStencilState.StencilFail;
-            //var stencil_snap_StencilDepthBufferFail = device.DepthStencilState.StencilDepthBufferFail;
-            //var stencil_snap_TwoSidedStencilMode = device.DepthStencilState.TwoSidedStencilMode;
-            //var stencil_snap_CounterClockwiseStencilFunction = device.DepthStencilState.CounterClockwiseStencilFunction;
-            //var stencil_snap_CounterClockwiseStencilFail = device.DepthStencilState.CounterClockwiseStencilFail;
-            //var stencil_snap_CounterClockwiseStencilPass = device.DepthStencilState.CounterClockwiseStencilPass;
-            //var stencil_snap_CounterClockwiseStencilDepthBufferFail = device.DepthStencilState.CounterClockwiseStencilDepthBufferFail;
-            //var stencil_snap_StencilMask = device.DepthStencilState.StencilMask;
-            //var stencil_snap_StencilWriteMask = device.DepthStencilState.StencilWriteMask;
-            //var stencil_snap_ReferenceStencil = device.DepthStencilState.ReferenceStencil;
 
 
             for (int i = 0; i < length; i++)

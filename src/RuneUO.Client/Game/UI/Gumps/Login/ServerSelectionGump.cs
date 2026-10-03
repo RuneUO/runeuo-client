@@ -1,16 +1,12 @@
 ﻿// SPDX-License-Identifier: BSD-2-Clause
 
 using System.Linq;
-using System.Net;
 using System.Net.NetworkInformation;
-using RuneUO.Configuration;
 using RuneUO.Game.Scenes;
 using RuneUO.Game.UI.Controls;
 using RuneUO.Input;
-using RuneUO.Assets;
 using RuneUO.Resources;
 using RuneUO.Utility;
-using RuneUO.Utility.Logging;
 using SDL3;
 
 namespace RuneUO.Game.UI.Gumps.Login

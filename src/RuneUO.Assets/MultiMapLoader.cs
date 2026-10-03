@@ -5,10 +5,8 @@ using RuneUO.Utility;
 using RuneUO.Utility.Logging;
 using System;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace RuneUO.Assets
 {

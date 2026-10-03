@@ -489,10 +489,6 @@ namespace RuneUO.Game.GameObjects
         }
 
 
-        //public override void Update()
-        //{
-        //    base.Update();
-
         //    //const int TIME_TURN_TO_LASTTARGET = 2000;
 
         //    //if (TargetManager.LastAttack != 0 &&
@@ -500,19 +496,6 @@ namespace RuneUO.Game.GameObjects
         //    //    Walker.LastStepRequestTime + TIME_TURN_TO_LASTTARGET < Time.Ticks)
         //    //{
         //    //    Mobile enemy = World.Mobiles.Get(TargetManager.LastAttack);
-
-        //    //    if (enemy != null && enemy.Distance <= 1)
-        //    //    {
-        //    //        Direction pdir = DirectionHelper.GetDirectionAB(World.Player.X,
-        //    //                                                        World.Player.Y,
-        //    //                                                        enemy.X,
-        //    //                                                        enemy.Y);
-
-        //    //        if (Direction != pdir)
-        //    //            Walk(pdir, false);
-        //    //    }
-        //    //}
-        //}
 
         // ############# DO NOT DELETE IT! #############
         //protected override bool NoIterateAnimIndex()

@@ -5,7 +5,6 @@ using RuneUO.Utility;
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace RuneUO.Assets
 {
@@ -82,9 +81,6 @@ namespace RuneUO.Assets
 
                         p[idx * 96 + idx1 + 2] = Palette[idx].Palette[idx1 + 2];
 
-                        //p[iddd++] = Palette[idx].Palette[idx1];
-                        //p[iddd++] = Palette[idx].Palette[idx1 + 1];
-                        //p[iddd++] = Palette[idx].Palette[idx1 + 2];
                     }
                 }
             }
@@ -115,37 +111,10 @@ namespace RuneUO.Assets
             }
         }
 
-        //public float[] GetColorForShader(ushort color)
-        //{
-        //    if (color != 0)
-        //    {
-        //        if (color >= HuesCount)
-        //        {
-        //            color %= (ushort)HuesCount;
-
-        //            if (color <= 0)
-        //                color = 1;
-        //        }
-
         //        return Palette[color - 1].Palette;
         //    }
 
         //    return _empty;
-        //}
-
-        //public static void SetHuesBlock(int index, IntPtr ptr)
-        //{
-        //    VerdataHuesGroup group = Marshal.PtrToStructure<VerdataHuesGroup>(ptr);
-        //    SetHuesBlock(index, group);
-        //}
-
-        //public static void SetHuesBlock(int index, VerdataHuesGroup group)
-        //{
-        //    if (index < 0 || index >= HuesCount)
-        //        return;
-
-        //    HuesRange[index].Header = group.Header;
-        //    for (int i = 0; i < 8; i++) HuesRange[index].Entries[i].ColorTable = group.Entries[i].ColorTable;
         //}
 
         public ushort GetColor16(ushort c, ushort color)

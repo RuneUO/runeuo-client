@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RuneUO.Configuration;
 using RuneUO.Game.Data;
 using RuneUO.Game.Scenes;
@@ -216,17 +212,6 @@ namespace RuneUO.Game.GameObjects
                     break;
 
                 default:
-                    //if (Graphic == 0x36BD)
-                    //{
-                    //    hueVector = ShaderHueTranslator.GetHueVector(0);
-                    //    HueVector.X = 0;
-                    //    HueVector.Y = ShaderHueTranslator.SHADER_LIGHTS;
-                    //    HueVector.Z = 0;
-                    //    batcher.SetBlendState(BlendState.Additive);
-                    //    base.Draw(batcher, posX, posY);
-                    //    batcher.SetBlendState(null);
-                    //}
-                    //else
 
                     DrawStaticRotated
                     (

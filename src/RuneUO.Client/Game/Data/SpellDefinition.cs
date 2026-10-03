@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using RuneUO.Game.Managers;
 using RuneUO.Resources;
 using RuneUO.Utility;

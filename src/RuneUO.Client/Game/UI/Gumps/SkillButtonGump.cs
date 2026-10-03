@@ -1,13 +1,11 @@
 ﻿// SPDX-License-Identifier: BSD-2-Clause
 
-using System.IO;
 using System.Xml;
 using RuneUO.Configuration;
 using RuneUO.Game.Data;
 using RuneUO.Game.UI.Controls;
 using RuneUO.Input;
 using RuneUO.Assets;
-using RuneUO.Renderer;
 
 namespace RuneUO.Game.UI.Gumps
 {

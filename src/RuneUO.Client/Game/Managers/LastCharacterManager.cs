@@ -4,12 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Xml;
 using RuneUO.Configuration;
-using RuneUO.Game.Scenes;
-using RuneUO.Resources;
 using RuneUO.Utility.Logging;
 
 namespace RuneUO.Game.Managers

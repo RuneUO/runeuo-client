@@ -267,30 +267,8 @@ namespace RuneUO.Assets
                 //Span<byte> scanline = stackalloc byte[((cc.Width - 1) / 8) + 1];
                 //file.Read(scanline);
 
-                //for (int y = 0 ; y < cc.Height; ++y)
-                //{
-                //    int bitX = 7;
-                //    int byteX = 0;
-
-                //    for (int x = 0; x < cc.Width; ++x)
-                //    {
-                //        ref var col = ref cc.Data[y * cc.Width + x];
-
-                //        col = 0;
-                //        if ((scanline[byteX] & (byte)Math.Pow(2, bitX)) != 0)
-                //        {
-                //            col = 0xFFFFFFFF;
-                //        }
-
                 //        --bitX;
 
-                //        if (bitX < 0)
-                //        {
-                //            bitX = 7;
-                //            ++byteX;
-                //        }
-                //    }
-                //}
             }
         }
 

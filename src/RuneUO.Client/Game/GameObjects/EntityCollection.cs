@@ -1,6 +1,5 @@
 ﻿// SPDX-License-Identifier: BSD-2-Clause
 
-using System.Collections;
 using System.Collections.Generic;
 
 namespace RuneUO.Game.GameObjects

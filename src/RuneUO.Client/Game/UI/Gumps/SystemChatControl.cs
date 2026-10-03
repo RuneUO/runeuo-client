@@ -916,11 +916,6 @@ namespace RuneUO.Game.UI.Gumps
                             {
                                 GameActions.RequestPartyQuit(_gump.World.Player);
 
-                                //for (int i = 0; i < World.Party.Members.Length; i++)
-                                //{
-                                //    if (World.Party.Members[i] != null && World.Party.Members[i].Serial != 0)
-                                //        GameActions.RequestPartyRemoveMember(World.Party.Members[i].Serial);
-                                //}
                             }
 
                             break;

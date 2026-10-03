@@ -3,23 +3,12 @@
 using RuneUO.Game.Data;
 using RuneUO.Game.Managers;
 using RuneUO.Assets;
-using RuneUO.Utility;
 using System.Runtime.CompilerServices;
 
 namespace RuneUO.Game.GameObjects
 {
     internal sealed partial class Static : GameObject
     {
-        //private static readonly QueuedPool<Static> _pool = new QueuedPool<Static>
-        //(
-        //    Constants.PREDICTABLE_STATICS,
-        //    s =>
-        //    {
-        //        s.IsDestroyed = false;
-        //        s.AlphaHue = 0;
-        //        s.FoliageIndex = 0;
-        //    }
-        //);
 
         public Static(World world) : base(world) { }
 

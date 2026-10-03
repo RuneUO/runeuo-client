@@ -332,13 +332,6 @@ namespace RuneUO.Game.UI.Gumps
                     {
                         // NetClient.Socket.Send(new PPartyRemoveRequest(World.Player));
                         GameActions.RequestPartyQuit(World.Player);
-                        //for (int i = 0; i < 10; i++)
-                        //{
-                        //    if (World.Party.Members[i] != null && World.Party.Members[i].Serial != 0)
-                        //    {
-                        //        NetClient.Socket.Send(new PPartyRemoveRequest(World.Party.Members[i].Serial));
-                        //    }
-                        //}
                     }
 
                     break;

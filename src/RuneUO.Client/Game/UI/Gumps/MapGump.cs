@@ -402,11 +402,6 @@ namespace RuneUO.Game.UI.Gumps
             }
 
 
-            //public override bool Contains(int x, int y)
-            //{
-            //    //x = Mouse.Position.X - ScreenCoordinateX;
-            //    //y = Mouse.Position.Y - ScreenCoordinateY;
-
             //    return _pic.Contains(x, y);
             //}
 

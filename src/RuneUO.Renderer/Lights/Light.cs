@@ -1,5 +1,4 @@
 using RuneUO.Assets;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RuneUO.Renderer.Lights

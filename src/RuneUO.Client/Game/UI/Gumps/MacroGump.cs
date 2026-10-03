@@ -1,6 +1,4 @@
-﻿
-using RuneUO.Configuration;
-using RuneUO.Game.UI.Controls;
+﻿using RuneUO.Game.UI.Controls;
 
 namespace RuneUO.Game.UI.Gumps
 {

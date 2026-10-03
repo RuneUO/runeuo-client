@@ -3,8 +3,6 @@
 using RuneUO.Configuration;
 using RuneUO.Game.Data;
 using RuneUO.Game.Scenes;
-using RuneUO.IO;
-using RuneUO.Assets;
 using RuneUO.Renderer;
 using Microsoft.Xna.Framework;
 

@@ -5,25 +5,12 @@ using System.Runtime.CompilerServices;
 using RuneUO.Game.Managers;
 using RuneUO.Assets;
 using RuneUO.Renderer;
-using RuneUO.Utility;
 using Microsoft.Xna.Framework;
 
 namespace RuneUO.Game.GameObjects
 {
     internal sealed partial class Land : GameObject
     {
-        //private static readonly QueuedPool<Land> _pool = new QueuedPool<Land>
-        //(
-        //    Constants.PREDICTABLE_TILE_COUNT,
-        //    l =>
-        //    {
-        //        l.IsDestroyed = false;
-        //        l.AlphaHue = 255;
-        //        l.NormalTop = l.NormalRight = l.NormalLeft = l.NormalBottom = Vector3.Zero;
-        //        l.YOffsets.Top = l.YOffsets.Right = l.YOffsets.Left = l.YOffsets.Bottom = 0;
-        //        l.MinZ = l.AverageZ = 0;
-        //    }
-        //);
 
         public ref LandTiles TileData
         {

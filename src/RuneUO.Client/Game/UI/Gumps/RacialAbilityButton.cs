@@ -5,7 +5,6 @@ using RuneUO.Game.Data;
 using RuneUO.Game.Managers;
 using RuneUO.Game.UI.Controls;
 using RuneUO.Input;
-using RuneUO.Assets;
 using RuneUO.Network;
 
 namespace RuneUO.Game.UI.Gumps

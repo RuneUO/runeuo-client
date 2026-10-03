@@ -4,8 +4,6 @@ using RuneUO.Utility.Logging;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -51,20 +49,6 @@ namespace RuneUO.Utility
                         e =>
                         {
                             Log.Panic(e.ToString());
-                            //try
-                            //{
-                            //    using (StreamWriter txt = new StreamWriter("crash.log", true))
-                            //    {
-                            //        txt.AutoFlush = true;
-                            //        txt.WriteLine("Exception @ {0}", Engine.CurrDateTime.ToString("MM-dd-yy HH:mm:ss.ffff"));
-                            //        txt.WriteLine(e.ToString());
-                            //        txt.WriteLine("");
-                            //        txt.WriteLine("");
-                            //    }
-                            //}
-                            //catch
-                            //{
-                            //}
 
                             return true;
                         }

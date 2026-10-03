@@ -7,9 +7,7 @@ using System.Linq;
 using RuneUO.Assets;
 using RuneUO.Game.Data;
 using RuneUO.Game.GameObjects;
-using RuneUO.Game.Scenes;
 using RuneUO.Game.UI.Gumps;
-using RuneUO.IO;
 using RuneUO.Network;
 using Microsoft.Xna.Framework;
 

@@ -7,11 +7,8 @@ using RuneUO.Game.Data;
 using RuneUO.Game.GameObjects;
 using RuneUO.Game.Managers;
 using RuneUO.Game.UI.Controls;
-using RuneUO.Assets;
 using RuneUO.Network;
 using RuneUO.Resources;
-using Microsoft.Xna.Framework;
-using RuneUO.Game.Scenes;
 
 namespace RuneUO.Game.UI.Gumps
 {
@@ -175,18 +172,6 @@ namespace RuneUO.Game.UI.Gumps
 
             _textCost.SetTooltip(ResGumps.Cost);
             Add(_textCost);
-
-            //HitBox box = new HitBox(36, 137, 84, 23)
-            //{
-            //    Priority = ClickPriority.Default
-            //};
-            //Add(box);
-
-            //HitBox box = new HitBox(522, 137, 84, 23)
-            //{
-            //    Priority = ClickPriority.Default
-            //};
-            //Add(box);
 
             _dataBoxGUI = new DataBox(0, 0, 0, 0)
             {

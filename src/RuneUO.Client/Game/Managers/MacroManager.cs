@@ -1024,11 +1024,6 @@ namespace RuneUO.Game.Managers
 
                     if (_world.TargetManager.IsTargeting)
                     {
-                        //if (TargetManager.TargetingState != TargetType.Object)
-                        //{
-                        //    TargetManager.TargetGameObject(TargetManager.LastGameObject);
-                        //}
-                        //else
 
                         if (_world.TargetManager.TargetingState != CursorTarget.Object && !_world.TargetManager.LastTargetInfo.IsEntity)
                         {
@@ -1411,12 +1406,6 @@ namespace RuneUO.Game.Managers
                     // 2 - SelectNearest
                     ScanModeObject scanRange = (ScanModeObject)(macro.Code - MacroType.SelectNext);
 
-                    // scantype:
-                    // 0 - Hostile (only hostile mobiles: gray, criminal, enemy, murderer)
-                    // 1 - Party (only party members)
-                    // 2 - Follower (only your followers)
-                    // 3 - Object (???)
-                    // 4 - Mobile (any mobiles)
                     ScanTypeObject scantype = (ScanTypeObject)(macro.SubCode - MacroSubType.Hostile);
 
                     if (scanRange == ScanModeObject.Nearest)
@@ -1897,26 +1886,6 @@ namespace RuneUO.Game.Managers
 
         //public Macro Left { get; set; }
         //public Macro Right { get; set; }
-
-        //private void AppendMacro(MacroObject item)
-        //{
-        //    if (FirstNode == null)
-        //    {
-        //        FirstNode = item;
-        //    }
-        //    else
-        //    {
-        //        MacroObject o = FirstNode;
-
-        //        while (o.Right != null)
-        //        {
-        //            o = o.Right;
-        //        }
-
-        //        o.Right = item;
-        //        item.Left = o;
-        //    }
-        //}
 
 
         public void Save(XmlTextWriter writer)
