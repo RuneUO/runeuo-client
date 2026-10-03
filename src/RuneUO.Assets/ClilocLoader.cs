@@ -209,7 +209,13 @@ namespace RuneUO.Assets
         [return: NotNull]
         public unsafe string Translate(int clilocNum, string arg = "", bool capitalize = false)
         {
-            string baseCliloc = GetString(clilocNum);
+            string baseCliloc = GetString(clilocNum) ?? string.Empty;
+
+            // Nothing to substitute: skip the argument parsing and the copy.
+            if (baseCliloc.IndexOf('~') < 0)
+            {
+                return capitalize ? StringHelper.CapitalizeAllWords(baseCliloc) : baseCliloc;
+            }
 
             if (arg == null)
             {
@@ -245,7 +251,8 @@ namespace RuneUO.Assets
             }
 
             // store index locations
-            Span<(int, int)> locations = stackalloc (int, int)[++totalArgs];
+            ++totalArgs;
+            Span<(int, int)> locations = totalArgs <= 64 ? stackalloc (int, int)[totalArgs] : new (int, int)[totalArgs];
             i = trueStart;
             for (int j = 0; i < roChars.Length; ++i)
             {
@@ -314,7 +321,7 @@ namespace RuneUO.Assets
                         }
                     }
 
-                    if (!int.TryParse(sb.RawChars.Slice(start, count).ToString(), out index))
+                    if (!int.TryParse(sb.RawChars.Slice(start, count), out index))
                     {
                         return $"MegaCliloc: error for {clilocNum}";
                     }
@@ -327,7 +334,7 @@ namespace RuneUO.Assets
                     {
                         if (a[0] == '#')
                         {
-                            if (int.TryParse(a.Slice(1).ToString(), out int id1))
+                            if (int.TryParse(a.Slice(1), out int id1))
                             {
                                 var ss = GetString(id1);
 
@@ -341,7 +348,7 @@ namespace RuneUO.Assets
                                 }
                             }
                         }
-                        else if (has_arguments && int.TryParse(a.ToString(), out int clil))
+                        else if (has_arguments && int.TryParse(a, out int clil))
                         {
                             if (_entries.TryGetValue(clil, out string value) && !string.IsNullOrEmpty(value))
                             {

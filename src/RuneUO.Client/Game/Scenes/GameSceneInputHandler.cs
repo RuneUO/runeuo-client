@@ -24,6 +24,8 @@ namespace RuneUO.Game.Scenes
             _boatIsMoving;
         private readonly bool[] _flags = new bool[5];
         private bool _followingMode;
+        private const uint FOLLOW_PATH_RETRY_DELAY = 250;
+        private uint _nextFollowPathTime;
         private uint _followingTarget;
         private uint _holdMouse2secOverItemTime;
         private bool _isMouseLeftDown;

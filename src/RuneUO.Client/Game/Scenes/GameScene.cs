@@ -784,9 +784,13 @@ namespace RuneUO.Game.Scenes
                     {
                         StopFollowing();
                     }
-                    else if (distance > 3)
+                    else if (distance > 3 && _nextFollowPathTime < Time.Ticks)
                     {
-                        _world.Player.Pathfinder.WalkTo(follow.X, follow.Y, follow.Z, 1);
+                        // Without a path the search would otherwise run again every frame.
+                        if (!_world.Player.Pathfinder.WalkTo(follow.X, follow.Y, follow.Z, 1))
+                        {
+                            _nextFollowPathTime = Time.Ticks + FOLLOW_PATH_RETRY_DELAY;
+                        }
                     }
                 }
                 else

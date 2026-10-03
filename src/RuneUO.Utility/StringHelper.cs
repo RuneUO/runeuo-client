@@ -23,18 +23,20 @@ namespace RuneUO.Utility
 
         public static string Cp1252ToString(ReadOnlySpan<byte> strCp1252)
         {
-            var sb = new ValueStringBuilder(strCp1252.Length);
+            if (strCp1252.IsEmpty)
+            {
+                return string.Empty;
+            }
+
+            // Every cp1252 code point maps to a single UTF-16 char.
+            Span<char> chars = strCp1252.Length <= 256 ? stackalloc char[strCp1252.Length] : new char[strCp1252.Length];
 
             for (int i = 0; i < strCp1252.Length; ++i)
             {
-                sb.Append(char.ConvertFromUtf32(Cp1252ToUnicode(strCp1252[i])));
+                chars[i] = (char)Cp1252ToUnicode(strCp1252[i]);
             }
 
-            var str = sb.ToString();
-
-            sb.Dispose();
-
-            return str;
+            return new string(chars);
         }
 
         /// <summary>

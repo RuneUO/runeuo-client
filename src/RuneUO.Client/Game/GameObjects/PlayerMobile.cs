@@ -338,7 +338,7 @@ namespace RuneUO.Game.GameObjects
 
                 foreach (Item item in World.Items.Values)
                 {
-                    if (!item.IsDestroyed && item.IsCorpse && item.Distance <= ProfileManager.CurrentProfile.AutoOpenCorpseRange && !AutoOpenedCorpses.Contains(item.Serial))
+                    if (item.IsCorpse && !item.IsDestroyed && item.Distance <= ProfileManager.CurrentProfile.AutoOpenCorpseRange && !AutoOpenedCorpses.Contains(item.Serial))
                     {
                         AutoOpenedCorpses.Add(item.Serial);
                         GameActions.DoubleClickQueued(item.Serial);
@@ -361,9 +361,14 @@ namespace RuneUO.Game.GameObjects
                 int x = X, y = Y, z = Z;
                 Pathfinder.GetNewXY((byte) Direction, ref x, ref y);
 
-                if (World.Items.Values.Any(s => s.ItemData.IsDoor && s.X == x && s.Y == y && s.Z - 15 <= z && s.Z + 15 >= z))
+                foreach (Item item in World.Items.Values)
                 {
-                    GameActions.OpenDoor();
+                    if (item.X == x && item.Y == y && item.Z - 15 <= z && item.Z + 15 >= z && item.ItemData.IsDoor)
+                    {
+                        GameActions.OpenDoor();
+
+                        break;
+                    }
                 }
             }
         }

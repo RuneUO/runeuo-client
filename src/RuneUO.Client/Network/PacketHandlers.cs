@@ -103,13 +103,9 @@ namespace RuneUO.Network
                         break;
                     }
 
+                    // A packet split across reads is normal; wait for the rest.
                     if (stream.Length < packetlength)
                     {
-                        Log.Warn(
-                            $"need more data ID: {packetID:X2} | off: {offset} | len: {packetlength} | stream.pos: {stream.Length}"
-                        );
-
-                        // need more data
                         break;
                     }
 
@@ -1007,7 +1003,7 @@ namespace RuneUO.Network
                 && type == MessageType.Regular
                 && font == 0xFFFF
                 && hue == 0xFFFF
-                && name.StartsWith("SYSTEM")
+                && name.StartsWith("SYSTEM", StringComparison.Ordinal)
             )
             {
                 NetClient.Socket.Send_ACKTalk();
@@ -1021,7 +1017,7 @@ namespace RuneUO.Network
                 type == MessageType.System
                 || serial == 0xFFFF_FFFF
                 || serial == 0
-                || name.ToLower() == "system" && entity == null
+                || string.Equals(name, "system", StringComparison.OrdinalIgnoreCase) && entity == null
             )
             {
                 // do nothing
@@ -3613,7 +3609,7 @@ namespace RuneUO.Network
                 && type == MessageType.Regular
                 && font == 0xFFFF
                 && hue == 0xFFFF
-                && name.ToLower() == "system"
+                && string.Equals(name, "system", StringComparison.OrdinalIgnoreCase)
             )
             {
                 Span<byte> buffer =
@@ -3683,7 +3679,7 @@ namespace RuneUO.Network
                 type == MessageType.System
                 || serial == 0xFFFF_FFFF
                 || serial == 0
-                || name.ToLower() == "system" && entity == null
+                || string.Equals(name, "system", StringComparison.OrdinalIgnoreCase) && entity == null
             )
             {
                 // do nothing

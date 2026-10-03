@@ -57,17 +57,19 @@ namespace RuneUO.Game.Managers
                 CreateWriter();
             }
 
+            if (_fileWriter == null)
+            {
+                return;
+            }
+
             bool saveSerial = ProfileManager.GlobalProfile != null && ProfileManager.GlobalProfile.JournalFileWithSerial;
             string serialText = saveSerial && serial.HasValue ? $"<0x{serial.Value:X8}> " : string.Empty;
 
-            string output = $"[{timeNow:G}]  {serialText}{name}: {text}";
+            string output = string.IsNullOrWhiteSpace(name)
+                ? $"[{timeNow:G}]  {serialText}{text}"
+                : $"[{timeNow:G}]  {serialText}{name}: {text}";
 
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                output = $"[{timeNow:G}]  {serialText}{text}";
-            }
-
-            _fileWriter?.WriteLine(output);
+            _fileWriter.WriteLine(output);
         }
 
         private void CreateWriter()

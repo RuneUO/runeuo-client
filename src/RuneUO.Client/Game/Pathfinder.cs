@@ -18,6 +18,10 @@ namespace RuneUO.Game
         private int _goalNode;
         private bool _goalFound;
         private int _activeOpenNodes, _activeCloseNodes, _pathfindDistance;
+        // Slots at or past these indices have not been used since the last reset.
+        private int _openHigh, _closedHigh;
+        private readonly List<PathObject> _minMaxList = new List<PathObject>();
+        private readonly List<PathObject> _newZList = new List<PathObject>();
         private readonly PathNode[] _openList = new PathNode[PATHFINDER_MAX_NODES];
         private readonly PathNode[] _closedList = new PathNode[PATHFINDER_MAX_NODES];
         private readonly PathNode[] _path = new PathNode[PATHFINDER_MAX_NODES];
@@ -311,7 +315,8 @@ namespace RuneUO.Game
             int direction = newDirection ^ 4;
             newX += _offsetX[direction];
             newY += _offsetY[direction];
-            List<PathObject> list = new List<PathObject>();
+            List<PathObject> list = _minMaxList;
+            list.Clear();
 
             if (!CreateItemList(list, newX, newY, stepState) || list.Count == 0)
             {
@@ -406,7 +411,8 @@ namespace RuneUO.Game
                 stepState
             );
 
-            List<PathObject> list = new List<PathObject>();
+            List<PathObject> list = _newZList;
+            list.Clear();
 
             if (_world.CustomHouseManager != null)
             {
@@ -641,7 +647,7 @@ namespace RuneUO.Game
 
         private bool DoesNotExistOnOpenList(int x, int y, int z)
         {
-            for (int i = 0; i < PATHFINDER_MAX_NODES; i++)
+            for (int i = 0; i < _openHigh; i++)
             {
                 PathNode node = _openList[i];
 
@@ -656,7 +662,7 @@ namespace RuneUO.Game
 
         private bool DoesNotExistOnClosedList(int x, int y, int z)
         {
-            for (int i = 0; i < PATHFINDER_MAX_NODES; i++)
+            for (int i = 0; i < _closedHigh; i++)
             {
                 PathNode node = _closedList[i];
 
@@ -711,13 +717,18 @@ namespace RuneUO.Game
 
                                 _activeOpenNodes++;
 
+                                if (i >= _openHigh)
+                                {
+                                    _openHigh = i + 1;
+                                }
+
                                 return i;
                             }
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < PATHFINDER_MAX_NODES; i++)
+                        for (int i = 0; i < _openHigh; i++)
                         {
                             PathNode node = _openList[i];
 
@@ -766,6 +777,11 @@ namespace RuneUO.Game
                         node.Parent = parent.Parent;
                         _activeOpenNodes--;
                         _activeCloseNodes++;
+
+                        if (i >= _closedHigh)
+                        {
+                            _closedHigh = i + 1;
+                        }
 
                         return i;
                     }
@@ -833,7 +849,7 @@ namespace RuneUO.Game
             int cheapestCost = 9999999;
             int cheapestNode = -1;
 
-            for (int i = 0; i < PATHFINDER_MAX_NODES; i++)
+            for (int i = 0; i < _openHigh; i++)
             {
                 if (_openList[i].Used)
                 {
@@ -944,22 +960,24 @@ namespace RuneUO.Game
                 distance = 1;
             }
 
+            int used = Math.Max(_openHigh, _closedHigh);
+
             for (int i = 0; i < PATHFINDER_MAX_NODES; i++)
             {
                 if (_openList[i] == null)
                 {
                     _openList[i] = new PathNode();
-                }
-
-                _openList[i].Reset();
-
-                if (_closedList[i] == null)
-                {
                     _closedList[i] = new PathNode();
                 }
-
-                _closedList[i].Reset();
+                else if (i < used)
+                {
+                    _openList[i].Reset();
+                    _closedList[i].Reset();
+                }
             }
+
+            _openHigh = 0;
+            _closedHigh = 1;
 
 
             int playerX = _world.Player.X;

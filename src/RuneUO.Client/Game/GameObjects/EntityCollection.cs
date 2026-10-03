@@ -20,14 +20,7 @@ namespace RuneUO.Game.GameObjects
 
         public static bool Add<T>(this Dictionary<uint, T> dict, T entity) where T : Entity
         {
-            if (dict.ContainsKey(entity.Serial))
-            {
-                return false;
-            }
-
-            dict[entity.Serial] = entity;
-
-            return true;
+            return dict.TryAdd(entity.Serial, entity);
         }
     }
 }

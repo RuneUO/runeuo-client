@@ -27,6 +27,8 @@ namespace RuneUO
 {
     internal unsafe class GameController : Microsoft.Xna.Framework.Game
     {
+        private const int MAX_RECEIVES_PER_FRAME = 8;
+
         private SDL_EventFilter _filter;
 
         private bool _ignoreNextTextInput;
@@ -390,8 +392,19 @@ namespace RuneUO
 
             Mouse.Update();
 
-            var data = NetClient.Socket.CollectAvailableData();
-            var packetsCount = PacketHandlers.Handler.ParsePackets(NetClient.Socket, UO.World, data);
+            // A single read is capped at the receive buffer size, so drain a few per frame.
+            int packetsCount = 0;
+
+            for (int i = 0; i < MAX_RECEIVES_PER_FRAME; i++)
+            {
+                var data = NetClient.Socket.CollectAvailableData();
+                packetsCount += PacketHandlers.Handler.ParsePackets(NetClient.Socket, UO.World, data);
+
+                if (data.Count == 0 || !NetClient.Socket.IsConnected)
+                {
+                    break;
+                }
+            }
 
             NetClient.Socket.Statistics.TotalPacketsReceived += (uint)packetsCount;
             NetClient.Socket.Flush();
