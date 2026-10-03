@@ -246,7 +246,7 @@ namespace RuneUO.Game.UI.Controls
                         Vector3 hueVector = ShaderHueTranslator.GetHueVector(0, false, Alpha, true);
 
                         DrawInternal(batcher, x, y, hueVector, layerDepth);
-                        RenderLists childRenderLists = new();
+                        RenderLists childRenderLists = GetChildRenderLists();
                         base.AddToRenderLists(childRenderLists, x, y, ref layerDepth);
                         childRenderLists.DrawRenderLists(batcher, sbyte.MaxValue);
 

@@ -261,6 +261,18 @@ namespace RuneUO.Renderer.Arts
                 ? Rectangle.Empty
                 : _realArtBounds[idx];
 
-        public bool PixelCheck(uint idx, int x, int y) => _picker.Get(idx, x, y);
+        public bool PixelCheck(uint idx, int x, int y)
+        {
+            // Most checks miss the sprite entirely, so test its bounds before the picker lookup.
+            uint i = idx + 0x4000;
+
+            if (i < _spriteInfos.Length && _spriteInfos[i].Texture != null
+                && ((uint)x >= (uint)_spriteInfos[i].UV.Width || (uint)y >= (uint)_spriteInfos[i].UV.Height))
+            {
+                return false;
+            }
+
+            return _picker.Get(idx, x, y);
+        }
     }
 }

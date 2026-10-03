@@ -110,7 +110,7 @@ namespace RuneUO.Game.UI.Controls
                 {
                     if (batcher.ClipBegin(x + ScissorRectangle.X, y + ScissorRectangle.Y, Width - 14 + ScissorRectangle.Width, Height + ScissorRectangle.Height))
                     {
-                        RenderLists childRenderLists = new();
+                        RenderLists childRenderLists = GetChildRenderLists();
 
                         for (int i = 1; i < Children.Count; i++)
                         {

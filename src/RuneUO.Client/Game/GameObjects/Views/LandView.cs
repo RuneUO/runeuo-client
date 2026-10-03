@@ -113,8 +113,7 @@ namespace RuneUO.Game.GameObjects
                             depth + 0.5f
                         );
 
-                        var sin = (float)Math.Sin(Time.Ticks / 1000f);
-                        var cos = (float)Math.Cos(Time.Ticks / 1000f);
+                        GetWetWave(out float sin, out float cos);
                         scale = new Vector2(1.1f + sin * 0.1f, 1.1f + cos * 0.5f * 0.1f);
                     }
 

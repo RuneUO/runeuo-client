@@ -219,7 +219,7 @@ namespace RuneUO.Game.UI.Gumps
                             int maxWidth = Value + Width;
                             bool drawOnly1 = true;
 
-                            RenderLists childRenderLists = new();
+                            RenderLists childRenderLists = GetChildRenderLists();
                             foreach (Control child in Children)
                             {
                                 if (!child.IsVisible)

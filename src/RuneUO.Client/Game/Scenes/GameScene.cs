@@ -23,25 +23,25 @@ namespace RuneUO.Game.Scenes
 {
     internal partial class GameScene : Scene
     {
-        private static readonly Func<BlendState> _darknessBlend = new(() =>
+        private static readonly BlendState _darknessBlendState = new BlendState
         {
-            return new BlendState
-            {
-                ColorSourceBlend = Blend.Zero,
-                ColorDestinationBlend = Blend.SourceColor,
-                ColorBlendFunction = BlendFunction.Add
-            };
-        });
+            ColorSourceBlend = Blend.Zero,
+            ColorDestinationBlend = Blend.SourceColor,
+            ColorBlendFunction = BlendFunction.Add
+        };
 
-        private static readonly Func<BlendState> _altLightsBlend = new(() =>
+        private static readonly BlendState _altLightsBlendState = new BlendState
         {
-            return new BlendState
-            {
-                ColorSourceBlend = Blend.DestinationColor,
-                ColorDestinationBlend = Blend.One,
-                ColorBlendFunction = BlendFunction.Add
-            };
-        });
+            ColorSourceBlend = Blend.DestinationColor,
+            ColorDestinationBlend = Blend.One,
+            ColorBlendFunction = BlendFunction.Add
+        };
+
+        // Cached so the lights pass does not allocate state or delegates every frame.
+        private static readonly Func<BlendState> _darknessBlend = () => _darknessBlendState;
+        private static readonly Func<BlendState> _altLightsBlend = () => _altLightsBlendState;
+        private static readonly Func<BlendState> _noLightsBlend = () => null;
+        private Func<Vector3> _lightsHue;
 
         private const float MAX_LAYER_DEPTH = 0x8000;
         private uint _time_cleanup = Time.Ticks + 5000;
@@ -697,7 +697,7 @@ namespace RuneUO.Game.Scenes
             UpdateDrawPosition = false;
         }
 
-        private void UpdateTextServerEntities<T>(IEnumerable<T> entities, bool force)
+        private void UpdateTextServerEntities<T>(Dictionary<uint, T>.ValueCollection entities, bool force)
             where T : Entity
         {
             foreach (T e in entities)
@@ -1144,14 +1144,11 @@ namespace RuneUO.Game.Scenes
 
         private void InitializeRenderTargets(RenderTargets renderTargets)
         {
+            _lightsHue ??= () => new Vector3(0, 0, UseAltLights ? 0.5f : 1f);
+
             renderTargets.SetLightsConfiguration(
-                UseAltLights ? _altLightsBlend : (UseLights ? _darknessBlend : () => null),
-                () =>
-                {
-                    Vector3 v = Vector3.Zero;
-                    v.Z = UseAltLights ? 0.5f : 1f;
-                    return v;
-                }
+                UseAltLights ? _altLightsBlend : (UseLights ? _darknessBlend : _noLightsBlend),
+                _lightsHue
             );
         }
 

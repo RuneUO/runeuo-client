@@ -232,6 +232,17 @@ namespace RuneUO.Game.UI.Controls
             }
         }
 
+        private RenderLists _childRenderLists;
+
+        // Reused by controls that draw their children into a clipped list, to avoid allocating every frame.
+        protected RenderLists GetChildRenderLists()
+        {
+            _childRenderLists ??= new RenderLists();
+            _childRenderLists.Clear();
+
+            return _childRenderLists;
+        }
+
         public virtual bool AddToRenderLists(RenderLists renderLists, int x, int y, ref float layerDepth)
         {
             if (IsDisposed)

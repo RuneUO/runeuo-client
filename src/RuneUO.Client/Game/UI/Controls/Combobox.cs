@@ -100,7 +100,7 @@ namespace RuneUO.Game.UI.Controls
                 (batcher) =>
                 {
                     // work-around to allow clipping children
-                    RenderLists comboBoxRenderLists = new();
+                    RenderLists comboBoxRenderLists = GetChildRenderLists();
                     base.AddToRenderLists(comboBoxRenderLists, x, y, ref layerDepth);
 
                     if (batcher.ClipBegin(x, y, Width, Height))
@@ -262,7 +262,7 @@ namespace RuneUO.Game.UI.Controls
                     (batcher) =>
                     {
                         // work-around to allow clipping children
-                        RenderLists comboBoxRenderLists = new();
+                        RenderLists comboBoxRenderLists = GetChildRenderLists();
                         base.AddToRenderLists(comboBoxRenderLists, x, y, ref layerDepth);
 
                         if (batcher.ClipBegin(x, y, Width, Height))

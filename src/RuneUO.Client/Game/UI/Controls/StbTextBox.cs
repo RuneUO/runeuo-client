@@ -828,7 +828,7 @@ namespace RuneUO.Game.UI.Controls
                 {
                     if (batcher.ClipBegin(x, y, Width, Height))
                     {
-                        RenderLists childRenderLists = new();
+                        RenderLists childRenderLists = GetChildRenderLists();
                         base.AddToRenderLists(childRenderLists, x, y, ref layerDepth);
                         childRenderLists.DrawRenderLists(batcher, sbyte.MaxValue);
                         DrawSelection(batcher, x, y, layerDepth);

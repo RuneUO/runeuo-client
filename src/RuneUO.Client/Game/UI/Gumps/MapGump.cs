@@ -222,7 +222,7 @@ namespace RuneUO.Game.UI.Gumps
                     );
 
                     var texture = SolidColorTextureCache.GetTexture(Color.White);
-                    RenderLists childRenderLists = new();
+                    RenderLists childRenderLists = GetChildRenderLists();
                     for (int i = 0; i < _container.Count; i++)
                     {
                         // HACK: redraw because pins are drawn when calling base.Draw(batcher, x, y);

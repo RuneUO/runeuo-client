@@ -29,6 +29,23 @@ namespace RuneUO.Game.GameObjects
 
         public abstract bool Draw(UltimaBatcher2D batcher, int posX, int posY, float depth);
 
+        private static uint _wetWaveTicks = uint.MaxValue;
+        private static float _wetSin, _wetCos;
+
+        // Same for every wet tile in a frame, so compute it once.
+        protected static void GetWetWave(out float sin, out float cos)
+        {
+            if (_wetWaveTicks != Time.Ticks)
+            {
+                _wetWaveTicks = Time.Ticks;
+                _wetSin = (float)Math.Sin(Time.Ticks / 1000f);
+                _wetCos = (float)Math.Cos(Time.Ticks / 1000f);
+            }
+
+            sin = _wetSin;
+            cos = _wetCos;
+        }
+
         protected static Point GetArtOffset(ushort graphic)
         {
             ref readonly var artInfo = ref Client.Game.UO.Arts.GetArt(graphic);
@@ -142,8 +159,7 @@ namespace RuneUO.Game.GameObjects
                         depth + 0.5f
                     );
 
-                    var sin = (float)Math.Sin(Time.Ticks / 1000f);
-                    var cos = (float)Math.Cos(Time.Ticks / 1000f);
+                    GetWetWave(out float sin, out float cos);
                     scale = new Vector2(1.1f + sin * 0.1f, 1.1f + cos * 0.5f * 0.1f);
                 }
 
@@ -272,8 +288,7 @@ namespace RuneUO.Game.GameObjects
                         depth + 0.5f
                     );
 
-                    var sin = (float)Math.Sin(Time.Ticks / 1000f);
-                    var cos = (float)Math.Cos(Time.Ticks / 1000f);
+                    GetWetWave(out float sin, out float cos);
                     scale = new Vector2(1.1f + sin * 0.1f, 1.1f + cos * 0.5f * 0.1f);
                 }
 

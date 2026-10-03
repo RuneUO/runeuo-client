@@ -335,7 +335,7 @@ namespace RuneUO.Game.UI.Gumps
                     {
                         if (batcher.ClipBegin(x, y, Width, Height))
                         {
-                            RenderLists childRenderLists = new();
+                            RenderLists childRenderLists = GetChildRenderLists();
                             foreach (JournalData journalEntry in journalDatas)
                             {
                                 if (journalEntry == null || string.IsNullOrEmpty(journalEntry.EntryText.Text))
