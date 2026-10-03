@@ -75,6 +75,13 @@ namespace ClassicUO.Assets
                 }
             }
 
+            // Graphics come from the server as any 16-bit id, so give every id an entry;
+            // ids the file does not have get empty data instead of throwing on lookup.
+            while (staticTiles.Count < 0x10000)
+            {
+                staticTiles.Add(default);
+            }
+
             _landData = [.. landTiles];
             _staticData = [.. staticTiles];
 

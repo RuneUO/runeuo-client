@@ -300,7 +300,7 @@ namespace ClassicUO.Game.UI.Gumps
             }
 
             float sinA = (float) Math.Sin(a * pi / 180f);
-            float cosA = (float) Math.Sin(a * pi / 180f);
+            float cosA = (float) Math.Cos(a * pi / 180f);
 
             int offsetX = (int) (tempX * cosA - tempY * sinA);
             int offsetY = (int) (tempX * sinA + tempY * cosA);

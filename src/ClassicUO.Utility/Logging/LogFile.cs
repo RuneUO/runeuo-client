@@ -15,7 +15,7 @@ namespace ClassicUO.Utility.Logging
         {
             logStream = new FileStream
             (
-                $"{directory}/{DateTime.Now:yyyy-MM-dd_hh-mm-ss}_{file}",
+                $"{directory}/{DateTime.Now:yyyy-MM-dd_HH-mm-ss}_{file}",
                 FileMode.Append,
                 FileAccess.Write,
                 FileShare.ReadWrite,

@@ -4291,7 +4291,10 @@ namespace ClassicUO.Game.UI.Gumps
             _currentProfile.AutoOpenDoors = _autoOpenDoors.IsChecked;
             _currentProfile.SmoothDoors = _smoothDoors.IsChecked;
             _currentProfile.AutoOpenCorpses = _autoOpenCorpse.IsChecked;
-            _currentProfile.AutoOpenCorpseRange = int.Parse(_autoOpenCorpseRange.Text);
+            if (int.TryParse(_autoOpenCorpseRange.Text, out int autoOpenCorpseRange))
+            {
+                _currentProfile.AutoOpenCorpseRange = autoOpenCorpseRange;
+            }
             _currentProfile.CorpseOpenOptions = _autoOpenCorpseOptions.SelectedIndex;
             _currentProfile.SkipEmptyCorpse = _skipEmptyCorpse.IsChecked;
 

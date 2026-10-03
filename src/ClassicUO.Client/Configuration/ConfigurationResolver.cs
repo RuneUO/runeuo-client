@@ -1,5 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-2-Clause
 
+using System;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -20,7 +21,18 @@ namespace ClassicUO.Configuration
                 return null;
             }
 
-            var text = File.ReadAllText(file);
+            string text;
+
+            try
+            {
+                text = File.ReadAllText(file);
+            }
+            catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
+            {
+                Log.Error($"could not read {file}: {e.Message}");
+
+                return null;
+            }
 
             text = Regex.Replace
             (
@@ -32,7 +44,28 @@ namespace ClassicUO.Configuration
                 RegexOptions.IgnorePatternWhitespace
             );
 
-            return JsonSerializer.Deserialize(text, ctx);
+            try
+            {
+                return JsonSerializer.Deserialize(text, ctx);
+            }
+            catch (JsonException e)
+            {
+                // Keep the broken file for the player instead of overwriting it with defaults.
+                string backup = file + ".corrupt";
+
+                Log.Error($"{file} is not valid json, moved to {backup}: {e.Message}");
+
+                try
+                {
+                    File.Move(file, backup, true);
+                }
+                catch (Exception moveError) when (moveError is IOException || moveError is UnauthorizedAccessException)
+                {
+                    Log.Error($"could not move {file}: {moveError.Message}");
+                }
+
+                return null;
+            }
         }
 
         public static void Save<T>(T obj, string file, JsonTypeInfo<T> ctx) where T : class
@@ -48,9 +81,13 @@ namespace ClassicUO.Configuration
                 }
 
                 var json = JsonSerializer.Serialize(obj, ctx);
-                File.WriteAllText(file, json);
+
+                // Write next to the target and swap, so a crash mid-write never truncates the file.
+                var temp = file + ".tmp";
+                File.WriteAllText(temp, json);
+                File.Move(temp, file, true);
             }
-            catch (IOException e)
+            catch (Exception e) when (e is IOException || e is UnauthorizedAccessException)
             {
                 Log.Error(e.ToString());
             }

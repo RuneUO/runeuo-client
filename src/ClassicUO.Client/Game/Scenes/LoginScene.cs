@@ -142,7 +142,8 @@ namespace ClassicUO.Game.Scenes
                 {
                     if (!string.IsNullOrEmpty(Account))
                     {
-                        Connect(Account, Crypter.Decrypt(Settings.GlobalSettings.Password));
+                        // The password is only saved when "save account" is on, so prefer the one typed.
+                        Connect(Account, Password ?? Crypter.Decrypt(Settings.GlobalSettings.Password));
                     }
                     else if (!string.IsNullOrEmpty(Settings.GlobalSettings.Username))
                     {
@@ -345,7 +346,8 @@ namespace ClassicUO.Game.Scenes
 
             if (index == -1)
             {
-                index = Settings.GlobalSettings.LastServerNum;
+                // Stored as 1 + index, see SelectServer.
+                index = Settings.GlobalSettings.LastServerNum - 1;
             }
 
             if (index < 0 || index >= Servers.Length)
@@ -820,7 +822,14 @@ namespace ClassicUO.Game.Scenes
 
                         while (stream.Position < stream.Length)
                         {
-                            char b = (char) stream.ReadByte();
+                            int read = stream.ReadByte();
+
+                            if (read < 0)
+                            {
+                                break;
+                            }
+
+                            char b = (char) read;
 
                             if (b == '<')
                             {
@@ -836,11 +845,11 @@ namespace ClassicUO.Game.Scenes
 
                         while (stream.Position < stream.Length)
                         {
-                            char b;
+                            int b;
 
-                            while ((b = (char) stream.ReadByte()) != '\0')
+                            while ((b = stream.ReadByte()) > 0)
                             {
-                                text.Append(b);
+                                text.Append((char) b);
                             }
 
                             if (text.Length != 0)
@@ -1039,7 +1048,7 @@ namespace ClassicUO.Game.Scenes
                     }
                 }
 
-                PacketLoss = (Math.Max(1, PacketLoss) / Math.Max(1, _resultIndex)) * 100;
+                PacketLoss = PacketLoss * 100 / Math.Max(1, _resultIndex);
 
                 //_resultIndex = 0;
             }
