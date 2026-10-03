@@ -31,6 +31,13 @@ namespace ClassicUO.Game.GameObjects
 
         public abstract bool Draw(UltimaBatcher2D batcher, int posX, int posY, float depth);
 
+        protected static Point GetArtOffset(ushort graphic)
+        {
+            ref readonly var artInfo = ref Client.Game.UO.Arts.GetArt(graphic);
+
+            return new Point((artInfo.UV.Width >> 1) - 22, artInfo.UV.Height - 44);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float CalculateDepthZ()
         {

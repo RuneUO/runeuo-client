@@ -487,13 +487,12 @@ namespace ClassicUO.Game.GameObjects
 
                 if (Client.Game.UO.Arts.GetArt(graphic).Texture != null)
                 {
-                    ref var index = ref Client.Game.UO.FileManager.Arts.File.GetValidRefEntry(graphic + 0x4000);
-
+                    Point offset = GetArtOffset(graphic);
                     Point position = RealScreenPosition;
                     position.X += (int)Offset.X;
                     position.Y += (int)(Offset.Y + Offset.Z);
-                    position.X -= index.Width;
-                    position.Y -= index.Height;
+                    position.X -= offset.X;
+                    position.Y -= offset.Y;
 
                     if (
                         Client.Game.UO.Arts.PixelCheck(

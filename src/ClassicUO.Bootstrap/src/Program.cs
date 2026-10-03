@@ -337,20 +337,32 @@ sealed class ClassicUOHost : IPluginHandler
     unsafe bool PacketInPlugin(IntPtr data, ref int length)
     {
         var ok = true;
+        var capacity = length;
 
         foreach (var plugin in _plugins)
         {
             var rentBuf = ArrayPool<byte>.Shared.Rent(length);
+            var newLength = length;
 
             try
             {
                 fixed (byte* ptr = rentBuf)
-                    Buffer.MemoryCopy(data.ToPointer(), ptr, sizeof(byte) * length, sizeof(byte) * length);
+                    Buffer.MemoryCopy(data.ToPointer(), ptr, length, length);
 
-                ok &= plugin.ProcessRecvPacket(ref rentBuf, ref length);
+                ok &= plugin.ProcessRecvPacket(ref rentBuf, ref newLength);
+
+                // The client buffer cannot grow, so a larger packet is dropped.
+                if (newLength < 0 || newLength > capacity || newLength > rentBuf.Length)
+                {
+                    Console.WriteLine("Plugin packet length {0} exceeds buffer {1}, change ignored", newLength, capacity);
+
+                    continue;
+                }
+
+                length = newLength;
 
                 fixed (byte* ptr = rentBuf)
-                    Buffer.MemoryCopy(ptr, data.ToPointer(), sizeof(byte) * length, sizeof(byte) * length);
+                    Buffer.MemoryCopy(ptr, data.ToPointer(), capacity, length);
             }
             finally
             {
@@ -364,20 +376,32 @@ sealed class ClassicUOHost : IPluginHandler
     unsafe bool PacketOutPlugin(IntPtr data, ref int length)
     {
         var ok = true;
+        var capacity = length;
 
         foreach (var plugin in _plugins)
         {
             var rentBuf = ArrayPool<byte>.Shared.Rent(length);
+            var newLength = length;
 
             try
             {
                 fixed (byte* ptr = rentBuf)
-                    Buffer.MemoryCopy(data.ToPointer(), ptr, sizeof(byte) * length, sizeof(byte) * length);
+                    Buffer.MemoryCopy(data.ToPointer(), ptr, length, length);
 
-                ok &= plugin.ProcessSendPacket(ref rentBuf, ref length);
+                ok &= plugin.ProcessSendPacket(ref rentBuf, ref newLength);
+
+                // The client buffer cannot grow, so a larger packet is dropped.
+                if (newLength < 0 || newLength > capacity || newLength > rentBuf.Length)
+                {
+                    Console.WriteLine("Plugin packet length {0} exceeds buffer {1}, change ignored", newLength, capacity);
+
+                    continue;
+                }
+
+                length = newLength;
 
                 fixed (byte* ptr = rentBuf)
-                    Buffer.MemoryCopy(ptr, data.ToPointer(), sizeof(byte) * length, sizeof(byte) * length);
+                    Buffer.MemoryCopy(ptr, data.ToPointer(), capacity, length);
             }
             finally
             {

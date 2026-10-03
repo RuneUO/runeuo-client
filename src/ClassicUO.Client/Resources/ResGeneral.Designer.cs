@@ -830,6 +830,16 @@ namespace ClassicUO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The server wants to open:
+        ///{0}.
+        /// </summary>
+        public static string ServerWantsToOpen0 {
+            get {
+                return ResourceManager.GetString("ServerWantsToOpen0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spiders Silk.
         /// </summary>
         public static string SpidersSilk {

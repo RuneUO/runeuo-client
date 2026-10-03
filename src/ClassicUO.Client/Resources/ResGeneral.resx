@@ -391,6 +391,10 @@ Use the Rune UO launcher to set up and run your game.</value>
     <value>Your Ultima Online client version seems to be invalid.
 Use the Rune UO launcher to set up and run your game.</value>
   </data>
+  <data name="ServerWantsToOpen0" xml:space="preserve">
+    <value>The server wants to open:
+{0}</value>
+  </data>
   <data name="ItBeginsToRain" xml:space="preserve">
     <value>It begins to rain.</value>
   </data>

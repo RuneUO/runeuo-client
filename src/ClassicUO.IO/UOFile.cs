@@ -23,17 +23,25 @@ namespace ClassicUO.IO
         {
             if (index < 0 || Entries == null || index >= Entries.Length)
             {
-                return ref UOFileIndex.Invalid;
+                return ref ResetInvalid();
             }
 
             ref UOFileIndex entry = ref Entries[index];
 
             if (entry.Offset < 0 || entry.Length <= 0 || entry.Offset == 0x0000_0000_FFFF_FFFF)
             {
-                return ref UOFileIndex.Invalid;
+                return ref ResetInvalid();
             }
 
             return ref entry;
+        }
+
+        // Callers write into the returned entry, so the shared invalid one must be clean every time.
+        private static ref UOFileIndex ResetInvalid()
+        {
+            UOFileIndex.Invalid = default;
+
+            return ref UOFileIndex.Invalid;
         }
 
         public virtual void FillEntries()

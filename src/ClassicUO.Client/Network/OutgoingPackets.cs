@@ -4620,7 +4620,8 @@ namespace ClassicUO.Network
             }
 
             int len = writer.BytesWritten;
-            Plugin.ProcessRecvPacket(writer.AllocatedBuffer, ref len);
+            byte[] buffer = writer.AllocatedBuffer;
+            Plugin.ProcessRecvPacket(ref buffer, ref len);
             writer.Dispose();
         }
 
@@ -4664,7 +4665,8 @@ namespace ClassicUO.Network
             }
 
             int len = writer.BytesWritten;
-            Plugin.ProcessRecvPacket(writer.AllocatedBuffer, ref len);
+            byte[] buffer = writer.AllocatedBuffer;
+            Plugin.ProcessRecvPacket(ref buffer, ref len);
             writer.Dispose();
         }
     }

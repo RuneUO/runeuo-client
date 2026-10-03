@@ -509,36 +509,37 @@ namespace ClassicUO.Network
             }
         }
 
-        internal static bool ProcessRecvPacket(byte[] data, ref int length)
+        internal static bool ProcessRecvPacket(ref byte[] data, ref int length)
         {
-            bool result = Client.Game.PluginHost?.PacketIn(new ArraySegment<byte>(data, 0, length)) ?? true;
+            bool result = Client.Game.PluginHost?.PacketIn(data, ref length) ?? true;
 
             foreach (Plugin plugin in Plugins)
             {
-                if (plugin._onRecv_new != null)
+                if (plugin._onRecv_new == null && plugin._onRecv == null)
                 {
-                    byte[] tmp = new byte[length];
-                    Array.Copy(data, tmp, length);
-
-                    if (!plugin._onRecv_new(tmp, ref length))
-                    {
-                        result = false;
-                    }
-
-                    Array.Copy(tmp, data, length);
+                    continue;
                 }
-                else if (plugin._onRecv != null)
+
+                byte[] tmp = new byte[length];
+                Array.Copy(data, tmp, length);
+
+                bool ok = plugin._onRecv_new != null
+                    ? plugin._onRecv_new(tmp, ref length)
+                    : plugin._onRecv(ref tmp, ref length);
+
+                if (!ok)
                 {
-                    byte[] tmp = new byte[length];
-                    Array.Copy(data, tmp, length);
-
-                    if (!plugin._onRecv(ref tmp, ref length))
-                    {
-                        result = false;
-                    }
-
-                    Array.Copy(tmp, data, length);
+                    result = false;
                 }
+
+                length = Math.Clamp(length, 0, tmp.Length);
+
+                if (length > data.Length)
+                {
+                    Array.Resize(ref data, length);
+                }
+
+                Array.Copy(tmp, data, length);
             }
 
             return result;
@@ -546,36 +547,28 @@ namespace ClassicUO.Network
 
         internal static bool ProcessSendPacket(ref Span<byte> message)
         {
-            bool result = Client.Game.PluginHost?.PacketOut(message) ?? true;
+            bool result = Client.Game.PluginHost?.PacketOut(ref message) ?? true;
 
             foreach (Plugin plugin in Plugins)
             {
-                if (plugin._onSend_new != null)
+                if (plugin._onSend_new == null && plugin._onSend == null)
                 {
-                    var tmp = message.ToArray();
-                    var length = tmp.Length;
-
-                    if (!plugin._onSend_new(tmp, ref length))
-                    {
-                        result = false;
-                    }
-
-                    message = message.Slice(0, length);
-                    tmp.AsSpan(0, length).CopyTo(message);
+                    continue;
                 }
-                else if (plugin._onSend != null)
+
+                var tmp = message.ToArray();
+                var length = tmp.Length;
+
+                bool ok = plugin._onSend_new != null
+                    ? plugin._onSend_new(tmp, ref length)
+                    : plugin._onSend(ref tmp, ref length);
+
+                if (!ok)
                 {
-                    var tmp = message.ToArray();
-                    var length = tmp.Length;
-
-                    if (!plugin._onSend(ref tmp, ref length))
-                    {
-                        result = false;
-                    }
-
-                    message = message.Slice(0, length);
-                    tmp.AsSpan(0, length).CopyTo(message);
+                    result = false;
                 }
+
+                message = tmp.AsSpan(0, Math.Clamp(length, 0, tmp.Length));
             }
 
             return result;
