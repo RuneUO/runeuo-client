@@ -178,11 +178,6 @@ namespace RuneUO.Renderer
                     if (!spriteFont.DefaultCharacter.HasValue)
                     {
                         index = characterMap.IndexOf('?');
-                        //throw new ArgumentException(
-                        //                            "Text contains characters that cannot be" +
-                        //                            " resolved by this SpriteFont.",
-                        //                            "text"
-                        //                           );
                     }
                     else
                     {

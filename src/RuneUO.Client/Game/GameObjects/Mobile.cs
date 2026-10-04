@@ -334,16 +334,6 @@ namespace RuneUO.Game.GameObjects
                     return;
                 }
 
-                //byte action = 0;
-                //ushort hue = 0;
-
-                //Client.Game.UO.Animations.ReplaceAnimationValues(
-                //    ref graphic,
-                //    ref action,
-                //    ref hue,
-                //    out var useUOP
-                //);
-
                 AnimationGroupsType type = animations.GetAnimType(graphic);
                 AnimationFlags  flags = animations.GetAnimFlags(graphic);
                 AnimationGroups animGroup = AnimationGroups.None;

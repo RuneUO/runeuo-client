@@ -377,7 +377,6 @@ namespace RuneUO.Game.GameObjects
                 case 0xA1FF:
                 case 0xA200:
                 case 0xA201:
-                    //case 0x5690:
                     return false;
 
                 case 0x9E4C:

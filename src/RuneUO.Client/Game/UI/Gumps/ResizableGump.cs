@@ -17,10 +17,9 @@ namespace RuneUO.Game.UI.Gumps
 
         public class ResizeCompletedEventArgs(Point beforeResize)
         {
-            public Point BeforeResize { get; } = beforeResize; // readonly
+            public Point BeforeResize { get; } = beforeResize;
         }
 
-        // Declare the delegate (if using non-generic pattern).
         public delegate void ResizeCompletedHandler(object sender, ResizeCompletedEventArgs e);
 
         public event ResizeCompletedHandler ResizeCompleted;

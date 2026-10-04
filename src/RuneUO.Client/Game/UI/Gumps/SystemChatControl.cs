@@ -23,7 +23,6 @@ namespace RuneUO.Game.UI.Gumps
         Emote,
         Yell,
         Party,
-        //PartyPrivate,
         Guild,
         Alliance,
         ClientCommand,
