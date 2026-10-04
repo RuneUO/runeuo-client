@@ -61,7 +61,14 @@ The script signs in as a portal admin. It reads the password from `RUNE_PORTAL_P
 # Contribute
 Contributions are welcome. Open an issue or a pull request in this repository.
 
-To keep merging upstream changes simple, internal project and namespace names still use `ClassicUO`.
+Projects, namespaces and binaries use the `RuneUO` name: `RuneUO.sln`, `src/RuneUO.*` and `tests/RuneUO.UnitTests`. The launcher starts `RuneUO.exe`, which loads the client library `RuneUO.Client`.
+
+Plugin compatibility keeps a few `ClassicUO` names on purpose:
+* The plugin host assembly is still named `ClassicUO`, although its file is `RuneUO.exe`, because assistants such as ClassicAssist look it up by that name.
+* The types in `src/RuneUO.Bootstrap/src/ClassicUOCompat.cs` keep their `ClassicUO` namespace for the same reason.
+* The plugin API (`cuoapi`) is unchanged.
+
+Upstream ClassicUO changes can still be merged, but files touched on both sides need their `ClassicUO` namespaces switched to `RuneUO`.
 
 # Credits
 * [ClassicUO](https://github.com/ClassicUO/ClassicUO) by andreakarasho and contributors, the base of this client.

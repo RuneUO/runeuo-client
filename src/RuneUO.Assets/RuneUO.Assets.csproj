@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuneUO.IO\RuneUO.IO.csproj" />
+    <ProjectReference Include="..\RuneUO.Utility\RuneUO.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="RuneUO.UnitTests" />
+  </ItemGroup>
+
+</Project>

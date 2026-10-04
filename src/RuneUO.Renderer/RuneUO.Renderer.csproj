@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuneUO.Utility\RuneUO.Utility.csproj" />
+    <ProjectReference Include="..\RuneUO.Assets\RuneUO.Assets.csproj" />
+    <ProjectReference Include="..\..\external\FNA\FNA.Core.csproj" />
+  </ItemGroup>
+
+</Project>

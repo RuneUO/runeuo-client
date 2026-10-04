@@ -4,8 +4,8 @@ set -e
 
 # Resolve paths from the script location so it can be run from any folder
 script_dir="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
-bootstrap_project="$script_dir/../src/ClassicUO.Bootstrap/src/ClassicUO.Bootstrap.csproj"
-client_project="$script_dir/../src/ClassicUO.Client"
+bootstrap_project="$script_dir/../src/RuneUO.Bootstrap/src/RuneUO.Bootstrap.csproj"
+client_project="$script_dir/../src/RuneUO.Client"
 output_directory="$script_dir/../bin/dist"
 
 # The bootstrap hosts (net472 on Windows, mono kickstart on Linux/macOS) are x64 only,

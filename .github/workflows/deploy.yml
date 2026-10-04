@@ -9,10 +9,10 @@ on:
       - completed
 
 env:
-  CUO_ASSEMBLY_VERSION: "1.1.0.${{ github.run_number }}"
-  CUO_OUTPUT_PATH: "dist"
-  CUO_PROJECT_PATH: "src/ClassicUO.Client/ClassicUO.Client.csproj"
-  BOOT_PROJECT_PATH: "src/ClassicUO.Bootstrap/src/ClassicUO.Bootstrap.csproj"
+  RUNEUO_VERSION: "1.1.0.${{ github.run_number }}"
+  OUTPUT_PATH: "dist"
+  CLIENT_PROJECT_PATH: "src/RuneUO.Client/RuneUO.Client.csproj"
+  BOOT_PROJECT_PATH: "src/RuneUO.Bootstrap/src/RuneUO.Bootstrap.csproj"
 
   BRANCH_NAME: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref_name }}
   COMMIT_SHA: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
@@ -79,14 +79,14 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Build Bootstrap app
-        run: dotnet publish "${{ env.BOOT_PROJECT_PATH }}" -c Release -o "${{ env.CUO_OUTPUT_PATH }}" /p:AssemblyVersion=${{ env.CUO_ASSEMBLY_VERSION }} /p:FileVersion=${{ env.CUO_ASSEMBLY_VERSION }} /p:OutputType=WinExe
+        run: dotnet publish "${{ env.BOOT_PROJECT_PATH }}" -c Release -o "${{ env.OUTPUT_PATH }}" /p:AssemblyVersion=${{ env.RUNEUO_VERSION }} /p:FileVersion=${{ env.RUNEUO_VERSION }} /p:OutputType=WinExe
 
       - name: Build RuneUO
-        run: dotnet publish "${{ env.CUO_PROJECT_PATH }}" -c Release -r "${{ matrix.target }}" -o "${{ env.CUO_OUTPUT_PATH }}" /p:IS_DEV_BUILD=${{ env.DEV_BUILD }} /p:AssemblyVersion=${{ env.CUO_ASSEMBLY_VERSION }} /p:FileVersion=${{ env.CUO_ASSEMBLY_VERSION }} /p:NativeLib=Shared /p:OutputType=Library
+        run: dotnet publish "${{ env.CLIENT_PROJECT_PATH }}" -c Release -r "${{ matrix.target }}" -o "${{ env.OUTPUT_PATH }}" /p:IS_DEV_BUILD=${{ env.DEV_BUILD }} /p:AssemblyVersion=${{ env.RUNEUO_VERSION }} /p:FileVersion=${{ env.RUNEUO_VERSION }} /p:NativeLib=Shared /p:OutputType=Library
 
       - name: Create manifest
         run: |
-          dotnet run --project tools/ManifestCreator/ManifestCreator.csproj "${{ env.CUO_OUTPUT_PATH }}" "${{ env.CUO_ASSEMBLY_VERSION }}" "${{ env.ZIP_NAME }}"
+          dotnet run --project tools/ManifestCreator/ManifestCreator.csproj "${{ env.OUTPUT_PATH }}" "${{ env.RUNEUO_VERSION }}" "${{ env.ZIP_NAME }}"
           mkdir upload
           mv manifest.xml "upload/${{ env.MANIFEST_NAME }}"
 
@@ -94,11 +94,11 @@ jobs:
         uses: thedoctor0/zip-release@0.7.6
         with:
           type: "zip"
-          directory: ${{ env.CUO_OUTPUT_PATH }}
+          directory: ${{ env.OUTPUT_PATH }}
           filename: ${{ env.ZIP_NAME }}
 
       - name: Move output
-        run: mv "${{ env.CUO_OUTPUT_PATH }}/${{ env.ZIP_NAME }}" upload
+        run: mv "${{ env.OUTPUT_PATH }}/${{ env.ZIP_NAME }}" upload
 
       - name: Upload release
         uses: ncipollo/release-action@v1
