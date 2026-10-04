@@ -47,7 +47,6 @@ namespace RuneUO.Game.GameObjects
             }
 
             base.Destroy();
-            //_pool.ReturnOne(this);
         }
 
         public override void UpdateGraphicBySeason()
@@ -164,7 +163,6 @@ namespace RuneUO.Game.GameObjects
             Vector3 ret = new Vector3();
 
 
-            // ==========================
             u.X = -22;
             u.Y = -22;
             u.Z = (left - tile) * 4;
@@ -174,10 +172,8 @@ namespace RuneUO.Game.GameObjects
             v.Z = (bottom - tile) * 4;
 
             Vector3.Cross(ref v, ref u, out ret);
-            // ==========================
 
 
-            // ==========================
             u.X = -22;
             u.Y = 22;
             u.Z = (bottom - tile) * 4;
@@ -188,10 +184,8 @@ namespace RuneUO.Game.GameObjects
 
             Vector3.Cross(ref v, ref u, out normal);
             Vector3.Add(ref ret, ref normal, out ret);
-            // ==========================
 
 
-            // ==========================
             u.X = 22;
             u.Y = 22;
             u.Z = (right - tile) * 4;
@@ -202,10 +196,8 @@ namespace RuneUO.Game.GameObjects
 
             Vector3.Cross(ref v, ref u, out normal);
             Vector3.Add(ref ret, ref normal, out ret);
-            // ==========================
 
 
-            // ==========================
             u.X = 22;
             u.Y = -22;
             u.Z = (top - tile) * 4;
@@ -216,7 +208,6 @@ namespace RuneUO.Game.GameObjects
 
             Vector3.Cross(ref v, ref u, out normal);
             Vector3.Add(ref ret, ref normal, out ret);
-            // ==========================
 
 
             Vector3.Normalize(ref ret, out normal);

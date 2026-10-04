@@ -201,7 +201,6 @@ namespace RuneUO.Game.Managers
                     ? Notoriety.GetHue(mobile.NotorietyFlag)
                     : Notoriety.GetHue(NotorietyFlag.Gray);
 
-            //Vector3 hueVec = ShaderHueTranslator.GetHueVector(hue, false, alpha);
             Vector3 hueVecZero = ShaderHueTranslator.GetHueVector(0, false, alpha);
             Vector3 hueVecNoto = ShaderHueTranslator.GetHueVector(hue, false, alpha);
 
@@ -229,7 +228,6 @@ namespace RuneUO.Game.Managers
 
                 uint topGump;
                 uint bottomGump;
-                //uint gumpHue = 0x7570;
                 uint gumpHue = 0x7572; // gray
 
                 if (mobile != null)

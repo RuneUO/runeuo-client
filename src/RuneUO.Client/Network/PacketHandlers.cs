@@ -50,7 +50,6 @@ namespace RuneUO.Network
         public void Add(byte id, OnPacketBufferReader handler) => _handlers[id] = handler;
 
         private byte[] _readingBuffer = new byte[4096];
-        private readonly PacketLogger _packetLogger = new PacketLogger();
         private readonly CircularBuffer _buffer = new CircularBuffer();
         private readonly CircularBuffer _pluginsBuffer = new CircularBuffer();
 
@@ -876,12 +875,8 @@ namespace RuneUO.Network
                 flags = p.ReadUInt8();
             }
 
-            //if (graphic != 0x2006)
-            //    graphic += graphicInc;
-
             if (graphic >= 0x4000)
             {
-                //graphic -= 0x4000;
                 type = 2;
             }
 
@@ -1124,19 +1119,9 @@ namespace RuneUO.Network
                 return;
             }
 
-            if (entity is Mobile m)
+            if (entity is Mobile)
             {
-                if (world.Party.Contains(serial))
-                {
-                    // m.RemoveFromTile();
-                }
-
-                // else
-                {
-                    //BaseHealthBarGump bar = UIManager.GetGump<BaseHealthBarGump>(serial);
-
-                    world.RemoveMobile(serial, true);
-                }
+                world.RemoveMobile(serial, true);
             }
             else
             {
@@ -1367,7 +1352,6 @@ namespace RuneUO.Network
 
                     if (first == null)
                     {
-                        //Log.Warn("buy item not found");
                         continue;
                     }
 
@@ -1420,8 +1404,6 @@ namespace RuneUO.Network
                         )
                     )
                     {
-                        //UIManager.GetGump<GridLootGump>(serial)?.Dispose();
-                        //UIManager.Add(new GridLootGump(serial));
                         _requestedGridLoot = serial;
 
                         if (ProfileManager.CurrentProfile.GridLootType == 1)
@@ -1707,11 +1689,6 @@ namespace RuneUO.Network
                 Log.Warn("There was a problem with ItemHold object. It was cleared before :|");
             }
 
-            //var result = World.Items.Get(ItemHold.Serial);
-
-            //if (result != null && !result.IsDestroyed)
-            //    result.AllowedToDraw = true;
-
             byte code = p.ReadUInt8();
 
             if (code < 5)
@@ -1827,7 +1804,6 @@ namespace RuneUO.Network
 
             if (item.Graphic != 0 && item.Layer != Layer.Backpack)
             {
-                //ClearContainerAndRemoveItems(item);
                 world.RemoveItemFromContainer(item);
             }
 
@@ -1850,7 +1826,6 @@ namespace RuneUO.Network
 
             if (item.Layer >= Layer.ShopBuyRestock && item.Layer <= Layer.ShopSell)
             {
-                //item.Clear();
             }
             else if (SerialHelper.IsValid(item.Container) && item.Layer < Layer.Mount)
             {
@@ -2243,7 +2218,6 @@ namespace RuneUO.Network
                 var scene = new GameScene(world);
                 Client.Game.SetScene(scene);
 
-                //GameActions.OpenPaperdoll(world.Player);
                 GameActions.RequestMobileStatus(world, world.Player);
                 NetClient.Socket.Send_OpenChat("");
 
@@ -2845,7 +2819,6 @@ namespace RuneUO.Network
             Flags flags = (Flags)p.ReadUInt8();
             NotorietyFlag notoriety = (NotorietyFlag)p.ReadUInt8();
             bool oldDead = false;
-            //bool alreadyExists =world.Get(serial) != null;
 
             if (serial == world.Player)
             {
@@ -2901,9 +2874,6 @@ namespace RuneUO.Network
 
             while (itemSerial != 0 && p.Position < p.Length)
             {
-                //if (!SerialHelper.IsItem(itemSerial))
-                //    break;
-
                 ushort itemGraphic = p.ReadUInt16BE();
                 byte layer = p.ReadUInt8();
                 ushort item_hue = 0;
@@ -3394,9 +3364,6 @@ namespace RuneUO.Network
                     }
                 }
 
-                //if (string.IsNullOrEmpty(item.Name))
-                //    item.Name = name;
-
                 gump.AddItem(serial, graphic, hue, amount, price, name, fromcliloc);
             }
 
@@ -3519,13 +3486,6 @@ namespace RuneUO.Network
         private static void AttackCharacter(World world, ref StackDataReader p)
         {
             uint serial = p.ReadUInt32BE();
-
-            //if (TargetManager.LastAttack != serial && World.InGame)
-            //{
-
-
-
-            //}
 
             GameActions.SendCloseStatus(world, world.TargetManager.LastAttack);
             world.TargetManager.LastAttack = serial;
@@ -3798,9 +3758,6 @@ namespace RuneUO.Network
                 }
             }
 
-            //    unsafe
-            //    {
-
             CreateGump(world, sender, gumpID, x, y, cmd, lines);
         }
 
@@ -3917,7 +3874,6 @@ namespace RuneUO.Network
                         }
                     }
 
-                    //Color c = new Color(49, 82, 156, 0);
                     GameActions.Print(
                         world,
                         $"{username}: {msgSent}",
@@ -4110,9 +4066,6 @@ namespace RuneUO.Network
 
         private static void AssistVersion(World world, ref StackDataReader p)
         {
-            //uint version = p.ReadUInt32BE();
-
-            //NetClient.Socket.Send(new PAssistVersion(clientVersionBuffer, version));
         }
 
         private static void ExtendedCommand(World world, ref StackDataReader p)
@@ -4124,8 +4077,6 @@ namespace RuneUO.Network
                 case 0:
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 1: // fast walk prevention
                     for (int i = 0; i < 6; i++)
                     {
@@ -4134,15 +4085,11 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 2: // add key to fast walk stack
                     world.Player.Walker.FastWalkStack.AddValue(p.ReadUInt32BE());
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 4: // close generic gump
                     uint ser = p.ReadUInt32BE();
                     int button = (int)p.ReadUInt32BE();
@@ -4179,29 +4126,21 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 6: //party
                     world.Party.ParsePacket(ref p);
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 8: // map change
                     world.MapIndex = p.ReadUInt8();
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x0C: // close statusbar gump
                     UIManager.GetGump<HealthBarGump>(p.ReadUInt32BE())?.Dispose();
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x10: // display equip info
                     Item item = world.Items.Get(p.ReadUInt32BE());
 
@@ -4327,13 +4266,9 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x11:
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x14: // display popup/context menu
                     UIManager.ShowGamePopup(
                         new PopupMenuGump(world, PopupMenuData.Parse(ref p))
@@ -4345,8 +4280,6 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x16: // close user interface windows
                     uint id = p.ReadUInt32BE();
                     uint serial = p.ReadUInt32BE();
@@ -4381,15 +4314,10 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x18: // enable map patches
 
                     if (Client.Game.UO.FileManager.Maps.ApplyPatches(ref p))
                     {
-                        //List<GameObject> list = new List<GameObject>();
-
-
                         int map = world.MapIndex;
                         world.MapIndex = -1;
                         world.MapIndex = map;
@@ -4399,8 +4327,6 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x19: //extened stats
                     byte version = p.ReadUInt8();
                     serial = p.ReadUInt32BE();
@@ -4476,8 +4402,6 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x1B: // new spellbook content
                     p.Skip(2);
                     Item spellbook = world.GetOrCreateItem(p.ReadUInt32BE());
@@ -4514,8 +4438,6 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x1D: // house revision state
                     serial = p.ReadUInt32BE();
                     uint revision = p.ReadUInt32BE();
@@ -4550,8 +4472,6 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x20:
                     serial = p.ReadUInt32BE();
                     type = p.ReadUInt8();
@@ -4592,8 +4512,6 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x21:
 
                     for (int i = 0; i < 2; i++)
@@ -4603,8 +4521,6 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x22:
                     p.Skip(1);
 
@@ -4651,8 +4567,6 @@ namespace RuneUO.Network
 
                     break;
 
-                //===========================================================================================
-                //===========================================================================================
                 case 0x26:
                     byte val = p.ReadUInt8();
 
@@ -4792,7 +4706,6 @@ namespace RuneUO.Network
             }
             else if (entity != null)
             {
-                //entity.Graphic = graphic;
                 text_type = TextType.OBJECT;
 
                 if (string.IsNullOrEmpty(entity.Name))
@@ -5750,9 +5663,6 @@ namespace RuneUO.Network
                 return;
             }
 
-            //multi.LastX = x;
-            //multi.LastY = y;
-
             bool smooth =
                 ProfileManager.CurrentProfile != null
                 && ProfileManager.CurrentProfile.UseSmoothBoatMovement;
@@ -5801,9 +5711,6 @@ namespace RuneUO.Network
                 {
                     continue;
                 }
-
-                //ent.LastX = cx;
-                //ent.LastY = cy;
 
                 if (smooth)
                 {
@@ -5999,7 +5906,6 @@ namespace RuneUO.Network
             {
                 Log.Warn($"No container ({containerSerial}) found");
         
-                //container = world.GetOrCreateItem(containerSerial);
                 return;
             }
         
@@ -6329,8 +6235,7 @@ namespace RuneUO.Network
                     && Client.Game.UO.GameCursor.ItemHold.Dropped
                 )
                 {
-                    // we want maintain the item data due to the denymoveitem packet
-                    //ItemHold.Clear();
+                    // Keep the item data: a deny-move packet may still need it.
                     Client.Game.UO.GameCursor.ItemHold.Enabled = false;
                     Client.Game.UO.GameCursor.ItemHold.Dropped = false;
                 }

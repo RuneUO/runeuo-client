@@ -59,7 +59,6 @@ namespace RuneUO.Assets
         public bool IsMatch(string input, in SpeechEntry entry)
         {
             string[] split = entry.Keywords;
-            //string[] words = input.Split(new char[1] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
             for (int i = 0; i < split.Length; i++)
             {

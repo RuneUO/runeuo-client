@@ -96,8 +96,6 @@ namespace RuneUO.Game.GameObjects
 
             Vector3 hueVec = ShaderHueTranslator.GetHueVector(hue);
 
-            //Engine.DebugInfo.EffectsRendered++;
-
             DrawStatic
             (
                 batcher,

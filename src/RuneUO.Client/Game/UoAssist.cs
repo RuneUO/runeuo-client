@@ -15,12 +15,9 @@ namespace RuneUO.Utility.Platforms
     internal sealed class UoAssist
     {
         private readonly CustomWindow _customWindow;
-        private readonly World _world;
 
         public UoAssist(World world)
         {
-            _world = world;
-
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
             {
                 Log.Warn("This OS does not support the UOAssist API");
@@ -160,9 +157,6 @@ namespace RuneUO.Utility.Platforms
 
             [DllImport("kernel32.dll")]
             internal static extern ushort GlobalAddAtom(string str);
-
-            [DllImport("kernel32.dll")]
-            internal static extern ushort GlobalDeleteAtom(ushort atom);
 
             [DllImport("kernel32.dll")]
             internal static extern uint GlobalGetAtomName(ushort atom, StringBuilder buff, int bufLen);

@@ -17,7 +17,7 @@ namespace RuneUO.Game
         private const int PATHFINDER_MAX_NODES = 10000;
         private int _goalNode;
         private bool _goalFound;
-        private int _activeOpenNodes, _activeCloseNodes, _pathfindDistance;
+        private int _activeCloseNodes, _pathfindDistance;
         // Slots at or past these indices have not been used since the last reset.
         private int _openHigh, _closedHigh;
         private readonly List<PathObject> _minMaxList = new List<PathObject>();
@@ -51,8 +51,6 @@ namespace RuneUO.Game
         public bool AutoWalking { get; set; }
 
         public bool PathindingCanBeCancelled { get; set; }
-
-        public bool BlockMoving { get; set; }
 
         public bool FastRotation { get; set; }
 
@@ -165,8 +163,6 @@ namespace RuneUO.Game
 
                             case Item item when item.IsMulti || item.ItemData.IsInternal:
                             {
-                                //canBeAdd = false;
-
                                 break;
                             }
 
@@ -715,8 +711,6 @@ namespace RuneUO.Game
                                     _goalNode = i;
                                 }
 
-                                _activeOpenNodes++;
-
                                 if (i >= _openHigh)
                                 {
                                     _openHigh = i + 1;
@@ -775,7 +769,6 @@ namespace RuneUO.Game
                         node.Y = parent.Y;
                         node.Z = parent.Z;
                         node.Parent = parent.Parent;
-                        _activeOpenNodes--;
                         _activeCloseNodes++;
 
                         if (i >= _closedHigh)
@@ -982,17 +975,12 @@ namespace RuneUO.Game
 
             int playerX = _world.Player.X;
             int playerY = _world.Player.Y;
-            //sbyte playerZ = 0;
-            //Direction playerDir = Direction.None;
-
-            //World.Player.GetEndPosition(ref playerX, ref playerY, ref playerZ, ref playerDir);
             _startPoint.X = playerX;
             _startPoint.Y = playerY;
             _endPoint.X = x;
             _endPoint.Y = y;
             _goalNode = 0;
             _goalFound = false;
-            _activeOpenNodes = 0;
             _activeCloseNodes = 0;
             _pathfindDistance = distance;
             _pathSize = 0;

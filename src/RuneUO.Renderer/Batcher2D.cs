@@ -178,11 +178,6 @@ namespace RuneUO.Renderer
                     if (!spriteFont.DefaultCharacter.HasValue)
                     {
                         index = characterMap.IndexOf('?');
-                        //throw new ArgumentException(
-                        //                            "Text contains characters that cannot be" +
-                        //                            " resolved by this SpriteFont.",
-                        //                            "text"
-                        //                           );
                     }
                     else
                     {
@@ -1066,8 +1061,6 @@ namespace RuneUO.Renderer
 
             if (_numSprites >= _vertexInfo.Length)
             {
-                //Flush();
-
                 int newMax = _vertexInfo.Length + MAX_SPRITES;
                 Array.Resize(ref _vertexInfo, newMax);
                 Array.Resize(ref _textureInfo, newMax);
@@ -1155,11 +1148,6 @@ namespace RuneUO.Renderer
 
             _textureInfo[_numSprites] = tex;
             _numSprites++;
-        }
-
-        public void DirectDraw(Texture2D texture, int spriteStart, int spriteCount)
-        {
-            InternalDraw(texture, spriteStart, spriteCount);
         }
 
         public DynamicIndexBuffer GetDynamicIndexBuffer(int requiredIndices)
@@ -1259,10 +1247,6 @@ namespace RuneUO.Renderer
                 out matrix
             );
             Matrix.Multiply(ref _transformMatrix, ref matrix, out matrix);
-
-
-            //Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
-            //Matrix.Multiply(ref halfPixelOffset, ref matrix, out matrix);
 
             if (!_worldOffsetActive)
                 _basicUOEffect.WorldMatrix.SetValue(Matrix.Identity);

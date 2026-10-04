@@ -66,8 +66,6 @@ namespace RuneUO.Game.UI.Gumps
             WantUpdateSize = true;
             CanCloseWithRightClick = true;
             _background = new AlphaBlendControl();
-            //_background.Width = MAX_WIDTH;
-            //_background.Height = MAX_HEIGHT;
             Add(_background);
 
             Width = _background.Width;
@@ -234,7 +232,6 @@ namespace RuneUO.Game.UI.Gumps
                         {
                             _pagesCount++;
                             y = 20;
-                            //line = 1;
                         }
                     }
 

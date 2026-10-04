@@ -11,8 +11,6 @@ namespace RuneUO.Assets
     {
         private UOFile _file;
 
-        public const int MAX_LAND_TEXTURES_DATA_INDEX_COUNT = 0x4000;
-
         public TexmapsLoader(UOFileManager fileManager) : base(fileManager) { }
 
         public UOFile File => _file;

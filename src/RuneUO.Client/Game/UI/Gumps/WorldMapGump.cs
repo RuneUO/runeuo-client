@@ -69,7 +69,6 @@ namespace RuneUO.Game.UI.Gumps
         private List<string> _hiddenZoneFiles;
         private ZoneSets _zoneSets = new ZoneSets();
         private SpriteFont _markerFont = Fonts.Map1;
-        private int _markerFontIndex = 1;
         private readonly Dictionary<string, ContextMenuItemEntry> _options = new Dictionary<string, ContextMenuItemEntry>();
         private bool _showCoordinates;
         private bool _showSextantCoordinates;
@@ -246,11 +245,6 @@ namespace RuneUO.Game.UI.Gumps
 
             ProfileManager.CurrentProfile.WorldMapShowGridIfZoomed = _showGridIfZoomed;
             ProfileManager.CurrentProfile.WorldMapAllowPositionalTarget = _allowPositionalTarget;
-        }
-
-        private bool ParseBool(string boolStr)
-        {
-            return bool.TryParse(boolStr, out bool value) && value;
         }
 
         private void BuildGump()
@@ -709,8 +703,6 @@ namespace RuneUO.Game.UI.Gumps
 
         private void SetFont(int fontIndex)
         {
-            _markerFontIndex = fontIndex;
-
             switch (fontIndex)
             {
                 case 1:
@@ -744,25 +736,9 @@ namespace RuneUO.Game.UI.Gumps
                     break;
 
                 default:
-                    _markerFontIndex = 1;
                     _markerFont = Fonts.Map1;
 
                     break;
-            }
-        }
-
-        private bool GetOptionValue(string key)
-        {
-            _options.TryGetValue(key, out ContextMenuItemEntry v);
-
-            return v != null && v.IsSelected;
-        }
-
-        public void SetOptionValue(string key, bool v)
-        {
-            if (_options.TryGetValue(key, out ContextMenuItemEntry entry) && entry != null)
-            {
-                entry.IsSelected = v;
             }
         }
 
@@ -1303,11 +1279,6 @@ namespace RuneUO.Game.UI.Gumps
                             }
                         }
 
-
-                        //var palette = quantizer.GetPalette(256);
-
-                        //quantizer.Clear();
-
                         var imageEncoder = new PngEncoder
                         {
                             ColorType = PngColorType.Palette,
@@ -1489,7 +1460,6 @@ namespace RuneUO.Game.UI.Gumps
 
         private void LoadMarkers()
         {
-            //return Task.Run(() =>
             {
                 if (World.InGame)
                 {
@@ -1735,8 +1705,6 @@ namespace RuneUO.Game.UI.Gumps
                     GameActions.Print(World, string.Format(ResGumps.WorldMapMarkersLoaded0, count), 0x2A);
                 }
             }
-
-            //);
         }
 
         private void AddMarkerOnPlayer()

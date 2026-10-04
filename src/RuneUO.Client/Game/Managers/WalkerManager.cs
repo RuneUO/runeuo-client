@@ -93,17 +93,14 @@ namespace RuneUO.Game.Managers
 
 
         public FastWalkStack FastWalkStack { get; } = new FastWalkStack();
-        public ushort CurrentPlayerZ;
         public byte CurrentWalkSequence;
         public long LastStepRequestTime;
-        public ushort NewPlayerZ;
         public bool ResendPacketResync;
         public readonly StepInfo[] StepInfos = new StepInfo[Constants.MAX_STEP_COUNT];
         public int StepsCount;
         public int UnacceptedPacketsCount;
         public bool WalkingFailed;
         public byte WalkSequence;
-        public bool WantChangeCoordinates;
 
         public void DenyWalk(byte sequence, int x, int y, sbyte z)
         {

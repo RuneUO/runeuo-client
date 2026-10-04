@@ -301,8 +301,6 @@ namespace RuneUO.Game.UI.Gumps
             {
                 _isPressing = false;
             };
-
-            //Add(name);
         }
 
         public bool IsBuyGump { get; }
@@ -999,7 +997,6 @@ namespace RuneUO.Game.UI.Gumps
                     }
                 ); // Minus
 
-                //float t1 = Time.Ticks;
                 bool pressedRemove = false;
 
                 buttonRemove.MouseOver += (sender, e) =>

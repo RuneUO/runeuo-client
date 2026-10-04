@@ -272,93 +272,6 @@ namespace RuneUO.Game.UI.Gumps
         }
 
 
-        private int LineUnderMouse(ref int x1, ref int y1, ref int x2, ref int y2)
-        {
-            int tempX = x2 - x1;
-            int tempY = y2 - y1;
-
-            float testOfsX = tempX;
-
-            if (testOfsX == 0.0f)
-            {
-                testOfsX = 1.0f;
-            }
-
-            float pi = (float) Math.PI;
-
-            float a = -(float) (Math.Atan(tempY / testOfsX) * 180f / pi);
-
-            bool inverseCheck = false;
-
-            if (x1 >= x2 && y1 <= y2)
-            {
-                inverseCheck = true;
-            }
-            else if (x1 >= x2 && y1 >= y2)
-            {
-                inverseCheck = true;
-            }
-
-            float sinA = (float) Math.Sin(a * pi / 180f);
-            float cosA = (float) Math.Cos(a * pi / 180f);
-
-            int offsetX = (int) (tempX * cosA - tempY * sinA);
-            int offsetY = (int) (tempX * sinA + tempY * cosA);
-
-            int endX2 = x1 + offsetX;
-            int endY2 = y1 + offsetY;
-
-            tempX = Mouse.Position.X - x1; // TODO: must be position relative to the gump
-            tempY = Mouse.Position.Y - y1;
-
-            offsetX = (int) (tempX * cosA - tempY * sinA);
-            offsetY = (int) (tempX * sinA + tempY * cosA);
-
-            Point mousePoint = new Point(x1 + offsetX, y1 + offsetY);
-
-            const int POLY_OFFSET = 5;
-
-            int result = 0;
-
-
-            if (!inverseCheck)
-            {
-                Rectangle rect = new Rectangle
-                {
-                    X = x1 - POLY_OFFSET,
-                    Y = y1 - POLY_OFFSET,
-                    Width = endX2 + POLY_OFFSET,
-                    Height = endY2 + POLY_OFFSET
-                };
-
-                if (rect.Contains(mousePoint))
-                {
-                    x1 = x1 + (x2 - x1) / 2;
-                    y1 = y1 + (y2 - y1) / 2;
-                    result = 1;
-                }
-            }
-            else
-            {
-                Rectangle rect = new Rectangle
-                {
-                    X = endX2 - POLY_OFFSET,
-                    Y = endY2 - POLY_OFFSET,
-                    Width = x1 + POLY_OFFSET,
-                    Height = x2 + POLY_OFFSET
-                };
-
-                if (rect.Contains(mousePoint))
-                {
-                    x1 = x2 + (x1 - x2) / 2;
-                    y1 = y2 + (y1 - y2) / 2;
-                    result = 2;
-                }
-            }
-
-            return result;
-        }
-
         public override void Dispose()
         {
             _hit.MouseUp -= TextureControlOnMouseUp;
@@ -400,10 +313,6 @@ namespace RuneUO.Game.UI.Gumps
 
                 Priority = ClickPriority.High;
             }
-
-
-            //    return _pic.Contains(x, y);
-            //}
 
             public string NumberText
             {

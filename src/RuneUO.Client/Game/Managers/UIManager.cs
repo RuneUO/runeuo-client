@@ -18,8 +18,6 @@ namespace RuneUO.Game.Managers
         private static readonly Dictionary<uint, Point> _gumpPositionCache = new Dictionary<uint, Point>();
         private static readonly Control[] _mouseDownControls = new Control[0xFF];
 
-
-        //private static readonly Dictionary<uint, TargetLineGump> _targetLineGumps = new Dictionary<uint, TargetLineGump>();
         private static Point _dragOrigin;
         private static bool _isDraggingControl;
         private static Control _keyboardFocusControl, _lastFocus;

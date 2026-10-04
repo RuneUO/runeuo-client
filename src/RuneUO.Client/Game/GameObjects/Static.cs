@@ -59,11 +59,6 @@ namespace RuneUO.Game.GameObjects
             Graphic = g;
         }
 
-        public void RestoreOriginalGraphic()
-        {
-            Graphic = OriginalGraphic;
-        }
-
         public override void UpdateGraphicBySeason()
         {
             SetGraphic(SeasonManager.GetSeasonGraphic(World.Season, OriginalGraphic));
@@ -79,7 +74,6 @@ namespace RuneUO.Game.GameObjects
             }
 
             base.Destroy();
-            //_pool.ReturnOne(this);
         }
     }
 }

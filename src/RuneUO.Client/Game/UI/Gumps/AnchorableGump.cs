@@ -21,7 +21,6 @@ namespace RuneUO.Game.UI.Gumps
     {
         private AnchorableGump _anchorCandidate;
 
-        //private GumpPic _lockGumpPic;
         private int _prevX,
             _prevY;
 

@@ -12,9 +12,6 @@ namespace RuneUO.Game.GameObjects
 {
     internal partial class Item : Entity
     {
-
-        //        i.Clear();
-
         private ushort? _displayedGraphic;
         private bool _isMulti;
 
@@ -155,8 +152,6 @@ namespace RuneUO.Game.GameObjects
             }
 
             base.Destroy();
-
-            //_pool.ReturnOne(this);
         }
 
         private unsafe void LoadMulti()

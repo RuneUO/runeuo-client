@@ -48,46 +48,6 @@ namespace RuneUO.Assets
             radarcol.Read(MemoryMarshal.AsBytes<ushort>(RadarCol.AsSpan()));
         }
 
-        public float[] CreateHuesPalette()
-        {
-            float[] p = new float[32 * 3 * HuesCount];
-
-            Palette = new FloatHues[HuesCount];
-            int entrycount = HuesCount >> 3;
-
-            for (int i = 0; i < entrycount; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    int idx = i * 8 + j;
-
-                    Palette[idx].Palette = new float[32 * 3];
-
-                    for (int h = 0; h < 32; h++)
-                    {
-                        int idx1 = h * 3;
-
-                        ushort c = HuesRange[i].Entries[j].ColorTable[h];
-
-                        Palette[idx].Palette[idx1] = ((c >> 10) & 0x1F) / 31.0f;
-
-                        Palette[idx].Palette[idx1 + 1] = ((c >> 5) & 0x1F) / 31.0f;
-
-                        Palette[idx].Palette[idx1 + 2] = (c & 0x1F) / 31.0f;
-
-                        p[idx * 96 + idx1 + 0] = Palette[idx].Palette[idx1];
-
-                        p[idx * 96 + idx1 + 1] = Palette[idx].Palette[idx1 + 1];
-
-                        p[idx * 96 + idx1 + 2] = Palette[idx].Palette[idx1 + 2];
-
-                    }
-                }
-            }
-
-            return p;
-        }
-
         public void CreateShaderColors(uint[] buffer)
         {
             int len = HuesRange.Length;
@@ -110,12 +70,6 @@ namespace RuneUO.Assets
                 }
             }
         }
-
-        //        return Palette[color - 1].Palette;
-        //    }
-
-        //    return _empty;
-        //}
 
         public ushort GetColor16(ushort c, ushort color)
         {
@@ -143,20 +97,6 @@ namespace RuneUO.Assets
             }
 
             return 0xFF010101;
-        }
-
-        public uint GetUnicodeFontColor(ushort c, ushort color)
-        {
-            if (color != 0 && color < HuesCount)
-            {
-                color -= 1;
-                int g = color >> 3;
-                int e = color % 8;
-
-                return HuesRange[g].Entries[e].ColorTable[8];
-            }
-
-            return HuesHelper.Color16To32(c);
         }
 
         public uint GetColor(ushort c, ushort color)
@@ -237,16 +177,6 @@ namespace RuneUO.Assets
     {
         public uint Header;
         public HuesBlockArray Entries;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VerdataHuesBlock
-    {
-        public ColorTableArray ColorTable;
-        public ushort TableStart;
-        public ushort TableEnd;
-        public unsafe fixed byte Name[20];
-        public unsafe fixed ushort Unk[20];
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

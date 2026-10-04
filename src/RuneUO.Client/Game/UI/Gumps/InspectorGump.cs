@@ -182,8 +182,6 @@ namespace RuneUO.Game.UI.Gumps
                     startY += height + 4;
                 }
             }
-
-            //databox.ReArrangeChildren();
         }
 
         public override void OnButtonClick(int buttonID)

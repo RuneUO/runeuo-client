@@ -9,8 +9,6 @@ namespace RuneUO.Utility.Platforms
 {
     public static class PlatformHelper
     {
-        public static readonly bool IsMonoRuntime = Type.GetType("Mono.Runtime") != null;
-
         public static readonly bool IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         public static readonly bool IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         public static readonly bool IsOSX = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);

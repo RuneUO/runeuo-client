@@ -179,9 +179,6 @@ namespace RuneUO.Game.UI.Controls
             ScrollY = _scrollBar.Value;
 
             Add(_scrollBar);
-
-            //if (Width != _gameText.Width)
-            //    Width = _gameText.Width;
         }
 
         protected override void OnMouseWheel(MouseEventType delta)
@@ -210,7 +207,6 @@ namespace RuneUO.Game.UI.Controls
                 _scrollBar.MaxValue = /* _gameText.Height*/ /*Children.Sum(s => s.Height) - Height */
                     _gameText.Height - Height + (HasBackground ? 8 : 0);
 
-                //_scrollBar.IsVisible = _scrollBar.MaxValue > _scrollBar.MinValue;
                 WantUpdateSize = false;
             }
 

@@ -255,7 +255,6 @@ namespace RuneUO.Game.UI.Controls
 
                 if (_selectedPic != null)
                 {
-                    //_label.X = _selectedPic.X + _selectedPic.Width + 6;
                     _selectedPic.Y = (Height >> 1) - (_selectedPic.Height >> 1);
                 }
 

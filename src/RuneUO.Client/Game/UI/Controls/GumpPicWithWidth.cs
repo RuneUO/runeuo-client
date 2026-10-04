@@ -13,7 +13,6 @@ namespace RuneUO.Game.UI.Controls
         {
             Percent = perc;
             CanMove = true;
-            //AcceptMouseInput = false;
         }
 
         public int Percent { get; set; }

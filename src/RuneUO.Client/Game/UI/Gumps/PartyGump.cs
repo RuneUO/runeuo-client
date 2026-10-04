@@ -330,7 +330,6 @@ namespace RuneUO.Game.UI.Gumps
                     }
                     else
                     {
-                        // NetClient.Socket.Send(new PPartyRemoveRequest(World.Player));
                         GameActions.RequestPartyQuit(World.Player);
                     }
 
@@ -363,8 +362,6 @@ namespace RuneUO.Game.UI.Gumps
                         }
                         else
                         {
-                            //UIManager.SystemChat.textBox.SetText($"/{index + 1}");
-                            //UIManager.SystemChat.Mode = ChatMode.Party;
                             UIManager.SystemChat.TextBoxControl.SetText($"/{index + 1} ");
                         }
                     }

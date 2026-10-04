@@ -4,7 +4,6 @@ using RuneUO.Configuration;
 using RuneUO.Renderer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace RuneUO.Game.GameObjects
 {
@@ -16,8 +15,6 @@ namespace RuneUO.Game.GameObjects
             {
                 return false;
             }
-
-            //Engine.DebugInfo.LandsRendered++;
 
             ushort hue = Hue;
 

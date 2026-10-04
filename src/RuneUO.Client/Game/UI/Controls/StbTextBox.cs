@@ -6,7 +6,6 @@ using RuneUO.Game.Scenes;
 using RuneUO.Input;
 using RuneUO.Renderer;
 using RuneUO.Utility;
-using RuneUO.Utility.Logging;
 using Microsoft.Xna.Framework;
 using SDL3;
 using StbTextEditSharp;
@@ -19,7 +18,6 @@ namespace RuneUO.Game.UI.Controls
     internal class StbTextBox : Control, ITextEditHandler
     {
         protected static readonly Color SELECTION_COLOR = new Color() { PackedValue = 0x80a06020 };
-        private readonly FontStyle _fontStyle;
 
         private readonly int _maxCharCount = -1;
 
@@ -63,7 +61,6 @@ namespace RuneUO.Game.UI.Controls
                 style |= FontStyle.CropTexture;
             }
 
-            _fontStyle = style;
 
             if ((style & (FontStyle.Fixed | FontStyle.Cropped)) != 0 && maxWidth <= 0)
             {
@@ -211,23 +208,6 @@ namespace RuneUO.Game.UI.Controls
             }
         }
 
-        internal int TotalHeight
-        {
-            get
-            {
-                int h = 20;
-                MultilinesFontInfo info = GetInfo();
-
-                while (info != null)
-                {
-                    h += info.MaxHeight;
-                    info = info.Next;
-                }
-
-                return h;
-            }
-        }
-
         public string Text
         {
             get => _rendererText.Text;
@@ -245,8 +225,6 @@ namespace RuneUO.Game.UI.Controls
                         value = value.Substring(0, _maxCharCount);
                     }
                 }
-
-                //Sanitize(ref value);
 
                 string previousText = _rendererText.Text;
 
@@ -289,34 +267,6 @@ namespace RuneUO.Game.UI.Controls
         public event EventHandler<BeforeTextChangedEventArgs> BeforeTextChanged;
         public event EventHandler TextChanged;
 
-        public MultilinesFontInfo CalculateFontInfo(string text, bool countret = true)
-        {
-            if (IsUnicode)
-            {
-                return Client.Game.UO.FileManager.Fonts.GetInfoUnicode
-                (
-                    _rendererText.Font,
-                    text,
-                    text.Length,
-                    _rendererText.Align,
-                    (ushort) _rendererText.FontStyle,
-                    _rendererText.MaxWidth,
-                    countret
-                );
-            }
-
-            return Client.Game.UO.FileManager.Fonts.GetInfoASCII
-            (
-                _rendererText.Font,
-                text,
-                text.Length,
-                _rendererText.Align,
-                (ushort) _rendererText.FontStyle,
-                _rendererText.MaxWidth,
-                countret
-            );
-        }
-
         public void SelectAll()
         {
             if (AllowSelection)
@@ -344,51 +294,6 @@ namespace RuneUO.Game.UI.Controls
         private bool IsMaxCharReached(int count)
         {
             return _maxCharCount >= 0 && Length + count >= _maxCharCount;
-        }
-
-        private void Sanitize(ref string text)
-        {
-            if ((_fontStyle & FontStyle.Fixed) != 0 || (_fontStyle & FontStyle.Cropped) != 0 || (_fontStyle & FontStyle.CropTexture) != 0)
-            {
-                if (_rendererText.MaxWidth == 0)
-                {
-                    Log.Warn("maxwidth must be setted.");
-
-                    return;
-                }
-
-                if (string.IsNullOrEmpty(text))
-                {
-                    return;
-                }
-
-
-                int realWidth = _rendererText.IsUnicode ? Client.Game.UO.FileManager.Fonts.GetWidthUnicode(_rendererText.Font, text) : Client.Game.UO.FileManager.Fonts.GetWidthASCII(_rendererText.Font, text);
-
-                if (realWidth > _rendererText.MaxWidth)
-                {
-                    if ((_fontStyle & FontStyle.Fixed) != 0)
-                    {
-                        text = Text;
-                        Stb.CursorIndex = Math.Max(0, text.Length - 1);
-
-                        return;
-                    }
-
-
-                    if ((_fontStyle & FontStyle.CropTexture) != 0)
-                    {
-
-                        //    uint count = info.Data.Count;
-
-                        //text = sb.ToString();
-                    }
-
-                    if ((_fontStyle & FontStyle.Cropped) != 0)
-                    {
-                    }
-                }
-            }
         }
 
 

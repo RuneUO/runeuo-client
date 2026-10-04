@@ -4643,7 +4643,6 @@ namespace RuneUO.Game.UI.Gumps
             SettingsSection section = new SettingsSection(label, area.Width);
             area.Add(section);
             area.WantUpdateSize = true;
-            //area.ReArrangeChildren();
 
             return section;
         }

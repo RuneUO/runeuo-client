@@ -22,12 +22,10 @@ namespace RuneUO.Network.Encryption
         private static readonly TwofishEncryption _twoFishBehaviour = new TwofishEncryption();
 
 
-        private readonly ClientVersion _clientVersion;
         private readonly uint[] _keys;
 
         public EncryptionHelper(ClientVersion clientVersion)
         {
-            _clientVersion = clientVersion;
             (EncryptionType, _keys) = CalculateEncryption(clientVersion);
         }
 

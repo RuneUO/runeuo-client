@@ -13,14 +13,7 @@ namespace RuneUO.Game.Managers
 {
     internal sealed class InfoBarManager
     {
-        private readonly World _world;
-        private readonly List<InfoBarItem> infoBarItems;
-
-        public InfoBarManager(World world)
-        {
-            infoBarItems = new List<InfoBarItem>();
-            _world = world;
-        }
+        private readonly List<InfoBarItem> infoBarItems = new List<InfoBarItem>();
 
         public List<InfoBarItem> GetInfoBars()
         {

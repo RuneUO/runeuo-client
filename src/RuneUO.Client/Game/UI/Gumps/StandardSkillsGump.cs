@@ -33,7 +33,6 @@ namespace RuneUO.Game.UI.Gumps
 
         private readonly List<SkillsGroupControl> _skillsControl = new List<SkillsGroupControl>();
         private readonly Label _skillsLabelSum;
-        private readonly NiceButton _resetGroups;
 
         public StandardSkillsGump(World world) : base(world, 0, 0)
         {
@@ -134,14 +133,13 @@ namespace RuneUO.Game.UI.Gumps
 
             LoadSkills();
 
-            Add(_resetGroups = new NiceButton(_scrollArea.X + 25, _scrollArea.Y + 7, 100, 18,
-                                              ButtonAction.Activate, ResGumps.ResetGroups,
-                                              unicode: false,
-                                              font: 6)
+            Add(new NiceButton(_scrollArea.X + 25, _scrollArea.Y + 7, 100, 18,
+                               ButtonAction.Activate, ResGumps.ResetGroups,
+                               unicode: false,
+                               font: 6)
             {
                 ButtonParameter = 1,
                 IsSelectable = false,
-                //Alpha = 1f
             });
 
             _hitBox = new HitBox(160, 0, 23, 24);
@@ -464,7 +462,6 @@ namespace RuneUO.Game.UI.Gumps
                             _textbox.AllowSelection = false;
                             UIManager.KeyboardFocusControl = this;
 
-                            //UIManager.SystemChat.SetFocus();
                             break;
 
                         case 2:

@@ -383,7 +383,6 @@ namespace RuneUO.Assets
             // This will list all case variants of the filename even on file systems that
             // are case sensitive.
             Regex  pattern = new Regex($"^{name}.mp3", RegexOptions.IgnoreCase);
-            //string[] fileList = Directory.GetFiles(dir, "*.mp3", SearchOption.AllDirectories).Where(path => pattern.IsMatch(Path.GetFileName(path))).ToArray();
             string[] fileList = Directory.GetFiles(dir, "*.mp3", SearchOption.AllDirectories);
             fileList = Array.FindAll(fileList, path => pattern.IsMatch(Path.GetFileName(path)));
 

@@ -826,7 +826,6 @@ namespace RuneUO.Game.UI.Gumps
                                 Y = offsetY,
                                 CanMove = false,
                                 LocalSerial = (uint)(ID_GUMP_CUSTOM_HOUSE.ID_GCH_ITEM_IN_LIST + i),
-                                // Height = 120
                             };
 
                             pic.MouseUp += (sender, e) =>
@@ -934,7 +933,6 @@ namespace RuneUO.Game.UI.Gumps
                             Y = offsetY,
                             CanMove = false,
                             LocalSerial = (uint)(ID_GUMP_CUSTOM_HOUSE.ID_GCH_ITEM_IN_LIST + i),
-                            // Height = 120
                         };
 
                         pic.MouseUp += (sender, e) =>
@@ -1075,7 +1073,6 @@ namespace RuneUO.Game.UI.Gumps
                                 LocalSerial = (uint)(
                                     ID_GUMP_CUSTOM_HOUSE.ID_GCH_ITEM_IN_LIST + index
                                 )
-                                //Height = 120
                             };
 
                             pic.MouseUp += (sender, e) =>
@@ -1275,7 +1272,6 @@ namespace RuneUO.Game.UI.Gumps
                                     LocalSerial = (uint)(
                                         ID_GUMP_CUSTOM_HOUSE.ID_GCH_ITEM_IN_LIST + index
                                     ),
-                                    //Height = 120
                                 };
 
                                 pic.MouseUp += (sender, e) =>
@@ -1455,7 +1451,6 @@ namespace RuneUO.Game.UI.Gumps
                                 Y = offsetY,
                                 CanMove = false,
                                 LocalSerial = (uint)(ID_GUMP_CUSTOM_HOUSE.ID_GCH_ITEM_IN_LIST + i),
-                                //Height = 120
                             };
 
                             pic.MouseUp += (sender, e) =>

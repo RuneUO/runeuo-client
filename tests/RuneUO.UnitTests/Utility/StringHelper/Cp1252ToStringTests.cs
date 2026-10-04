@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: BSD-2-Clause
 
-using RuneUO.Utility;
 using Xunit;
 
 namespace RuneUO.UnitTests.Utility.StringHelper

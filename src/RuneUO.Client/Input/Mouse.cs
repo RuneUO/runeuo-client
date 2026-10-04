@@ -105,8 +105,6 @@ namespace RuneUO.Input
 
         public static Point LDragOffset => LButtonPressed ? Position - LClickPosition : Point.Zero;
 
-        public static Point RDragOffset => RButtonPressed ? Position - RClickPosition : Point.Zero;
-
         public static Point MDragOffset => MButtonPressed ? Position - MClickPosition : Point.Zero;
 
         public static bool MouseInWindow { get; set; }

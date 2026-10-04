@@ -46,7 +46,6 @@ namespace RuneUO.Game
 
         public static bool IsPointInStretchedLand(ref UltimaBatcher2D.YOffsets yOffsets, int x, int y)
         {
-            //y -= 22;
             x += 22;
 
             int testX = TranslatedMousePositionByViewport.X - x;

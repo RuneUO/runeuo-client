@@ -84,52 +84,6 @@ namespace RuneUO.Assets
 
             _landData = [.. landTiles];
             _staticData = [.. staticTiles];
-
-
-            //path = Path.Combine(FileManager.UoFolderPath, "tileart.uop");
-
-            //        if (offset == 0)
-            //            continue;
-
-            //        ZLib.Decompress(cdata, 0, ddata, dsize);
-
-            //        reader.SetData(ddata, dsize);
-
-            //        reader.Skip(1 + // bool unk
-            //                    1 + // unk
-            //                    4 + // float unk
-            //                    4 + // float unk
-            //                    4 + // fixed zero ?
-            //                    4 + // old id ?
-            //                    4 + // unk
-            //                    4 + // unk
-            //                    1 + // unk
-            //                    4 + // 3F800000
-            //                    4 + // unk
-            //                    4 + // float light
-            //                    4 + // float light
-            //                    4   // unk
-            //                    );
-
-            //        ulong flags = reader.ReadULong();
-            //        ulong flags2 = reader.ReadULong();
-
-            //        reader.Skip(4); // unk
-
-            //        reader.Skip(24); // EC IMAGE OFFSET
-            //        byte[] imageOffset = reader.ReadArray(24); // 2D IMAGE OFFSET
-
-
-            //        }
-
-            //        count = reader.ReadInt();
-
-            //        count = reader.ReadByte();
-
-
-
-            //    }
-
         }
     }
 

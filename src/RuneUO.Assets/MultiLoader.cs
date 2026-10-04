@@ -10,8 +10,6 @@ namespace RuneUO.Assets
 {
     public sealed class MultiLoader : UOFileLoader
     {
-        public const int MAX_MULTI_DATA_INDEX_COUNT = 0x2200;
-
         public MultiLoader(UOFileManager fileManager) : base(fileManager)
         {
         }

@@ -556,8 +556,6 @@ sealed class Plugin
 
     [MarshalAs(UnmanagedType.FunctionPtr)]
     private RequestMove _requestMove;
-    private readonly Dictionary<IntPtr, object> _resources =
-        new Dictionary<IntPtr, object>();
 
     [MarshalAs(UnmanagedType.FunctionPtr)]
     private OnSetTitle _setTitle;

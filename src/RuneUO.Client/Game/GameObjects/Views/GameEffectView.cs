@@ -227,9 +227,6 @@ namespace RuneUO.Game.GameObjects
                     break;
             }
 
-            //Engine.DebugInfo.EffectsRendered++;
-
-
             if (data.IsLight && Source != null)
             {
                 Client.Game.GetScene<GameScene>().AddLight(Source, Source, posX + 22, posY + 22);

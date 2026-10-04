@@ -207,14 +207,10 @@ namespace RuneUO.Game.Data
 
         public static void CleanCaveTextures()
         {
-
-            //Client.Game.UO.FileManager.Arts.CleaUnusedResources(short.MaxValue);
         }
 
         public static void CleanTreeTextures()
         {
-
-            //Client.Game.UO.FileManager.Arts.CleaUnusedResources(short.MaxValue);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -245,12 +241,6 @@ namespace RuneUO.Game.Data
         public static bool IsVegetation(ushort g)
         {
             return (_filteredTiles[g] & STATIC_TILES_FILTER_FLAGS.STFF_VEGETATION) != 0;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsCave(ushort g)
-        {
-            return (_filteredTiles[g] & STATIC_TILES_FILTER_FLAGS.STFF_CAVE) != 0;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

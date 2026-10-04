@@ -23,7 +23,6 @@ namespace RuneUO.Game.Managers
 
         public override void Destroy()
         {
-            //Clear();
         }
 
         public virtual void Update()

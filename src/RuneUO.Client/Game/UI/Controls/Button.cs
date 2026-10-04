@@ -72,7 +72,6 @@ namespace RuneUO.Game.UI.Controls
 
             CanMove = false;
             AcceptMouseInput = true;
-            //CanCloseWithRightClick = false;
             CanCloseWithEsc = false;
         }
 

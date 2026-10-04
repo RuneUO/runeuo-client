@@ -124,7 +124,6 @@ namespace RuneUO.Game.Managers
 
         public void Clear()
         {
-            //Entries.Clear();
             CloseWriter();
         }
     }

@@ -6,18 +6,11 @@ namespace RuneUO.Input
 {
     internal static class Keyboard
     {
-        private static SDL.SDL_Keycode _code;
-
-
         public static SDL.SDL_Keymod IgnoreKeyMod { get; } = SDL.SDL_Keymod.SDL_KMOD_CAPS | SDL.SDL_Keymod.SDL_KMOD_NUM | SDL.SDL_Keymod.SDL_KMOD_MODE | SDL.SDL_Keymod.SDL_KMOD_SCROLL;
 
         public static bool Alt { get; private set; }
         public static bool Shift { get; private set; }
         public static bool Ctrl { get; private set; }
-
-
-        //    return tocheck == mod || mod != SDL.SDL_Keymod.KMOD_NONE && (mod & tocheck) != 0;
-        //}
 
         public static void OnKeyUp(SDL.SDL_KeyboardEvent e)
         {
@@ -32,8 +25,6 @@ namespace RuneUO.Input
             Shift = (e.mod & SDL.SDL_Keymod.SDL_KMOD_SHIFT) != SDL.SDL_Keymod.SDL_KMOD_NONE;
             Alt = (e.mod & SDL.SDL_Keymod.SDL_KMOD_ALT) != SDL.SDL_Keymod.SDL_KMOD_NONE;
             Ctrl = (e.mod & SDL.SDL_Keymod.SDL_KMOD_CTRL) != SDL.SDL_Keymod.SDL_KMOD_NONE;
-
-            _code = SDL.SDL_Keycode.SDLK_UNKNOWN;
         }
 
         public static void OnKeyDown(SDL.SDL_KeyboardEvent e)
@@ -49,11 +40,6 @@ namespace RuneUO.Input
             Shift = (e.mod & SDL.SDL_Keymod.SDL_KMOD_SHIFT) != SDL.SDL_Keymod.SDL_KMOD_NONE;
             Alt = (e.mod & SDL.SDL_Keymod.SDL_KMOD_ALT) != SDL.SDL_Keymod.SDL_KMOD_NONE;
             Ctrl = (e.mod & SDL.SDL_Keymod.SDL_KMOD_CTRL) != SDL.SDL_Keymod.SDL_KMOD_NONE;
-
-            if ((SDL.SDL_Keycode)e.key != SDL.SDL_Keycode.SDLK_UNKNOWN)
-            {
-                _code = (SDL.SDL_Keycode)e.key;
-            }
         }
     }
 }

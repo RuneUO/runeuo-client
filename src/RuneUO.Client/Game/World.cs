@@ -36,7 +36,7 @@ namespace RuneUO.Game
             ContainerManager = new ContainerManager(this);
             IgnoreManager = new IgnoreManager(this);
             SkillsGroupManager = new SkillsGroupManager(this);
-            ChatManager = new ChatManager(this);
+            ChatManager = new ChatManager();
             AuraManager = new AuraManager(this);
             UoAssist = new UoAssist(this);
             TargetManager = new TargetManager(this);
@@ -46,7 +46,7 @@ namespace RuneUO.Game
             Macros = new MacroManager(this);
             CommandManager = new CommandManager(this);
             Weather = new Weather(this);
-            InfoBars = new InfoBarManager(this);
+            InfoBars = new InfoBarManager();
         }
 
         public Point RangeSize;

@@ -15,7 +15,6 @@ namespace RuneUO.Game.UI.Controls
 
     internal class ScrollArea : Control
     {
-        private bool _isNormalScroll;
         private readonly ScrollBarBase _scrollBar;
 
         public ScrollArea
@@ -32,7 +31,6 @@ namespace RuneUO.Game.UI.Controls
             Y = y;
             Width = w;
             Height = h;
-            _isNormalScroll = normalScrollbar;
 
             if (normalScrollbar)
             {
@@ -63,9 +61,6 @@ namespace RuneUO.Game.UI.Controls
 
         public int ScrollMaxHeight { get; set; } = -1;
         public ScrollbarBehaviour ScrollbarBehaviour { get; set; }
-        public int ScrollValue => _scrollBar.Value;
-        public int ScrollMinValue => _scrollBar.MinValue;
-        public int ScrollMaxValue => _scrollBar.MaxValue;
 
 
         public Rectangle ScissorRectangle;

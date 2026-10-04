@@ -16,7 +16,6 @@ namespace RuneUO.Game.UI.Gumps
     internal class DebugGump : Gump
     {
         private const string DEBUG_STRING_0 = "- FPS: {0} (Min={1}, Max={2}), Zoom: {3:0.00}, Total Objs: {4}\n";
-        private const string DEBUG_STRING_1 = "- Mobiles: {0}   Items: {1}   Statics: {2}   Multi: {3}   Lands: {4}   Effects: {5}\n";
         private const string DEBUG_STRING_2 = "- CharPos: {0}\n- Mouse: {1}\n- InGamePos: {2}\n";
         private const string DEBUG_STRING_3 = "- Selected: {0}\n";
 
@@ -102,7 +101,6 @@ namespace RuneUO.Game.UI.Gumps
 
                     sb.Append($"- {RuneUOEnvironment.Name} version: {RuneUOEnvironment.Version}, Client version: {Settings.GlobalSettings.ClientVersion}\n");
 
-                    //_sb.AppendFormat(DEBUG_STRING_1, Engine.DebugInfo.MobilesRendered, Engine.DebugInfo.ItemsRendered, Engine.DebugInfo.StaticsRendered, Engine.DebugInfo.MultiRendered, Engine.DebugInfo.LandsRendered, Engine.DebugInfo.EffectsRendered);
                     sb.Append(string.Format(DEBUG_STRING_2, World.InGame ? $"{World.Player.X}, {World.Player.Y}, {World.Player.Z}" : "0xFFFF, 0xFFFF, 0", Mouse.Position, SelectedObject.Object is GameObject gobj ? $"{gobj.X}, {gobj.Y}, {gobj.Z}" : "0xFFFF, 0xFFFF, 0"));
 
                     sb.Append(string.Format(DEBUG_STRING_3, ReadObject(SelectedObject.Object)));
@@ -118,7 +116,6 @@ namespace RuneUO.Game.UI.Gumps
 
                         double timeOutOfContext = Profiler.GetContext(Profiler.ProfilerContext.OUT_OF_CONTEXT).TimeInContext;
 
-                        //double timeTotalCheck = timeOutOfContext + timeDraw + timeUpdate;
                         double timeTotal = Profiler.TrackedTime;
 
                         double avgDrawMs = Profiler.GetContext(Profiler.ProfilerContext.RENDER_FRAME).AverageTime;

@@ -52,8 +52,6 @@ namespace RuneUO.Game.Managers
 
         public AffixType AffixType { get; }
 
-        public string Affix { get; }
-
         public bool IsUnicode { get; }
 
         public TextType TextType { get; }

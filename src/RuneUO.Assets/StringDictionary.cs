@@ -17,18 +17,6 @@ public sealed class StringDictionaryLoader : UOFileLoader
     {
     }
 
-    public bool TryGetString(int index, out string str)
-    {
-        if (index < 0 || index >= _strings.Length)
-        {
-            str = string.Empty;
-            return false;
-        }
-
-        str = _strings[index];
-        return true;
-    }
-
     public override void Load()
     {
         var path = FileManager.GetUOFilePath("string_dictionary.uop");

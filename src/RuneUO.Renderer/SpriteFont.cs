@@ -91,11 +91,6 @@ namespace RuneUO.Renderer
                     if (!DefaultCharacter.HasValue)
                     {
                         index = CharacterMap.IndexOf('?');
-                        //throw new ArgumentException(
-                        //                            "Text contains characters that cannot be" +
-                        //                            " resolved by this SpriteFont.",
-                        //                            "text"
-                        //                           );
                     }
                     else
                     {

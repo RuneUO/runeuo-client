@@ -19,7 +19,6 @@ namespace RuneUO.Game
 {
     public sealed class UltimaLive
     {
-        private const int STATICS_MEMORY_SIZE = 200000000;
         private const int CRC_LENGTH = 25;
         private const int LAND_BLOCK_LENGTH = 192;
 
@@ -39,8 +38,6 @@ namespace RuneUO.Game
         //right- we have the size of the map, values in index 0 and 1 are map REAL size x and y
         //       values in index 2 and 3 is for the wrap size of map (virtual size), x and y
         private ushort[,] MapSizeWrapSize;
-        public static bool UltimaLiveActive => _UL != null && !string.IsNullOrEmpty(_UL.ShardName);
-        private string RealShardName;
         private string ShardName;
 
         public static void Enable()
@@ -298,8 +295,6 @@ namespace RuneUO.Game
                             _UL._ULMap.ReloadBlock(mapId, block);
                             mapChunk.Load(mapId);
 
-                            //linkedList?.AddLast(c.Node);
-
                             foreach (GameObject gameObject in gameObjects)
                             {
                                 mapChunk.AddGameObject(gameObject, gameObject.X % 8, gameObject.Y % 8);
@@ -388,7 +383,6 @@ namespace RuneUO.Game
                         MapLoader.MAPS_COUNT = sbyte.MaxValue;
                         var mapLoader = new ULMapLoader(Client.Game.UO.FileManager, (uint)MapLoader.MAPS_COUNT);
 
-                        //for (int i = 0; i < maps; i++)
                         for (int i = 0; i < validMaps.Count; i++)
                         {
                             mapLoader.CheckForShardMapFile(validMaps[i]);
@@ -436,12 +430,9 @@ namespace RuneUO.Game
                         return;
                     }
 
-                    string[] split = name.Split(_pathSeparatorChars, StringSplitOptions.RemoveEmptyEntries);
-
                     _UL = new UltimaLive
                     {
-                        ShardName = name,
-                        RealShardName = split[split.Length - 1]
+                        ShardName = name
                     };
 
                     //TODO: create shard directory, copy map and statics to that directory, use that files instead of the original ones
@@ -565,8 +556,6 @@ namespace RuneUO.Game
                 }
 
                 UIManager.GetGump<MiniMapGump>()?.RequestUpdateContents();
-
-                //UIManager.GetGump<WorldMapGump>()?.UpdateMap();
             }
         }
 
@@ -849,18 +838,9 @@ namespace RuneUO.Game
                     }
                     else
                     {
-                        if (mapFile is UOFileUop uop)
+                        if (mapFile is UOFileUop)
                         {
-                            //Entries[mapId] = new UOFileIndex[uop.TotalEntriesCount];
-                            //uop.FillEntries(ref Entries[mapId]);
-
-                            //Log.Trace($"UltimaLive -> converting file:\t{mapPath} from {uop.FilePath}");
-
-                            //        stream.Write(reader.ReadArray(Entries[mapId][x].Length), 0, Entries[mapId][x].Length);
-                            //    }
-
-                            //    stream.Flush();
-                            //}
+                            // UOP maps are not converted to a persistent copy.
                         }
                         else
                         {

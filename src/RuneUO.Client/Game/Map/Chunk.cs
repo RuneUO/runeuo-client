@@ -52,15 +52,6 @@ namespace RuneUO.Game.Map
             return c;
         }
 
-        public static void ClearPool()
-        {
-            while (_pool.Count > 0)
-            {
-                var chunk = _pool.Dequeue();
-                chunk.Mesh.Clear();
-            }
-        }
-
 
         public unsafe void Load(int index)
         {
@@ -324,35 +315,6 @@ namespace RuneUO.Game.Map
                 start.TPrevious = obj;
                 obj.TPrevious = null;
             }
-        }
-
-        public void RemoveGameObject(GameObject obj, int x, int y)
-        {
-            Mesh.MarkDirtyIfNeeded(obj);
-            ref GameObject firstNode = ref Tiles[x, y];
-
-            if (firstNode == null || obj == null)
-            {
-                return;
-            }
-
-            if (firstNode == obj)
-            {
-                firstNode = obj.TNext;
-            }
-
-            if (obj.TNext != null)
-            {
-                obj.TNext.TPrevious = obj.TPrevious;
-            }
-
-            if (obj.TPrevious != null)
-            {
-                obj.TPrevious.TNext = obj.TNext;
-            }
-
-            obj.TPrevious = null;
-            obj.TNext = null;
         }
 
 

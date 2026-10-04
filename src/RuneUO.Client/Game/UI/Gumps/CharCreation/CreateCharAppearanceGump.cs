@@ -131,7 +131,6 @@ namespace RuneUO.Game.UI.Gumps.CharCreation
                 )
                 {
                     X = 257, Y = 65, Width = 200, Height = 20
-                    //ValidationRules = (uint) (TEXT_ENTRY_RULES.LETTER | TEXT_ENTRY_RULES.SPACE)
                 },
                 1
             );
@@ -1017,7 +1016,6 @@ namespace RuneUO.Game.UI.Gumps.CharCreation
 
         private class CustomColorPicker : Control
         {
-            //private readonly ColorBox _box;
             private readonly int _cellH;
             private readonly int _cellW;
             private readonly ColorBox _colorPicker;

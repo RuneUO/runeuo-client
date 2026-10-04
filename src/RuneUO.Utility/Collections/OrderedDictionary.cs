@@ -511,7 +511,6 @@ namespace RuneUO.Utility.Collections
 
     public class Comparer2<T> : Comparer<T>
     {
-        //private readonly Func<T, T, int> _compareFunction;
         private readonly Comparison<T> _compareFunction;
 
         #region Constructors

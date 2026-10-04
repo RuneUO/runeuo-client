@@ -127,9 +127,6 @@ namespace RuneUO
             var bytes = Loader.GetBackgroundImage().ToArray();
             using var ms = new MemoryStream(bytes);
             _renderTargets.InitializeBackground(Texture2D.FromStream(GraphicsDevice, ms));
-#if false
-            SetScene(new MainScene(this));
-#else
             UO.Load(this);
             Audio.Initialize();
             // TODO: temporary fix to avoid crash when laoding plugins
@@ -147,7 +144,6 @@ namespace RuneUO
             Log.Trace("Done!");
 
             SetScene(new LoginScene(UO.World));
-#endif
             SetWindowPositionBySettings();
         }
 
@@ -246,9 +242,6 @@ namespace RuneUO
 
         public void SetWindowSize(int width, int height)
         {
-            //width = (int) ((double) width * Client.Game.GraphicManager.PreferredBackBufferWidth / Client.Game.Window.ClientBounds.Width);
-            //height = (int) ((double) height * Client.Game.GraphicManager.PreferredBackBufferHeight / Client.Game.Window.ClientBounds.Height);
-
             /*if (RuneUOEnvironment.IsHighDPI)
             {
                 width *= 2;

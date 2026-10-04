@@ -283,7 +283,6 @@ namespace RuneUO.Game
                             hue = 0x0021;
                         }
 
-                        //if (_temp.Count != list.Count)
                         {
                             _temp.ForEach(s => s.Destroy());
                             _temp.Clear();

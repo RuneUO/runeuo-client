@@ -9,7 +9,6 @@ using RuneUO.Network;
 using RuneUO.Utility;
 using RuneUO.Utility.Logging;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RuneUO.Game.GameObjects
 {
@@ -45,10 +44,6 @@ namespace RuneUO.Game.GameObjects
 
         public readonly Ability[] Abilities = [Ability.Invalid, Ability.Invalid];
 
-        //private bool _lastRun, _lastMount;
-        //private int _lastDir = -1, _lastDelta, _lastStepTime;
-
-
         public readonly HashSet<uint> AutoOpenedCorpses = new HashSet<uint>();
         public readonly HashSet<uint> ManualOpenedCorpses = new HashSet<uint>();
 
@@ -73,9 +68,7 @@ namespace RuneUO.Game.GameObjects
         public short DefenseChanceIncrease;
         public Lock DexLock;
         public ushort Dexterity;
-        public short DexterityIncrease;
         public short EnergyResistance;
-        public short EnhancePotions;
         public short FasterCasting;
         public short FasterCastRecovery;
         public short FireResistance;
@@ -83,34 +76,22 @@ namespace RuneUO.Game.GameObjects
         public byte FollowersMax;
         public uint Gold;
         public short HitChanceIncrease;
-        public short HitPointsIncrease;
-        public short HitPointsRegeneration;
         public ushort Intelligence;
-        public short IntelligenceIncrease;
         public Lock IntLock;
         public short LowerManaCost;
         public short LowerReagentCost;
         public ushort Luck;
-        public short ManaIncrease;
-        public short ManaRegeneration;
         public short MaxColdResistence;
         public short MaxDefenseChanceIncrease;
         public short MaxEnergyResistence;
         public short MaxFireResistence;
-        public short MaxHitPointsIncrease;
-        public short MaxManaIncrease;
         public short MaxPhysicResistence;
         public short MaxPoisonResistence;
-        public short MaxStaminaIncrease;
         public short PhysicalResistance;
         public short PoisonResistance;
-        public short ReflectPhysicalDamage;
         public short SpellDamageIncrease;
-        public short StaminaIncrease;
-        public short StaminaRegeneration;
         public short StatsCap;
         public ushort Strength;
-        public short StrengthIncrease;
         public Lock StrLock;
         public short SwingSpeedIncrease;
         public uint TithingPoints;
@@ -492,22 +473,6 @@ namespace RuneUO.Game.GameObjects
                 }
             }
         }
-
-
-        //    //const int TIME_TURN_TO_LASTTARGET = 2000;
-
-        //    //if (TargetManager.LastAttack != 0 &&
-        //    //    InWarMode &&
-        //    //    Walker.LastStepRequestTime + TIME_TURN_TO_LASTTARGET < Time.Ticks)
-        //    //{
-        //    //    Mobile enemy = World.Mobiles.Get(TargetManager.LastAttack);
-
-        // ############# DO NOT DELETE IT! #############
-        //protected override bool NoIterateAnimIndex()
-        //{
-        //    return false;
-        //}
-        // #############################################
 
         public bool Walk(Direction direction, bool run)
         {

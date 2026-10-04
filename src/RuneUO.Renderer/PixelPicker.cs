@@ -62,18 +62,6 @@ namespace RuneUO.Renderer
             return false;
         }
 
-        public void GetDimensions(ulong textureID, out int width, out int height)
-        {
-            int index;
-            if (!m_IDs.TryGetValue(textureID, out index))
-            {
-                width = height = 0;
-                return;
-            }
-            width = ReadIntegerFromData(ref index);
-            height = ReadIntegerFromData(ref index);
-        }
-
         public void Clear()
         {
             m_IDs.Clear();

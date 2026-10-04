@@ -522,7 +522,6 @@ sealed class RuneUOHost : IPluginHandler
         ptr[count] = 0;
 
         fixed (char* titlePtr = title)
-        //fixed (byte* ptr = &buf[0])
         {
             Encoding.UTF8.GetBytes(titlePtr, title.Length, ptr, count);
 

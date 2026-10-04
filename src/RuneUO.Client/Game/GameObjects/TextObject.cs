@@ -45,8 +45,6 @@ namespace RuneUO.Game.GameObjects
             RenderedText?.Destroy();
             RenderedText = null;
             Owner = null;
-
-            //_queue.ReturnOne(this);
         }
 
         public void UnlinkD()

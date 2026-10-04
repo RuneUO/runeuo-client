@@ -19,13 +19,6 @@ namespace RuneUO.IO.Audio
 
         protected override void OnBufferNeeded(object sender, EventArgs e)
         {
-
-            //    float volume = ProfileManager.CurrentProfile.SoundVolume / Constants.SOUND_DELTA;
-            //    float distanceFactor = 0.0f;
-
-            //    if (ProfileManager.CurrentProfile == null || !ProfileManager.CurrentProfile.EnableSound || !Client.Game.IsActive && !ProfileManager.CurrentProfile.ReproduceSoundsInBackground)
-            //        volume = 0;
-
         }
 
         protected override ArraySegment<byte> GetBuffer()

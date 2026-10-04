@@ -276,7 +276,6 @@ namespace RuneUO.Game.UI.Controls
 
             if (Children.Count != 0)
             {
-                //InitializeControls();
                 int w = 0, h = 0;
 
                 for (int i = 0; i < Children.Count; i++)
@@ -520,11 +519,6 @@ namespace RuneUO.Game.UI.Controls
             }
         }
 
-        public T[] GetControls<T>() where T : Control
-        {
-            return Children.OfType<T>().Where(s => !s.IsDisposed).ToArray();
-        }
-
         public IEnumerable<T> FindControls<T>() where T : Control
         {
             return Children.OfType<T>().Where(s => !s.IsDisposed);
@@ -715,7 +709,6 @@ namespace RuneUO.Game.UI.Controls
             {
                 IsFocused = true;
                 FocusEnter.Raise(this);
-                //Parent?.OnFocusEnter();
             }
         }
 
@@ -725,7 +718,6 @@ namespace RuneUO.Game.UI.Controls
             {
                 IsFocused = false;
                 FocusLost.Raise(this);
-                //Parent?.OnFocusLeft();
             }
         }
 

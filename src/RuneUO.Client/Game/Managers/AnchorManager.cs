@@ -12,30 +12,6 @@ namespace RuneUO.Game.Managers
 {
     internal sealed class AnchorManager
     {
-        private static readonly Vector2[][] _anchorTriangles =
-        {
-            new[] { new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(0f, 1f) },
-            new[] { new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(1f, 0f) },
-            new[] { new Vector2(1f, 0f), new Vector2(0.5f, 0.5f), new Vector2(1f, 1f) },
-            new[] { new Vector2(0f, 1f), new Vector2(0.5f, 0.5f), new Vector2(1f, 1f) }
-        };
-
-        private static readonly Point[] _anchorDirectionMatrix =
-        {
-            new Point(-1, 0),
-            new Point(0, -1),
-            new Point(1, 0),
-            new Point(0, 1)
-        };
-
-        private static readonly Point[] _anchorMultiplierMatrix =
-        {
-            new Point(0, 0),
-            new Point(0, 0),
-            new Point(1, 0),
-            new Point(0, 1)
-        };
-
         private readonly Dictionary<AnchorableGump, AnchorGroup> reverseMap = new Dictionary<AnchorableGump, AnchorGroup>();
 
         public AnchorGroup this[AnchorableGump control]
@@ -185,21 +161,6 @@ namespace RuneUO.Game.Managers
             }
 
             return (new Point(0, -draggedControl.HeightMultiplier), draggedControl);
-        }
-
-        private bool IsPointInPolygon(Vector2[] polygon, Vector2 point)
-        {
-            bool isInside = false;
-
-            for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
-            {
-                if (polygon[i].Y > point.Y != polygon[j].Y > point.Y && point.X < (polygon[j].X - polygon[i].X) * (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) + polygon[i].X)
-                {
-                    isInside = !isInside;
-                }
-            }
-
-            return isInside;
         }
 
         public AnchorableGump ClosestOverlappingControl(AnchorableGump control)
@@ -435,10 +396,6 @@ namespace RuneUO.Game.Managers
                     }
 
                     //// TODO: loop through
-                    //var targetX = hostPosition.Value.X + relativePosition.X;
-                    //var targetY = hostPosition.Value.Y + relativePosition.Y;
-
-                    //return IsEmptyDirection(targetX, targetY);
                 }
 
                 return isEmpty;
@@ -483,30 +440,6 @@ namespace RuneUO.Game.Managers
                 }
 
                 controlMatrix = newMatrix;
-            }
-
-            private void printMatrix()
-            {
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine();
-
-                for (int y = 0; y < controlMatrix.GetLength(1); y++)
-                {
-                    for (int x = 0; x < controlMatrix.GetLength(0); x++)
-                    {
-                        if (controlMatrix[x, y] != null)
-                        {
-                            Console.Write(" " + controlMatrix[x, y].LocalSerial + " ");
-                        }
-                        else
-                        {
-                            Console.Write(" ---------- ");
-                        }
-                    }
-
-                    Console.WriteLine();
-                }
             }
         }
     }

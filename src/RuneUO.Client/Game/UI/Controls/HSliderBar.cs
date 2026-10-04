@@ -90,8 +90,6 @@ namespace RuneUO.Game.UI.Controls
                     int oldValue = _value;
                     _value = /*_newValue =*/
                     value;
-                    //if (IsInitialized)
-                    //    RecalculateSliderX();
 
                     if (_value < MinValue)
                     {

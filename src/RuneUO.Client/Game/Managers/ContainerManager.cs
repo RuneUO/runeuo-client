@@ -517,10 +517,6 @@ namespace RuneUO.Game.Managers
             _data[0x9CE5] = new ContainerData(0x9CE5, 0x0000, 0x0000, 44, 65, 186, 159);
 
             _data[0x9CE7] = new ContainerData(0x9CE7, 0x0000, 0x0000, 44, 65, 186, 159);
-
-            //
-            //    0x2A63= new ContainerData(0x2A63, 0x0187, 0x01c9, 29, 34, 137, 128)//for this particular gump area is bugged also in original client, as it is similar to the bag, probably this is an unfinished one
-            //}
         }
     }
 }

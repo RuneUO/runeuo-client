@@ -327,7 +327,7 @@ namespace RuneUO.Game.UI.Gumps
         private readonly LineCHB[] _bars = new LineCHB[3];
         private readonly LineCHB[] _border = new LineCHB[4];
 
-        private LineCHB _hpLineRed, _manaLineRed, _stamLineRed, _outline;
+        private LineCHB _hpLineRed, _manaLineRed, _stamLineRed;
 
 
         private bool _oldWarMode, _normalHits, _poisoned, _yellowHits;
@@ -751,7 +751,7 @@ namespace RuneUO.Game.UI.Gumps
 
                 Add
                 (
-                    _outline = new LineCHB
+                    new LineCHB
                     (
                         HPB_BAR_SPACELEFT - HPB_OUTLINESIZE,
                         27 - HPB_OUTLINESIZE,
@@ -914,7 +914,7 @@ namespace RuneUO.Game.UI.Gumps
 
                     Add
                     (
-                        _outline = new LineCHB
+                        new LineCHB
                         (
                             HPB_BAR_SPACELEFT - HPB_OUTLINESIZE,
                             27 - HPB_OUTLINESIZE,
@@ -1062,7 +1062,7 @@ namespace RuneUO.Game.UI.Gumps
 
                     Add
                     (
-                        _outline = new LineCHB
+                        new LineCHB
                         (
                             HPB_BAR_SPACELEFT - HPB_OUTLINESIZE,
                             21 - HPB_OUTLINESIZE,

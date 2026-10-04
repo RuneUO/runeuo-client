@@ -132,7 +132,6 @@ namespace RuneUO.Game.Map
         public void GetMapZ(int x, int y, out sbyte groundZ, out sbyte staticZ)
         {
             Chunk chunk = GetChunk(x, y);
-            //var obj = GetTile(x, y);
             groundZ = staticZ = 0;
 
             if (chunk == null)

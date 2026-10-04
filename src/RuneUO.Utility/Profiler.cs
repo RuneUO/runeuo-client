@@ -170,8 +170,6 @@ namespace RuneUO.Utility
                 AddNewHitLength(time);
             }
 
-            public double LastTime => m_LastTimes[m_LastIndex % ProfileTimeCount];
-
             public double TimeInContext
             {
                 get

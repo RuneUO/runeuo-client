@@ -126,8 +126,6 @@ namespace RuneUO.Game.Managers
 
             _subst.Clear();
 
-            //_staticToUpdate.Clear();
-
             base.Clear();
         }
     }

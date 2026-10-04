@@ -451,8 +451,6 @@ namespace RuneUO.Assets
             {
                 int idx = i;
 
-                //SanitizeMapIndex(ref idx);
-
                 if (_currentMapFiles[idx] == null || _currentMapFiles[idx].Length == 0)
                 {
                     reader.Skip(8);
@@ -676,13 +674,6 @@ namespace RuneUO.Assets
         public ushort Graphic;
         public sbyte Z;
         public bool IsLand;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct RadarMapBlock
-    {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-        public RadarMapcells[,] Cells;
     }
 
     public struct IndexMap
