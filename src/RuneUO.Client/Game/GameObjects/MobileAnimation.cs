@@ -331,9 +331,6 @@ namespace RuneUO.Game.GameObjects
 
             LABEL_243:
             v13 = (ushort)(v13 & 0x7F);
-
-            //if (v13 > 34)
-            //    v13 = 0;
         }
 
         private static void LABEL_190(AnimationFlags  flags, ref ushort v13)
@@ -638,9 +635,6 @@ namespace RuneUO.Game.GameObjects
                                         break;
                                 }
                             }
-
-                            //if (v13 > 12)
-                            //    v13 = 0; // 2
                         }
                         else
                         {
@@ -1279,10 +1273,6 @@ namespace RuneUO.Game.GameObjects
                             result = 23;
                         }
                     }
-                    //else if (EquippedGraphic0x3E96)
-                    //{
-
-                    //}
                     else if (isRun || !mobile.InWarMode || mobile.IsDead)
                     {
                         if ((flags & AnimationFlags.UseUopAnimation) != 0)

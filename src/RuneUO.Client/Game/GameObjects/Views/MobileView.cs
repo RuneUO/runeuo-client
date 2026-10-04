@@ -462,7 +462,6 @@ namespace RuneUO.Game.GameObjects
                                 alpha: HueVector.Z
                             );
                             */
-                            //break;
                         }
                     }
                 }

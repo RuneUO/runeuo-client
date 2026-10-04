@@ -790,7 +790,6 @@ namespace RuneUO.Game.UI.Gumps
                                     _handler[l] = _sb.ToString();
                                     _sb.Clear();
                                     l++;
-                                    //CaretIndex++;
                                     w = 0;
 
                                     if (l >= _pageLines.Length)
@@ -818,7 +817,6 @@ namespace RuneUO.Game.UI.Gumps
                         {
                             _handler[l] = "\n";
                             l++;
-                            //_sb.Append('\n');
                         }
                     }
 

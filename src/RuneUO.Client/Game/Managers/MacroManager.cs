@@ -1018,9 +1018,6 @@ namespace RuneUO.Game.Managers
 
                 case MacroType.LastTarget:
 
-                    //if (WaitForTargetTimer == 0)
-                    //    WaitForTargetTimer = Time.Ticks + Constants.WAIT_FOR_TARGET_DELAY;
-
                     if (_world.TargetManager.IsTargeting)
                     {
 
@@ -1051,9 +1048,6 @@ namespace RuneUO.Game.Managers
                     break;
 
                 case MacroType.TargetSelf:
-
-                    //if (WaitForTargetTimer == 0)
-                    //    WaitForTargetTimer = Time.Ticks + Constants.WAIT_FOR_TARGET_DELAY;
 
                     if (_world.TargetManager.IsTargeting)
                     {
@@ -1262,7 +1256,6 @@ namespace RuneUO.Game.Managers
                         ProfileManager.CurrentProfile.UseNewTargetSystem = true;
                         GameActions.Print(_world, "Target System: On");
                     }
-                    //GameActions.Print(_world, ResGeneral.TargetSystemNotImplemented);
 
                     break;
 
@@ -1882,10 +1875,6 @@ namespace RuneUO.Game.Managers
 
             return Key == other.Key && Alt == other.Alt && Ctrl == other.Ctrl && Shift == other.Shift && Name == other.Name;
         }
-
-        //public Macro Left { get; set; }
-        //public Macro Right { get; set; }
-
 
         public void Save(XmlTextWriter writer)
         {

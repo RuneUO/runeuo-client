@@ -529,7 +529,6 @@ namespace RuneUO.Game.UI.Gumps
 
         private class CustomColorPicker : Control
         {
-            //private readonly ColorBox _box;
             private readonly int _cellH;
             private readonly int _cellW;
             private readonly ColorBox _colorPicker;

@@ -115,16 +115,12 @@ namespace RuneUO.Game.Scenes
                         continue;
                     }
 
-                    //if (obj is Item it && !it.ItemData.IsRoof || !(obj is Static) && !(obj is Multi))
-                    //    continue;
-
                     if (tileZ > pz14 && _maxZ > tileZ)
                     {
                         ref StaticTiles itemdata = ref Client.Game.UO.FileManager.TileData.StaticData[
                             obj.Graphic
                         ];
 
-                        //if (GameObjectHelper.TryGetStaticData(obj, out var itemdata) && ((ulong) itemdata.Flags & 0x20004) == 0 && (!itemdata.IsRoof || itemdata.IsSurface))
                         if (
                             ((ulong)itemdata.Flags & 0x20004) == 0
                             && (!itemdata.IsRoof || itemdata.IsSurface)
@@ -155,9 +151,6 @@ namespace RuneUO.Game.Scenes
                         obj2 = obj2.TNext
                     )
                     {
-                        //if (obj is Item it && !it.ItemData.IsRoof || !(obj is Static) && !(obj is Multi))
-                        //    continue;
-
                         if (obj2 is Mobile)
                         {
                             continue;
@@ -1161,8 +1154,6 @@ namespace RuneUO.Game.Scenes
 
                         if (effect.IsMoving) // TODO: check for typeof(MovingEffect) ?
                         { }
-
-                        //PushToRenderList(obj, ref _renderList, ref _renderListStaticsHead, ref _renderListStaticsCount, false);
 
                         PushToRenderQueue(
                             obj,

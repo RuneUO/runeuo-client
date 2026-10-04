@@ -451,8 +451,6 @@ namespace RuneUO.Assets
             {
                 int idx = i;
 
-                //SanitizeMapIndex(ref idx);
-
                 if (_currentMapFiles[idx] == null || _currentMapFiles[idx].Length == 0)
                 {
                     reader.Skip(8);

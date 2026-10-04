@@ -118,7 +118,6 @@ namespace RuneUO.Game.UI.Gumps
             get => _isMinimized;
             set
             {
-                //if (_isMinimized != value)
                 {
                     _isMinimized = value;
                     _gumpPicContainer.Graphic = value ? _data.IconizedGraphic : Graphic;

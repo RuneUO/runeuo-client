@@ -226,8 +226,6 @@ namespace RuneUO.Game.UI.Controls
                     }
                 }
 
-                //Sanitize(ref value);
-
                 string previousText = _rendererText.Text;
 
                 _rendererText.Text = value;

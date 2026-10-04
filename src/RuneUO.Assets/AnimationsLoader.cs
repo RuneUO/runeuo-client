@@ -1209,8 +1209,6 @@ namespace RuneUO.Assets
             bool isRunning = false
         )
         {
-            //ConvertBodyIfNeeded(ref animID);
-
             if (animFlags.HasFlag(AnimationFlags.CalculateOffsetByLowGroup))
             {
                 animType = AnimationGroupsType.Animal;
@@ -1399,8 +1397,6 @@ namespace RuneUO.Assets
 
                 var framesSpan = _frames.AsSpan(0, realFrameCount);
                 framesSpan.Clear();
-
-                // var dirFrameStartIdx = realFrameCount * direction;
 
                 foreach (ref readonly var frame in frameData)
                 {

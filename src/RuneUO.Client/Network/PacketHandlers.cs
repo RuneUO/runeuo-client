@@ -875,12 +875,8 @@ namespace RuneUO.Network
                 flags = p.ReadUInt8();
             }
 
-            //if (graphic != 0x2006)
-            //    graphic += graphicInc;
-
             if (graphic >= 0x4000)
             {
-                //graphic -= 0x4000;
                 type = 2;
             }
 
@@ -1127,13 +1123,10 @@ namespace RuneUO.Network
             {
                 if (world.Party.Contains(serial))
                 {
-                    // m.RemoveFromTile();
                 }
 
                 // else
                 {
-                    //BaseHealthBarGump bar = UIManager.GetGump<BaseHealthBarGump>(serial);
-
                     world.RemoveMobile(serial, true);
                 }
             }
@@ -1366,7 +1359,6 @@ namespace RuneUO.Network
 
                     if (first == null)
                     {
-                        //Log.Warn("buy item not found");
                         continue;
                     }
 
@@ -1419,8 +1411,6 @@ namespace RuneUO.Network
                         )
                     )
                     {
-                        //UIManager.GetGump<GridLootGump>(serial)?.Dispose();
-                        //UIManager.Add(new GridLootGump(serial));
                         _requestedGridLoot = serial;
 
                         if (ProfileManager.CurrentProfile.GridLootType == 1)
@@ -1706,11 +1696,6 @@ namespace RuneUO.Network
                 Log.Warn("There was a problem with ItemHold object. It was cleared before :|");
             }
 
-            //var result = World.Items.Get(ItemHold.Serial);
-
-            //if (result != null && !result.IsDestroyed)
-            //    result.AllowedToDraw = true;
-
             byte code = p.ReadUInt8();
 
             if (code < 5)
@@ -1826,7 +1811,6 @@ namespace RuneUO.Network
 
             if (item.Graphic != 0 && item.Layer != Layer.Backpack)
             {
-                //ClearContainerAndRemoveItems(item);
                 world.RemoveItemFromContainer(item);
             }
 
@@ -1849,7 +1833,6 @@ namespace RuneUO.Network
 
             if (item.Layer >= Layer.ShopBuyRestock && item.Layer <= Layer.ShopSell)
             {
-                //item.Clear();
             }
             else if (SerialHelper.IsValid(item.Container) && item.Layer < Layer.Mount)
             {
@@ -2242,7 +2225,6 @@ namespace RuneUO.Network
                 var scene = new GameScene(world);
                 Client.Game.SetScene(scene);
 
-                //GameActions.OpenPaperdoll(world.Player);
                 GameActions.RequestMobileStatus(world, world.Player);
                 NetClient.Socket.Send_OpenChat("");
 
@@ -2844,7 +2826,6 @@ namespace RuneUO.Network
             Flags flags = (Flags)p.ReadUInt8();
             NotorietyFlag notoriety = (NotorietyFlag)p.ReadUInt8();
             bool oldDead = false;
-            //bool alreadyExists =world.Get(serial) != null;
 
             if (serial == world.Player)
             {
@@ -2900,9 +2881,6 @@ namespace RuneUO.Network
 
             while (itemSerial != 0 && p.Position < p.Length)
             {
-                //if (!SerialHelper.IsItem(itemSerial))
-                //    break;
-
                 ushort itemGraphic = p.ReadUInt16BE();
                 byte layer = p.ReadUInt8();
                 ushort item_hue = 0;
@@ -3393,9 +3371,6 @@ namespace RuneUO.Network
                     }
                 }
 
-                //if (string.IsNullOrEmpty(item.Name))
-                //    item.Name = name;
-
                 gump.AddItem(serial, graphic, hue, amount, price, name, fromcliloc);
             }
 
@@ -3518,13 +3493,6 @@ namespace RuneUO.Network
         private static void AttackCharacter(World world, ref StackDataReader p)
         {
             uint serial = p.ReadUInt32BE();
-
-            //if (TargetManager.LastAttack != serial && World.InGame)
-            //{
-
-
-
-            //}
 
             GameActions.SendCloseStatus(world, world.TargetManager.LastAttack);
             world.TargetManager.LastAttack = serial;
@@ -3797,9 +3765,6 @@ namespace RuneUO.Network
                 }
             }
 
-            //    unsafe
-            //    {
-
             CreateGump(world, sender, gumpID, x, y, cmd, lines);
         }
 
@@ -3916,7 +3881,6 @@ namespace RuneUO.Network
                         }
                     }
 
-                    //Color c = new Color(49, 82, 156, 0);
                     GameActions.Print(
                         world,
                         $"{username}: {msgSent}",
@@ -4109,9 +4073,6 @@ namespace RuneUO.Network
 
         private static void AssistVersion(World world, ref StackDataReader p)
         {
-            //uint version = p.ReadUInt32BE();
-
-            //NetClient.Socket.Send(new PAssistVersion(clientVersionBuffer, version));
         }
 
         private static void ExtendedCommand(World world, ref StackDataReader p)
@@ -4386,9 +4347,6 @@ namespace RuneUO.Network
 
                     if (Client.Game.UO.FileManager.Maps.ApplyPatches(ref p))
                     {
-                        //List<GameObject> list = new List<GameObject>();
-
-
                         int map = world.MapIndex;
                         world.MapIndex = -1;
                         world.MapIndex = map;
@@ -4791,7 +4749,6 @@ namespace RuneUO.Network
             }
             else if (entity != null)
             {
-                //entity.Graphic = graphic;
                 text_type = TextType.OBJECT;
 
                 if (string.IsNullOrEmpty(entity.Name))
@@ -5749,9 +5706,6 @@ namespace RuneUO.Network
                 return;
             }
 
-            //multi.LastX = x;
-            //multi.LastY = y;
-
             bool smooth =
                 ProfileManager.CurrentProfile != null
                 && ProfileManager.CurrentProfile.UseSmoothBoatMovement;
@@ -5800,9 +5754,6 @@ namespace RuneUO.Network
                 {
                     continue;
                 }
-
-                //ent.LastX = cx;
-                //ent.LastY = cy;
 
                 if (smooth)
                 {
@@ -5998,7 +5949,6 @@ namespace RuneUO.Network
             {
                 Log.Warn($"No container ({containerSerial}) found");
         
-                //container = world.GetOrCreateItem(containerSerial);
                 return;
             }
         

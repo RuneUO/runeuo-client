@@ -18,8 +18,6 @@ namespace RuneUO.Game.UI.Gumps.Login
 
         public ServerSelectionGump(World world) : base(world, 0, 0)
         {
-            //AddChildren(new LoginBackground(true));
-
             Add
             (
                 new Button((int) Buttons.Prev, 0x15A1, 0x15A3, 0x15A2)

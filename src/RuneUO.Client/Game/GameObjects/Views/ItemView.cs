@@ -40,7 +40,6 @@ namespace RuneUO.Game.GameObjects
                 return false;
             }
 
-            //Engine.DebugInfo.ItemsRendered++;
             Vector3 hueVec;
 
             posX += (int)Offset.X;
@@ -122,8 +121,6 @@ namespace RuneUO.Game.GameObjects
             {
                 if (!IsLocked && !IsMulti && ReferenceEquals(SelectedObject.Object, this))
                 {
-                    // TODO: check why i put this.
-                    //isPartial = ItemData.Weight == 0xFF;
                     hue = 0x0035;
                 }
                 else if (IsHidden)
@@ -422,9 +419,6 @@ namespace RuneUO.Game.GameObjects
 
                 for (int i = 0; i < count; ++i)
                 {
-                    //hueVec.Y = 1;
-                    //hueVec.X = 0x44 + (i * 20);
-
                     batcher.Draw(
                         spriteInfo.Texture,
                         pos,

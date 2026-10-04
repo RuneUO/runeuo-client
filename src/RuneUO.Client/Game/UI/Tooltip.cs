@@ -277,7 +277,6 @@ namespace RuneUO.Game.UI
                 return;
             }
 
-            //if (Text != text)
             {
                 _maxWidth = maxWidth;
                 Serial = 0;

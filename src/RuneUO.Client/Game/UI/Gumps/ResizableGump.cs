@@ -125,7 +125,6 @@ namespace RuneUO.Game.UI.Gumps
                 newSize.Y = _minH;
             }
 
-            //Resize();
             _savedSize = newSize;
 
             return newSize;

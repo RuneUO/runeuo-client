@@ -356,11 +356,6 @@ namespace RuneUO.Renderer.Animations
         public void UpdateAnimationTable(BodyConvFlags flags)
         {
             _animationLoader.ProcessBodyConvDef(flags);
-
-            //    ProcessBodyConvDef(flags);
-            //}
-
-            //_lastFlags = flags;
         }
 
         public void ConvertBodyIfNeeded(

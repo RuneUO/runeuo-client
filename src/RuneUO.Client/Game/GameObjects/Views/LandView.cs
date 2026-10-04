@@ -16,8 +16,6 @@ namespace RuneUO.Game.GameObjects
                 return false;
             }
 
-            //Engine.DebugInfo.LandsRendered++;
-
             ushort hue = Hue;
 
             if (ProfileManager.CurrentProfile.HighlightGameObjects && SelectedObject.Object == this)

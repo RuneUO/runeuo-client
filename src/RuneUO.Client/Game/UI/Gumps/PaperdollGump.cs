@@ -536,7 +536,6 @@ namespace RuneUO.Game.UI.Gumps
             {
                 BuildGump();
 
-                //GameActions.DoubleClick(0x8000_0000 | LocalSerial);
                 Client.Game.GetScene<GameScene>()?.DoubleClickDelayed(LocalSerial);
 
                 IsMinimized = bool.Parse(xml.GetAttribute("isminimized"));

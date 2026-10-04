@@ -44,10 +44,6 @@ namespace RuneUO.Game.GameObjects
 
         public readonly Ability[] Abilities = [Ability.Invalid, Ability.Invalid];
 
-        //private bool _lastRun, _lastMount;
-        //private int _lastDir = -1, _lastDelta, _lastStepTime;
-
-
         public readonly HashSet<uint> AutoOpenedCorpses = new HashSet<uint>();
         public readonly HashSet<uint> ManualOpenedCorpses = new HashSet<uint>();
 
@@ -477,22 +473,6 @@ namespace RuneUO.Game.GameObjects
                 }
             }
         }
-
-
-        //    //const int TIME_TURN_TO_LASTTARGET = 2000;
-
-        //    //if (TargetManager.LastAttack != 0 &&
-        //    //    InWarMode &&
-        //    //    Walker.LastStepRequestTime + TIME_TURN_TO_LASTTARGET < Time.Ticks)
-        //    //{
-        //    //    Mobile enemy = World.Mobiles.Get(TargetManager.LastAttack);
-
-        // ############# DO NOT DELETE IT! #############
-        //protected override bool NoIterateAnimIndex()
-        //{
-        //    return false;
-        //}
-        // #############################################
 
         public bool Walk(Direction direction, bool run)
         {

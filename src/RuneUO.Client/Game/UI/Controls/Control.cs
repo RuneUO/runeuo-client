@@ -276,7 +276,6 @@ namespace RuneUO.Game.UI.Controls
 
             if (Children.Count != 0)
             {
-                //InitializeControls();
                 int w = 0, h = 0;
 
                 for (int i = 0; i < Children.Count; i++)
@@ -710,7 +709,6 @@ namespace RuneUO.Game.UI.Controls
             {
                 IsFocused = true;
                 FocusEnter.Raise(this);
-                //Parent?.OnFocusEnter();
             }
         }
 
@@ -720,7 +718,6 @@ namespace RuneUO.Game.UI.Controls
             {
                 IsFocused = false;
                 FocusLost.Raise(this);
-                //Parent?.OnFocusLeft();
             }
         }
 

@@ -294,7 +294,6 @@ namespace RuneUO.Game
                 }
             }
 
-            //Point winpos = ProfileManager.CurrentProfile.GameWindowPosition;
             Point winsize = new Point(Client.Game.Scene.Camera.Bounds.Width, Client.Game.Scene.Camera.Bounds.Height);
 
             Rectangle snowRect = new Rectangle(0, 0, 2, 2);

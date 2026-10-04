@@ -1066,8 +1066,6 @@ namespace RuneUO.Renderer
 
             if (_numSprites >= _vertexInfo.Length)
             {
-                //Flush();
-
                 int newMax = _vertexInfo.Length + MAX_SPRITES;
                 Array.Resize(ref _vertexInfo, newMax);
                 Array.Resize(ref _textureInfo, newMax);
@@ -1254,10 +1252,6 @@ namespace RuneUO.Renderer
                 out matrix
             );
             Matrix.Multiply(ref _transformMatrix, ref matrix, out matrix);
-
-
-            //Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
-            //Matrix.Multiply(ref halfPixelOffset, ref matrix, out matrix);
 
             if (!_worldOffsetActive)
                 _basicUOEffect.WorldMatrix.SetValue(Matrix.Identity);

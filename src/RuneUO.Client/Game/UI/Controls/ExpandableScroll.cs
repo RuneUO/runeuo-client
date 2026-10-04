@@ -220,8 +220,6 @@ namespace RuneUO.Game.UI.Controls
                 Add(_gumplingTitle = new GumpPic(0, 0, (ushort)_gumplingTitleGumpID, 0));
             }
 
-            //if (!IsVisible)
-            //    IsVisible = true;
             //TOP
             _gumpTop.X = 0;
             _gumpTop.Y = 0;

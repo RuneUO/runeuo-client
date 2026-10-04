@@ -232,11 +232,9 @@ namespace RuneUO.Game.Scenes
 
             if (_transparentObjects.Count > 0 || _gumpSprites.Count > 0 || _gumpTexts.Count > 0)
             {
-                //batcher.SetStencil(DepthStencilState.DepthRead);
                 result += DrawRenderList(batcher, _transparentObjects, maxGroundZ);
                 result += DrawRenderListWithAtlas(batcher, _gumpSprites);
                 result += DrawRenderListNoAtlas(batcher, _gumpTexts);
-                //batcher.SetStencil(null);
             }
 
             return result;

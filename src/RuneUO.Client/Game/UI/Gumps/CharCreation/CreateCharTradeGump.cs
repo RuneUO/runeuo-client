@@ -44,8 +44,6 @@ namespace RuneUO.Game.UI.Gumps.CharCreation
                 }
             );
 
-            // center menu with fancy top
-            // public GumpPic(AControl parent, int x, int y, int gumpID, int hue)
             Add(new GumpPic(291, 42, 0x0589, 0));
             Add(new GumpPic(214, 58, 0x058B, 0));
             Add(new GumpPic(300, 51, 0x15A9, 0));
@@ -58,8 +56,6 @@ namespace RuneUO.Game.UI.Gumps.CharCreation
             byte font = (byte)(isAsianLang ? 1 : 2);
             ushort hue = (ushort)(isAsianLang ? 0xFFFF : 0x0386);
 
-            // title text
-            //TextLabelAscii(AControl parent, int x, int y, int font, int hue, string text, int width = 400)
             Add
             (
                 new Label(Client.Game.UO.FileManager.Clilocs.GetString(3000326), unicode, hue, font: font)

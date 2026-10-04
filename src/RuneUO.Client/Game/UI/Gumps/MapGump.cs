@@ -314,10 +314,6 @@ namespace RuneUO.Game.UI.Gumps
                 Priority = ClickPriority.High;
             }
 
-
-            //    return _pic.Contains(x, y);
-            //}
-
             public string NumberText
             {
                 get => _text.Text;

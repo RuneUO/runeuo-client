@@ -1030,7 +1030,6 @@ namespace RuneUO.Game.Scenes
                 _last10Results[index] = e.Reply.Status == IPStatus.Success;
             }
 
-            //if (index >= _last10Results.Length - 1)
             {
                 PacketLoss = 0;
 
@@ -1043,8 +1042,6 @@ namespace RuneUO.Game.Scenes
                 }
 
                 PacketLoss = PacketLoss * 100 / Math.Max(1, _resultIndex);
-
-                //_resultIndex = 0;
             }
 
             _sending = false;

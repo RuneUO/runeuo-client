@@ -592,8 +592,6 @@ namespace RuneUO.Game
 
                 if (force && SerialHelper.IsValid(serial))
                 {
-                    //ent = ent ?? World.Player;
-                    //ent.AddMessage(MessageType.Regular, $"PACKET SENT: 0x{serial:X8}", 3, 0x34, true, TextType.OBJECT);
                     Socket.Send_StatusRequest(serial);
                 }
             }
@@ -613,8 +611,6 @@ namespace RuneUO.Game
 
                 if (force && SerialHelper.IsValid(serial))
                 {
-                    //ent = ent ?? World.Player;
-                    //ent.AddMessage(MessageType.Regular, $"PACKET REMOVED SENT: 0x{serial:X8}", 3, 0x34 + 10, true, TextType.OBJECT);
                     Socket.Send_CloseStatusBarGump(serial);
                 }
             }
@@ -799,8 +795,6 @@ namespace RuneUO.Game
 
         public static void GrabItem(World world, uint serial, ushort amount, uint bag = 0)
         {
-            //Socket.Send(new PPickUpRequest(serial, amount));
-
             Item backpack = world.Player.FindItemByLayer(Layer.Backpack);
 
             if (backpack == null)

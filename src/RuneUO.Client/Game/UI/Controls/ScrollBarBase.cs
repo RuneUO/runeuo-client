@@ -115,8 +115,6 @@ namespace RuneUO.Game.UI.Controls
 
             _sliderPosition = GetSliderYPosition();
 
-            //_rectSlider.Y = _textureUpButton[0].Height + _sliderPosition;
-
             if (_btUpClicked || _btDownClicked)
             {
                 if (_timeUntilNextClick < Time.Ticks)

@@ -15,11 +15,6 @@ namespace RuneUO.Game.Managers
         public WMapEntity(uint serial)
         {
             Serial = serial;
-
-            //var mob = World.Mobiles.Get(serial);
-
-            //if (mob != null)
-            //    GetName();
         }
 
         public bool IsGuild;
@@ -27,9 +22,6 @@ namespace RuneUO.Game.Managers
         public string Name;
         public readonly uint Serial;
         public int X, Y, HP, Map;
-
-        //    return string.IsNullOrEmpty(Name) ? "<out of range>" : Name;
-        //}
     }
 
     internal sealed class WorldMapEntityManager
@@ -196,8 +188,6 @@ namespace RuneUO.Game.Managers
 
             if (_world.InGame && _lastPacketSend < Time.Ticks)
             {
-                //GameActions.Print($"SENDING PACKET! {Time.Ticks}");
-
                 _lastPacketSend = Time.Ticks + 250;
 
                 NetClient.Socket.Send_QueryGuildPosition();

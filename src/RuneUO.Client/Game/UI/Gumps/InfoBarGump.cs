@@ -58,17 +58,11 @@ namespace RuneUO.Game.UI.Gumps
         public override void Save(XmlTextWriter writer)
         {
             base.Save(writer);
-            //writer.WriteStartElement("controls");
-
         }
 
         public override void Restore(XmlElement xml)
         {
             base.Restore(xml);
-
-            //XmlElement controlsXml = xml["controls"];
-            //_infobarControls.Clear();
-
         }
 
         public override void Update()

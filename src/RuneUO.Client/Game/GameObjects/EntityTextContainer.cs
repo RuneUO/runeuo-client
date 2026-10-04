@@ -124,8 +124,6 @@ namespace RuneUO.Game.GameObjects
                     c.Destroy();
                     _messages.RemoveAt(i--);
                 }
-                //else if (delta < 250)
-                //    c.Alpha = 1f - delta / 250;
                 else if (c.RenderedText != null)
                 {
                     if (_rectangle.Width < c.RenderedText.Width)

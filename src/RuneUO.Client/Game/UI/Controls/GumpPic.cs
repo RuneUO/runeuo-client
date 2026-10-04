@@ -117,8 +117,6 @@ namespace RuneUO.Game.UI.Controls
                 hue = 0;
             }
 
-            //if (hue < 2)
-            //    hue = 1;
             return hue;
         }
 

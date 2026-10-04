@@ -168,11 +168,6 @@ namespace RuneUO.Assets
             return Diamond(raw);
         }
 
-        // public Rectangle GetRealArtBounds(int index) =>
-        //     index + 0x4000 >= _spriteInfos.Length
-        //         ? Rectangle.Empty
-        //         : _spriteInfos[index + 0x4000].ArtBounds;
-
         private static uint[] LoadLand(UOFile file, ref readonly UOFileIndex entry, out short width, out short height)
         {
             if (entry.Length == 0)

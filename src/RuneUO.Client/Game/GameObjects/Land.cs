@@ -47,7 +47,6 @@ namespace RuneUO.Game.GameObjects
             }
 
             base.Destroy();
-            //_pool.ReturnOne(this);
         }
 
         public override void UpdateGraphicBySeason()

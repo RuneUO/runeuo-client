@@ -1008,8 +1008,6 @@ namespace RuneUO.Game.GameObjects
             if (!(this is PlayerMobile))
             {
                 UIManager.GetGump<PaperDollGump>(serial)?.Dispose();
-
-                //_pool.ReturnOne(this);
             }
         }
 

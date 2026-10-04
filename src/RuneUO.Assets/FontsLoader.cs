@@ -264,11 +264,6 @@ namespace RuneUO.Assets
             {
                 cc.Data = new byte[(((cc.Width - 1) / 8) + 1) * cc.Height];
                 file.Read(cc.Data);
-                //Span<byte> scanline = stackalloc byte[((cc.Width - 1) / 8) + 1];
-                //file.Read(scanline);
-
-                //        --bitX;
-
             }
         }
 
@@ -771,7 +766,6 @@ namespace RuneUO.Assets
             }
             finally
             {
-                //System.Buffers.ArrayPool<uint>.Shared.Return(pData, true);
             }
         }
 
@@ -982,7 +976,6 @@ namespace RuneUO.Assets
                             ptr.MaxHeight = 14;
                         }
 
-                        //ptr.CharCount = charCount;
                         charCount = 0;
                         SetDataCount(ptr.Data, ptr.CharCount);
 
@@ -1555,8 +1548,6 @@ namespace RuneUO.Assets
                             ptr.MaxHeight = 14 + extraheight;
                         }
 
-                        //ptr.CharCount = charCount;
-
                         charCount = 0;
                         SetDataCount(ptr.Data, ptr.CharCount);
 
@@ -1913,7 +1904,6 @@ namespace RuneUO.Assets
                                 {
                                     charcolor = HuesHelper.RgbaToArgb(dataPtr.Color);
 
-                                    //isBlackPixel = ((charcolor >> 24) & 0xFF) <= 8 && ((charcolor >> 16) & 0xFF) <= 8 && ((charcolor >> 8) & 0xFF) <= 8;
                                     isBlackPixel =
                                         ((charcolor >> 0) & 0xFF) <= 8
                                         && ((charcolor >> 8) & 0xFF) <= 8
@@ -2282,7 +2272,6 @@ namespace RuneUO.Assets
             }
             finally
             {
-                //System.Buffers.ArrayPool<uint>.Shared.Return(pData, true);
             }
         }
 
@@ -2618,8 +2607,6 @@ namespace RuneUO.Assets
                     }
                     else if (stack.Count > 1)
                     {
-                        //int index = -1;
-
                         for (var j = stack.Count - 1; j >= 1; j--)
                         {
                             if (stack[j].Tag == tag)
@@ -4128,7 +4115,6 @@ namespace RuneUO.Assets
         public byte Font;
         public char Item;
         public ushort LinkID;
-        //public MultilinesFontData Next;
     }
 
     public struct WebLinkRect

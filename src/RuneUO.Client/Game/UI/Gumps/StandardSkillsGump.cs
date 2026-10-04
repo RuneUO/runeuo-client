@@ -140,7 +140,6 @@ namespace RuneUO.Game.UI.Gumps
             {
                 ButtonParameter = 1,
                 IsSelectable = false,
-                //Alpha = 1f
             });
 
             _hitBox = new HitBox(160, 0, 23, 24);
@@ -463,7 +462,6 @@ namespace RuneUO.Game.UI.Gumps
                             _textbox.AllowSelection = false;
                             UIManager.KeyboardFocusControl = this;
 
-                            //UIManager.SystemChat.SetFocus();
                             break;
 
                         case 2:

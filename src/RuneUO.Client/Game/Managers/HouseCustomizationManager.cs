@@ -164,7 +164,6 @@ namespace RuneUO.Game.Managers
                 {
                     ignore = true;
                     currentFloor = 0;
-                    //continue;
                 }
 
                 (int floorCheck1, int floorCheck2) = SeekGraphicInCustomHouseObjectList(Floors, item.Graphic);
@@ -561,9 +560,6 @@ namespace RuneUO.Game.Managers
 
                     if (CanBuildHere(list, out CUSTOM_HOUSE_BUILD_TYPE type) && list.Count > 0)
                     {
-                        //if (type != CUSTOM_HOUSE_BUILD_TYPE.CHBT_STAIR && !(place is Multi))
-                        //    return;
-
                         int placeX = place.X;
                         int placeY = place.Y;
 
@@ -918,8 +914,6 @@ namespace RuneUO.Game.Managers
 
                 var minZ = foundationItem.Z + 0 + (CurrentFloor - 1) * 20;
                 var maxZ = minZ + 20;
-
-                // var boundsOffset = State != CUSTOM_HOUSE_GUMP_STATE.CHGS_WALL ? 1 : 0;
 
                 for (var i = 0; i < list.Count; ++i)
                 {

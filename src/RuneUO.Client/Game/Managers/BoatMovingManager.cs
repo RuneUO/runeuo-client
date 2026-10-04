@@ -83,15 +83,10 @@ namespace RuneUO.Game.Managers
                 deque.RemoveFromFront();
             }
 
-            //deque.Clear();
-
-
             if (empty)
             {
                 item.LastStepTime = Time.Ticks;
             }
-
-            //Direction moveDir = DirectionHelper.CalculateDirection(currX, currY, x, y);
 
             BoatStep step = new BoatStep();
             step.Serial = serial;
@@ -241,8 +236,6 @@ namespace RuneUO.Game.Managers
                         removeStep = true;
                     }
 
-                    //item.BoatDirection = step.MovingDir;
-
                     _world.HouseManager.TryGetHouse(item, out House house);
 
                     if (removeStep)
@@ -338,17 +331,12 @@ namespace RuneUO.Game.Managers
                 {
                     ref var it = ref span[i];
 
-                    //if (!SerialHelper.IsValid(it.Serial))
-                    //    break;
-
                     Entity entity = _world.Get(it.Serial);
 
                     if (entity == null || entity.IsDestroyed)
                     {
                         continue;
                     }
-
-                    //entity.BoatDirection = direction;
 
                     if (removeStep)
                     {

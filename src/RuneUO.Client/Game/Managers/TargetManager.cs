@@ -159,7 +159,6 @@ namespace RuneUO.Game.Managers
 
             if (IsTargeting)
             {
-                //UIManager.RemoveTargetLineGump(LastTarget);
             }
             else if (lastTargetting)
             {
@@ -217,7 +216,6 @@ namespace RuneUO.Game.Managers
         {
             SetTargeting(CursorTarget.MultiPlacement, deedSerial, TargetType.Neutral);
 
-            //if (model != 0)
             MultiTargetInfo = new MultiTargetInfo
             (
                 model,

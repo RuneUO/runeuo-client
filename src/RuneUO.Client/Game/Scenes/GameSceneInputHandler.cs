@@ -236,8 +236,6 @@ namespace RuneUO.Game.Scenes
                         foreach (
                             BaseHealthBarGump bar in UIManager.Gumps
                                 .OfType<BaseHealthBarGump>()
-                                //.OrderBy(s => mobile.NotorietyFlag)
-                                //.OrderBy(s => s.ScreenCoordinateX) ///testing placement SYRUPZ SYRUPZ SYRUPZ
                                 .OrderBy(s => s.ScreenCoordinateX)
                                 .ThenBy(s => s.ScreenCoordinateY)
                         )
@@ -902,9 +900,6 @@ namespace RuneUO.Game.Scenes
                         return true;
                     }
                 }
-
-                //    }
-                //}
             }
 
             return false;

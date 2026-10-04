@@ -37,7 +37,6 @@ namespace RuneUO.Game.UI.Gumps
         {
             TextRenderer.UnlinkD();
 
-            //TextRenderer.Clear();
             base.Dispose();
         }
 
@@ -47,7 +46,6 @@ namespace RuneUO.Game.UI.Gumps
             base.AddToRenderLists(renderLists, x, y, ref layerDepthRef);
             float layerDepth = layerDepthRef;
 
-            //TextRenderer.MoveToTopIfSelected();
             TextRenderer.ProcessWorldText(true);
 
             renderLists.AddGumpNoAtlas(

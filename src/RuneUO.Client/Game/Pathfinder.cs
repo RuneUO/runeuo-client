@@ -163,8 +163,6 @@ namespace RuneUO.Game
 
                             case Item item when item.IsMulti || item.ItemData.IsInternal:
                             {
-                                //canBeAdd = false;
-
                                 break;
                             }
 
@@ -977,10 +975,6 @@ namespace RuneUO.Game
 
             int playerX = _world.Player.X;
             int playerY = _world.Player.Y;
-            //sbyte playerZ = 0;
-            //Direction playerDir = Direction.None;
-
-            //World.Player.GetEndPosition(ref playerX, ref playerY, ref playerZ, ref playerDir);
             _startPoint.X = playerX;
             _startPoint.Y = playerY;
             _endPoint.X = x;

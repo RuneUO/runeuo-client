@@ -1279,11 +1279,6 @@ namespace RuneUO.Game.UI.Gumps
                             }
                         }
 
-
-                        //var palette = quantizer.GetPalette(256);
-
-                        //quantizer.Clear();
-
                         var imageEncoder = new PngEncoder
                         {
                             ColorType = PngColorType.Palette,
@@ -1465,7 +1460,6 @@ namespace RuneUO.Game.UI.Gumps
 
         private void LoadMarkers()
         {
-            //return Task.Run(() =>
             {
                 if (World.InGame)
                 {
@@ -1711,8 +1705,6 @@ namespace RuneUO.Game.UI.Gumps
                     GameActions.Print(World, string.Format(ResGumps.WorldMapMarkersLoaded0, count), 0x2A);
                 }
             }
-
-            //);
         }
 
         private void AddMarkerOnPlayer()

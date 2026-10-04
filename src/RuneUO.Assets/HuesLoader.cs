@@ -71,12 +71,6 @@ namespace RuneUO.Assets
             }
         }
 
-        //        return Palette[color - 1].Palette;
-        //    }
-
-        //    return _empty;
-        //}
-
         public ushort GetColor16(ushort c, ushort color)
         {
             if (color != 0 && color < HuesCount)

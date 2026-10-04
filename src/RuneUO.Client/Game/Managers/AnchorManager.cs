@@ -396,10 +396,6 @@ namespace RuneUO.Game.Managers
                     }
 
                     //// TODO: loop through
-                    //var targetX = hostPosition.Value.X + relativePosition.X;
-                    //var targetY = hostPosition.Value.Y + relativePosition.Y;
-
-                    //return IsEmptyDirection(targetX, targetY);
                 }
 
                 return isEmpty;

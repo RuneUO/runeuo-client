@@ -116,7 +116,6 @@ namespace RuneUO.Game.UI.Gumps
 
                         double timeOutOfContext = Profiler.GetContext(Profiler.ProfilerContext.OUT_OF_CONTEXT).TimeInContext;
 
-                        //double timeTotalCheck = timeOutOfContext + timeDraw + timeUpdate;
                         double timeTotal = Profiler.TrackedTime;
 
                         double avgDrawMs = Profiler.GetContext(Profiler.ProfilerContext.RENDER_FRAME).AverageTime;

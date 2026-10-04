@@ -242,9 +242,6 @@ namespace RuneUO
 
         public void SetWindowSize(int width, int height)
         {
-            //width = (int) ((double) width * Client.Game.GraphicManager.PreferredBackBufferWidth / Client.Game.Window.ClientBounds.Width);
-            //height = (int) ((double) height * Client.Game.GraphicManager.PreferredBackBufferHeight / Client.Game.Window.ClientBounds.Height);
-
             /*if (RuneUOEnvironment.IsHighDPI)
             {
                 width *= 2;

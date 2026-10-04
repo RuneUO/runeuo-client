@@ -207,14 +207,10 @@ namespace RuneUO.Game.Data
 
         public static void CleanCaveTextures()
         {
-
-            //Client.Game.UO.FileManager.Arts.CleaUnusedResources(short.MaxValue);
         }
 
         public static void CleanTreeTextures()
         {
-
-            //Client.Game.UO.FileManager.Arts.CleaUnusedResources(short.MaxValue);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

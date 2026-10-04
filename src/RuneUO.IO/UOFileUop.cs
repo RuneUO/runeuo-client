@@ -30,7 +30,6 @@ namespace RuneUO.IO
 
         public void ClearHashes()
         {
-            // _hashes.Clear();
         }
 
         public override void Dispose()

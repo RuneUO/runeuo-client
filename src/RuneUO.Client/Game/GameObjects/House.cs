@@ -107,7 +107,6 @@ namespace RuneUO.Game.GameObjects
         public void Generate(bool recalculate = false, bool pushtotile = true, bool removePreview = false)
         {
             Item item = _world.Items.Get(Serial);
-            //ClearCustomHouseComponents(0);
 
             foreach (Multi s in Components)
             {
@@ -126,8 +125,6 @@ namespace RuneUO.Game.GameObjects
                     }
 
                     s.Hue = item.Hue;
-                    //s.State = CUSTOM_HOUSE_MULTI_OBJECT_FLAGS.CHMOF_VALIDATED_PLACE;
-                    //s.IsCustom = IsCustom;
                 }
 
                 if (!pushtotile)
@@ -160,8 +157,6 @@ namespace RuneUO.Game.GameObjects
                 s.Destroy();
                 Components.RemoveAt(i--);
             }
-
-            //Components.Clear();
         }
     }
 }

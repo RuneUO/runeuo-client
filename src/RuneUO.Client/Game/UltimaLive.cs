@@ -295,8 +295,6 @@ namespace RuneUO.Game
                             _UL._ULMap.ReloadBlock(mapId, block);
                             mapChunk.Load(mapId);
 
-                            //linkedList?.AddLast(c.Node);
-
                             foreach (GameObject gameObject in gameObjects)
                             {
                                 mapChunk.AddGameObject(gameObject, gameObject.X % 8, gameObject.Y % 8);
@@ -385,7 +383,6 @@ namespace RuneUO.Game
                         MapLoader.MAPS_COUNT = sbyte.MaxValue;
                         var mapLoader = new ULMapLoader(Client.Game.UO.FileManager, (uint)MapLoader.MAPS_COUNT);
 
-                        //for (int i = 0; i < maps; i++)
                         for (int i = 0; i < validMaps.Count; i++)
                         {
                             mapLoader.CheckForShardMapFile(validMaps[i]);
@@ -559,8 +556,6 @@ namespace RuneUO.Game
                 }
 
                 UIManager.GetGump<MiniMapGump>()?.RequestUpdateContents();
-
-                //UIManager.GetGump<WorldMapGump>()?.UpdateMap();
             }
         }
 
@@ -843,18 +838,9 @@ namespace RuneUO.Game
                     }
                     else
                     {
-                        if (mapFile is UOFileUop uop)
+                        if (mapFile is UOFileUop)
                         {
-                            //Entries[mapId] = new UOFileIndex[uop.TotalEntriesCount];
-                            //uop.FillEntries(ref Entries[mapId]);
-
-                            //Log.Trace($"UltimaLive -> converting file:\t{mapPath} from {uop.FilePath}");
-
-                            //        stream.Write(reader.ReadArray(Entries[mapId][x].Length), 0, Entries[mapId][x].Length);
-                            //    }
-
-                            //    stream.Flush();
-                            //}
+                            // UOP maps are not converted to a persistent copy.
                         }
                         else
                         {
