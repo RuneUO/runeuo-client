@@ -127,9 +127,6 @@ namespace RuneUO
             var bytes = Loader.GetBackgroundImage().ToArray();
             using var ms = new MemoryStream(bytes);
             _renderTargets.InitializeBackground(Texture2D.FromStream(GraphicsDevice, ms));
-#if false
-            SetScene(new MainScene(this));
-#else
             UO.Load(this);
             Audio.Initialize();
             // TODO: temporary fix to avoid crash when laoding plugins
@@ -147,7 +144,6 @@ namespace RuneUO
             Log.Trace("Done!");
 
             SetScene(new LoginScene(UO.World));
-#endif
             SetWindowPositionBySettings();
         }
 

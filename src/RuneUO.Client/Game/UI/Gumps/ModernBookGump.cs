@@ -61,7 +61,6 @@ namespace RuneUO.Game.UI.Gumps
         public bool UseNewHeader { get; set; } = true;
         public static byte DefaultFont => (byte) (IsNewBook ? 1 : 4);
 
-        public bool IntroChanges => _pagesChanged[0];
         internal int MaxPage => (BookPageCount >> 1) + 1;
 
         internal void ServerSetBookText()

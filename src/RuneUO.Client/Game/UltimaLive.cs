@@ -19,7 +19,6 @@ namespace RuneUO.Game
 {
     public sealed class UltimaLive
     {
-        private const int STATICS_MEMORY_SIZE = 200000000;
         private const int CRC_LENGTH = 25;
         private const int LAND_BLOCK_LENGTH = 192;
 
@@ -39,7 +38,6 @@ namespace RuneUO.Game
         //right- we have the size of the map, values in index 0 and 1 are map REAL size x and y
         //       values in index 2 and 3 is for the wrap size of map (virtual size), x and y
         private ushort[,] MapSizeWrapSize;
-        public static bool UltimaLiveActive => _UL != null && !string.IsNullOrEmpty(_UL.ShardName);
         private string ShardName;
 
         public static void Enable()

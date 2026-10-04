@@ -82,15 +82,6 @@ namespace RuneUO.Game.Managers
             Z = z;
         }
 
-        public void SetLand(ushort x, ushort y, sbyte z)
-        {
-            Serial = 0;
-            Graphic = 0xFFFF;
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
         public void Clear()
         {
             Serial = 0;
@@ -455,12 +446,6 @@ namespace RuneUO.Game.Managers
             LastTargetInfo.SetStatic(graphic, x, y, (sbyte) z);
 
             TargetPacket(graphic, x, y, (sbyte) z);
-        }
-
-        public void SendMultiTarget(ushort x, ushort y, sbyte z)
-        {
-            TargetPacket(0, x, y, z);
-            MultiTargetInfo = null;
         }
 
         public void TargetLast()

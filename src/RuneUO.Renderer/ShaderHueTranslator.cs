@@ -25,8 +25,6 @@ namespace RuneUO.Renderer
 
         public static readonly Vector3 SelectedHue = new Vector3(23, 1, 0);
 
-        public static readonly Vector3 SelectedItemHue = new Vector3(0x0035, 1, 0);
-
         public static Vector3 GetHueVector(int hue)
         {
             return GetHueVector(hue, false, 1);

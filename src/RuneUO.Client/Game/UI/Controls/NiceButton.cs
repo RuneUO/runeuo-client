@@ -90,21 +90,6 @@ namespace RuneUO.Game.UI.Controls
             }
         }
 
-        internal static NiceButton GetSelected(Control p, int group)
-        {
-            IEnumerable<NiceButton> list = p.FindControls<NiceButton>();
-
-            foreach (NiceButton b in list)
-            {
-                if (b._groupnumber == group && b.IsSelected)
-                {
-                    return b;
-                }
-            }
-
-            return null;
-        }
-
         protected override void OnMouseUp(int x, int y, MouseButtonType button)
         {
             if (button == MouseButtonType.Left)

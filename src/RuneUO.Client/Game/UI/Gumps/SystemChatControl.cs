@@ -720,28 +720,6 @@ namespace RuneUO.Game.UI.Gumps
             }
         }
 
-        public string ExtractSendableTextSubstring(ref string textBoxText)
-        {
-            string toReturn;
-            if (textBoxText.Length <= MAX_MESSAGE_LENGTH)
-            {
-                toReturn = textBoxText;
-                textBoxText = string.Empty;
-                return toReturn;
-            }
-
-            int lastSpaceIndex = textBoxText.LastIndexOf(' ', MAX_MESSAGE_LENGTH);
-
-            if (lastSpaceIndex < 0)
-            {
-                lastSpaceIndex = MAX_MESSAGE_LENGTH;
-            }
-
-            toReturn = textBoxText.Substring(0, lastSpaceIndex);
-            textBoxText = textBoxText.Substring(lastSpaceIndex).TrimStart();
-            return toReturn;
-        }
-
         private void ResetTextBox()
         {
             TextBoxControl.ClearText();

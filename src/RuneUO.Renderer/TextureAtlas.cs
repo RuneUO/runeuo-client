@@ -68,19 +68,6 @@ namespace RuneUO.Renderer
             _packer = new Packer(_width, _height);
         }
 
-        public void SaveImages(string name)
-        {
-            for (int i = 0, count = TexturesCount; i < count; ++i)
-            {
-                var texture = _textureList[i];
-
-                using (var stream = System.IO.File.Create($"atlas/{name}_atlas_{i}.png"))
-                {
-                    texture.SaveAsPng(stream, texture.Width, texture.Height);
-                }
-            }
-        }
-
         public void Dispose()
         {
             foreach (Texture2D texture in _textureList)

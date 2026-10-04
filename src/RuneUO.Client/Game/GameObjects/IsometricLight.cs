@@ -1,7 +1,5 @@
 ﻿// SPDX-License-Identifier: BSD-2-Clause
 
-using Microsoft.Xna.Framework;
-
 namespace RuneUO.Game.GameObjects
 {
     internal sealed class IsometricLight
@@ -61,8 +59,6 @@ namespace RuneUO.Game.GameObjects
         }
 
         public float IsometricLevel { get; private set; }
-
-        public Vector3 IsometricDirection { get; } = new Vector3(-1.0f, -1.0f, .5f);
 
         private void Recalculate()
         {

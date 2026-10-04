@@ -788,37 +788,6 @@ namespace RuneUO.Network
             writer.Dispose();
         }
 
-        public static void Send_SkillsStatusRequest(this NetClient socket, ushort skillIndex, byte lockState)
-        {
-            const byte ID = 0x3A;
-
-            int length = socket.PacketsTable.GetPacketLength(ID);
-
-            var writer = new StackDataWriter(length < 0 ? 64 : length);
-            writer.WriteUInt8(ID);
-
-            if (length < 0)
-            {
-                writer.WriteZero(2);
-            }
-
-            writer.WriteUInt16BE(skillIndex);
-            writer.WriteUInt8(lockState);
-
-            if (length < 0)
-            {
-                writer.Seek(1, SeekOrigin.Begin);
-                writer.WriteUInt16BE((ushort) writer.BytesWritten);
-            }
-            else
-            {
-                writer.WriteZero(length - writer.BytesWritten);
-            }
-
-            socket.Send(writer.BufferWritten);
-            writer.Dispose();
-        }
-
         public static void Send_ClickRequest(this NetClient socket, uint serial)
         {
             const byte ID = 0x09;
@@ -4076,39 +4045,6 @@ namespace RuneUO.Network
             writer.Dispose();
         }
 
-        public static void Send_CustomHouseResponse(this NetClient socket, World world)
-        {
-            const byte ID = 0xD7;
-
-            int length = socket.PacketsTable.GetPacketLength(ID);
-
-            var writer = new StackDataWriter(length < 0 ? 64 : length);
-
-            writer.WriteUInt8(ID);
-
-            if (length < 0)
-            {
-                writer.WriteZero(2);
-            }
-
-            writer.WriteUInt32BE(world.Player.Serial);
-            writer.WriteUInt16BE(0x0A);
-            writer.WriteUInt8(0x0A);
-
-            if (length < 0)
-            {
-                writer.Seek(1, SeekOrigin.Begin);
-                writer.WriteUInt16BE((ushort) writer.BytesWritten);
-            }
-            else
-            {
-                writer.WriteZero(length - writer.BytesWritten);
-            }
-
-            socket.Send(writer.BufferWritten);
-            writer.Dispose();
-        }
-
         public static void Send_CustomHouseAddItem(this NetClient socket, World world, ushort graphic, int x, int y)
         {
             const byte ID = 0xD7;
@@ -4400,103 +4336,6 @@ namespace RuneUO.Network
             {
                 writer.Seek(1, SeekOrigin.Begin);
                 writer.WriteUInt16BE((ushort) writer.BytesWritten);
-            }
-            else
-            {
-                writer.WriteZero(length - writer.BytesWritten);
-            }
-
-            socket.Send(writer.BufferWritten);
-            writer.Dispose();
-        }
-
-        public static void Send_DeathScreen(this NetClient socket)
-        {
-            const byte ID = 0x2C;
-
-            int length = socket.PacketsTable.GetPacketLength(ID);
-
-            var writer = new StackDataWriter(length < 0 ? 64 : length);
-
-            writer.WriteUInt8(ID);
-
-            if (length < 0)
-            {
-                writer.WriteZero(2);
-            }
-
-            writer.WriteUInt8(0x02); // Ghost
-
-            if (length < 0)
-            {
-                writer.Seek(1, SeekOrigin.Begin);
-                writer.WriteUInt16BE((ushort)writer.BytesWritten);
-            }
-            else
-            {
-                writer.WriteZero(length - writer.BytesWritten);
-            }
-
-            socket.Send(writer.BufferWritten);
-            writer.Dispose();
-        }
-
-        public static void Send_EquipMacroKR(this NetClient socket, ReadOnlySpan<uint> serials)
-        {
-            const byte ID = 0xEC;
-
-            int length = socket.PacketsTable.GetPacketLength(ID);
-
-            var writer = new StackDataWriter(length < 0 ? 64 : length);
-
-            writer.WriteUInt8(ID);
-
-            if (length < 0)
-            {
-                writer.WriteZero(2);
-            }
-
-            writer.WriteUInt8((byte)serials.Length);
-            foreach (ref readonly var serial in serials)
-                writer.WriteUInt32BE(serial);
-
-            if (length < 0)
-            {
-                writer.Seek(1, SeekOrigin.Begin);
-                writer.WriteUInt16BE((ushort)writer.BytesWritten);
-            }
-            else
-            {
-                writer.WriteZero(length - writer.BytesWritten);
-            }
-
-            socket.Send(writer.BufferWritten);
-            writer.Dispose();
-        }
-
-        public static void Send_UnequipMacroKR(this NetClient socket, ReadOnlySpan<Layer> layers)
-        {
-            const byte ID = 0xED;
-
-            int length = socket.PacketsTable.GetPacketLength(ID);
-
-            var writer = new StackDataWriter(length < 0 ? 64 : length);
-
-            writer.WriteUInt8(ID);
-
-            if (length < 0)
-            {
-                writer.WriteZero(2);
-            }
-
-            writer.WriteUInt8((byte)layers.Length);
-            foreach (ref readonly var layer in layers)
-                writer.WriteUInt16BE((byte)layer);
-
-            if (length < 0)
-            {
-                writer.Seek(1, SeekOrigin.Begin);
-                writer.WriteUInt16BE((ushort)writer.BytesWritten);
             }
             else
             {

@@ -127,10 +127,5 @@ namespace RuneUO.Game.Managers
         public uint Serial;
         public int NameCliloc;
         public int[] Clilocs;
-
-        public string CreateData(bool extended)
-        {
-            return string.Empty;
-        }
     }
 }

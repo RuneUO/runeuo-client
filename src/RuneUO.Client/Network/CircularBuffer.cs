@@ -147,39 +147,5 @@ namespace RuneUO.Network
 
             return size;
         }
-
-        public int DequeSegment(int size, out ArraySegment<byte> segment)
-        {
-            if (size > Length)
-            {
-                size = Length;
-            }
-
-            if (size == 0)
-            {
-                segment = new ArraySegment<byte>();
-
-                return 0;
-            }
-
-            if (_head >= _tail)
-            {
-                int rightLength = _buffer.Length - _head;
-                size = Math.Min(size, rightLength);
-            }
-
-            segment = new ArraySegment<byte>(_buffer, _head, size);
-
-            _head = (_head + size) % _buffer.Length;
-            Length -= size;
-
-            if (Length == 0)
-            {
-                _head = 0;
-                _tail = 0;
-            }
-
-            return size;
-        }
     }
 }

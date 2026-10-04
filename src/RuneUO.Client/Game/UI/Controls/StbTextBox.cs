@@ -208,23 +208,6 @@ namespace RuneUO.Game.UI.Controls
             }
         }
 
-        internal int TotalHeight
-        {
-            get
-            {
-                int h = 20;
-                MultilinesFontInfo info = GetInfo();
-
-                while (info != null)
-                {
-                    h += info.MaxHeight;
-                    info = info.Next;
-                }
-
-                return h;
-            }
-        }
-
         public string Text
         {
             get => _rendererText.Text;
@@ -285,34 +268,6 @@ namespace RuneUO.Game.UI.Controls
 
         public event EventHandler<BeforeTextChangedEventArgs> BeforeTextChanged;
         public event EventHandler TextChanged;
-
-        public MultilinesFontInfo CalculateFontInfo(string text, bool countret = true)
-        {
-            if (IsUnicode)
-            {
-                return Client.Game.UO.FileManager.Fonts.GetInfoUnicode
-                (
-                    _rendererText.Font,
-                    text,
-                    text.Length,
-                    _rendererText.Align,
-                    (ushort) _rendererText.FontStyle,
-                    _rendererText.MaxWidth,
-                    countret
-                );
-            }
-
-            return Client.Game.UO.FileManager.Fonts.GetInfoASCII
-            (
-                _rendererText.Font,
-                text,
-                text.Length,
-                _rendererText.Align,
-                (ushort) _rendererText.FontStyle,
-                _rendererText.MaxWidth,
-                countret
-            );
-        }
 
         public void SelectAll()
         {

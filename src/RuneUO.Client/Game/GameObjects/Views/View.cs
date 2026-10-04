@@ -105,18 +105,6 @@ namespace RuneUO.Game.GameObjects
             return (x + y) + (127 + z) * 0.01f;
         }
 
-        public Rectangle GetOnScreenRectangle()
-        {
-            Rectangle prect = Rectangle.Empty;
-
-            prect.X = (int)(RealScreenPosition.X - FrameInfo.X + 22 + Offset.X);
-            prect.Y = (int)(RealScreenPosition.Y - FrameInfo.Y + 22 + (Offset.Y - Offset.Z));
-            prect.Width = FrameInfo.Width;
-            prect.Height = FrameInfo.Height;
-
-            return prect;
-        }
-
         public virtual bool TransparentTest(int z)
         {
             return false;

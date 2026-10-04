@@ -169,13 +169,6 @@ namespace RuneUO.Game.UI.Gumps
             BuffIcon,
             MinimizeMaximize
         }
-
-        protected enum StatType
-        {
-            Str,
-            Dex,
-            Int
-        }
     }
 
     internal class StatusGumpOld : StatusGumpBase

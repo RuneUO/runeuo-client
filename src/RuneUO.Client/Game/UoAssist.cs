@@ -159,9 +159,6 @@ namespace RuneUO.Utility.Platforms
             internal static extern ushort GlobalAddAtom(string str);
 
             [DllImport("kernel32.dll")]
-            internal static extern ushort GlobalDeleteAtom(ushort atom);
-
-            [DllImport("kernel32.dll")]
             internal static extern uint GlobalGetAtomName(ushort atom, StringBuilder buff, int bufLen);
 
             [DllImport("user32.dll")]

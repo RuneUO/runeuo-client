@@ -52,8 +52,6 @@ namespace RuneUO.Game
 
         public bool PathindingCanBeCancelled { get; set; }
 
-        public bool BlockMoving { get; set; }
-
         public bool FastRotation { get; set; }
 
 

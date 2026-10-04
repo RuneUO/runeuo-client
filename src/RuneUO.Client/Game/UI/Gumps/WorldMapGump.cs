@@ -742,14 +742,6 @@ namespace RuneUO.Game.UI.Gumps
             }
         }
 
-        public void SetOptionValue(string key, bool v)
-        {
-            if (_options.TryGetValue(key, out ContextMenuItemEntry entry) && entry != null)
-            {
-                entry.IsSelected = v;
-            }
-        }
-
 
         internal class WMapMarker
         {

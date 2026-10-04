@@ -50,7 +50,6 @@ namespace RuneUO.Network
         public void Add(byte id, OnPacketBufferReader handler) => _handlers[id] = handler;
 
         private byte[] _readingBuffer = new byte[4096];
-        private readonly PacketLogger _packetLogger = new PacketLogger();
         private readonly CircularBuffer _buffer = new CircularBuffer();
         private readonly CircularBuffer _pluginsBuffer = new CircularBuffer();
 

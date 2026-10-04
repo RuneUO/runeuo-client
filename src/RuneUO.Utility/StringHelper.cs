@@ -358,22 +358,5 @@ namespace RuneUO.Utility
 
             return str;
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe bool UnsafeCompare(char* buffer, string str, int length)
-        {
-            for (int i = 0; i < length && i < str.Length; ++i)
-            {
-                var c0 = char.IsLetter(buffer[i]) ? char.ToLowerInvariant(buffer[i]) : buffer[i];
-                var c1 = char.IsLetter(str[i]) ? char.ToLowerInvariant(str[i]) : str[i];
-
-                if (c0 != c1)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
     }
 }

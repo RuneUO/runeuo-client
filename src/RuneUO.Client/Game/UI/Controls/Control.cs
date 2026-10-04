@@ -520,11 +520,6 @@ namespace RuneUO.Game.UI.Controls
             }
         }
 
-        public T[] GetControls<T>() where T : Control
-        {
-            return Children.OfType<T>().Where(s => !s.IsDisposed).ToArray();
-        }
-
         public IEnumerable<T> FindControls<T>() where T : Control
         {
             return Children.OfType<T>().Where(s => !s.IsDisposed);

@@ -44,8 +44,6 @@ namespace RuneUO.Game.Managers
 
         public event EventHandler<MessageEventArgs> MessageReceived;
 
-        public event EventHandler<MessageEventArgs> LocalizedMessageReceived;
-
         public void CancelServerPrompt()
         {
             SendServerPromptResponse(string.Empty);
@@ -268,11 +266,6 @@ namespace RuneUO.Game.Managers
                 ),
                 parent
             );
-        }
-
-        public void OnLocalizedMessage(Entity entity, MessageEventArgs args)
-        {
-            LocalizedMessageReceived.Raise(args, entity);
         }
 
         public TextObject CreateMessage

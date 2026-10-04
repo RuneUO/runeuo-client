@@ -248,12 +248,6 @@ namespace RuneUO.Game.Data
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsCave(ushort g)
-        {
-            return (_filteredTiles[g] & STATIC_TILES_FILTER_FLAGS.STFF_CAVE) != 0;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsRock(ushort g)
         {
             switch (g)

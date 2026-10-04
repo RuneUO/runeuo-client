@@ -1157,11 +1157,6 @@ namespace RuneUO.Renderer
             _numSprites++;
         }
 
-        public void DirectDraw(Texture2D texture, int spriteStart, int spriteCount)
-        {
-            InternalDraw(texture, spriteStart, spriteCount);
-        }
-
         public DynamicIndexBuffer GetDynamicIndexBuffer(int requiredIndices)
         {
             if (_dynamicIndexBuffer == null || _dynamicIndexBuffer.IndexCount < requiredIndices)

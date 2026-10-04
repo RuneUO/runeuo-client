@@ -678,13 +678,6 @@ namespace RuneUO.Assets
         public bool IsLand;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct RadarMapBlock
-    {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-        public RadarMapcells[,] Cells;
-    }
-
     public struct IndexMap
     {
         public FileReader MapFile, StaticFile;

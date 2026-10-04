@@ -61,9 +61,6 @@ namespace RuneUO.Game.UI.Controls
 
         public int ScrollMaxHeight { get; set; } = -1;
         public ScrollbarBehaviour ScrollbarBehaviour { get; set; }
-        public int ScrollValue => _scrollBar.Value;
-        public int ScrollMinValue => _scrollBar.MinValue;
-        public int ScrollMaxValue => _scrollBar.MaxValue;
 
 
         public Rectangle ScissorRectangle;

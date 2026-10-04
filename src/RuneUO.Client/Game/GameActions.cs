@@ -416,11 +416,6 @@ namespace RuneUO.Game
             Socket.Send_PartyRemoveRequest(0x00);
         }
 
-        public static void RequestPartyRemoveMember(uint serial)
-        {
-            Socket.Send_PartyRemoveRequest(serial);
-        }
-
         public static void RequestPartyQuit(PlayerMobile player)
         {
             Socket.Send_PartyRemoveRequest(player.Serial);
@@ -429,11 +424,6 @@ namespace RuneUO.Game
         public static void RequestPartyInviteByTarget()
         {
             Socket.Send_PartyInviteRequest();
-        }
-
-        public static void RequestPartyLootState(bool isLootable)
-        {
-            Socket.Send_PartyChangeLootTypeRequest(isLootable);
         }
 
         public static bool PickUp
@@ -627,15 +617,6 @@ namespace RuneUO.Game
                     //ent.AddMessage(MessageType.Regular, $"PACKET REMOVED SENT: 0x{serial:X8}", 3, 0x34 + 10, true, TextType.OBJECT);
                     Socket.Send_CloseStatusBarGump(serial);
                 }
-            }
-        }
-
-        public static void CastSpellFromBook(int index, uint bookSerial)
-        {
-            if (index >= 0)
-            {
-                LastSpellIndex = index;
-                Socket.Send_CastSpellFromBook(index, bookSerial);
             }
         }
 
