@@ -12,7 +12,7 @@ namespace RuneUO.UnitTests.Game.Scenes
     /// Regression tests for the non-atlas gump queue (<see cref="RenderLists"/>
     /// <c>_gumpTexts</c>).
     /// <para/>
-    /// Background: the refactor in RuneUO commit dcd8d3fa8 ("Refactored the
+    /// Background: the refactor in ClassicUO commit dcd8d3fa8 ("Refactored the
     /// rendering stack") replaced direct gump-text drawing with a queue of
     /// <see cref="Func{UltimaBatcher2D, Boolean}"/> closures. Each closure captured
     /// <c>this._gameText</c> by reference. Because <see cref="RenderedText"/> is
