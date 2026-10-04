@@ -108,6 +108,9 @@
 
     <Copy SourceFiles="@(MonockickstartPath)" DestinationFolder="$(PublishDir)\" SkipUnchangedFiles="true" Condition="'$(_IsLinux)' == 'true' Or '$(_IsMacOS)' == 'true'" />
 
+    <!-- BSD 2-Clause: binary releases must carry the ClassicUO copyright notice and license -->
+    <Copy SourceFiles="$(ProjectDir)..\..\LICENSE.md" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+
   </Target>
 
 </Project>

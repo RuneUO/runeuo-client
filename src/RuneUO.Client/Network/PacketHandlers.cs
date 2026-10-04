@@ -4692,7 +4692,7 @@ namespace RuneUO.Network
 
                     break;
 
-                case 0xBEEF: // RuneUO commands
+                case 0xBEEF: // ClassicUO commands
 
                     type = p.ReadUInt16BE();
 

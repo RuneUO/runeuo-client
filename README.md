@@ -87,7 +87,7 @@ Backend:
 * [FNA](https://github.com/FNA-XNA/FNA)
 
 # Legal
-This work is released under the BSD 2-Clause license, see [LICENSE.md](LICENSE.md). The original ClassicUO copyright notice is retained as required by the license.
+This work is released under the BSD 2-Clause license, see [LICENSE.md](LICENSE.md). The original ClassicUO copyright notice is retained as required by the license, in the source files and in every release package, which ships `LICENSE.md` next to the binaries.
 
 This project does not distribute any copyrighted game assets. In order to run this client you need to legally obtain a copy of the Ultima Online Classic Client.
 Using a custom client to connect to official UO servers is strictly forbidden. We do not assume any responsibility for the usage of this client.

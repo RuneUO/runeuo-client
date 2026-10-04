@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <Company>RuneUO</Company>
-    <Authors>RuneUO contributors, ClassicUO contributors</Authors>
+    <Authors>andreakarasho and ClassicUO contributors, RuneUO contributors</Authors>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     <Copyright>Copyright (c) andreakarasho and ClassicUO contributors, RuneUO contributors</Copyright>
