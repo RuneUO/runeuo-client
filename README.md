@@ -49,14 +49,18 @@ Binaries are placed in the `bin/dist` folder. The executable is `RuneUO.exe` (`R
 Requirements: [.NET 10 SDK](https://dotnet.microsoft.com/download). Builds are x64 only, because the launcher hosts are x64.
 
 # Publish to the Rune UO portal
-RuneUO is the portal's official client. The launcher installs it once and starts it with the game files of each server set to use it. `scripts/deploy-portal.sh` publishes a release, one platform at a time. Each publish replaces that platform's whole client on the portal.
-```
-export RUNE_PORTAL_URL=https://play.example.com RUNE_PORTAL_USER=admin
-scripts/deploy-portal.sh --release                       # the zips of the RuneUO-main-release GitHub release (all three platforms)
-scripts/deploy-portal.sh --zip RuneUO-win-x64-release.zip --platform win-x64 --version 1.1.0.42
-scripts/deploy-portal.sh --build --version 1.1.0.42      # build this machine's platform and publish it
-```
-The script signs in as a portal admin. It reads the password from `RUNE_PORTAL_PASSWORD` or asks for it. `--dry-run` prepares the zips without uploading them, and `--help` lists every option. An admin can also upload the same zip from the portal, in Admin → Launcher → RuneUO client.
+RuneUO is the portal's official client. The launcher installs it once and starts it with the game files of each server set to use it. Each publish replaces that platform's whole client on the portal: files the new build dropped stop reaching players too.
+
+To publish, open Actions → **Publish to portal** → Run workflow on `main`, pick the platforms (all three by default) and optionally a version (four numbers; empty means `1.1.1.<run number>`). The workflow builds each platform and uploads its release zip to the portal. Only collaborators with write access can run it.
+
+The workflow authenticates with the portal's client publish token, which publishes the client and nothing else. An admin makes it in the portal, in Admin → Launcher → RuneUO client → Publish token; it is shown once. It lives in the `portal` environment (Settings → Environments → portal):
+
+| Name | Kind | Value |
+|---|---|---|
+| `RUNE_PORTAL_URL` | variable | the portal, e.g. `https://play.example.com` |
+| `RUNE_PORTAL_TOKEN` | secret | the client publish token |
+
+The workflow only publishes `main`, and the environment only admits `main`, so a workflow edited on another branch never sees the token. Regenerating or revoking the token in the portal stops the old one at once. An admin can also upload a release zip by hand from the portal, in Admin → Launcher → RuneUO client.
 
 # Contribute
 Contributions are welcome. Open an issue or a pull request in this repository.

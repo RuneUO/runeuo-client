@@ -1,0 +1,189 @@
+# Builds RuneUO and publishes it to the Rune Portal as its official client. The
+# launcher then installs it for every server set to the RuneUO client.
+#
+# Run by hand from Actions → Publish to portal → Run workflow; GitHub only lets
+# collaborators with write access start it. Only main is built and published:
+# run from another branch, the workflow stops before building. Publishing
+# replaces that platform's whole release on the portal: files the new build
+# dropped stop reaching players too.
+#
+# The portal and its token come from the "portal" environment:
+#   variable RUNE_PORTAL_URL    e.g. https://play.example.com
+#   secret   RUNE_PORTAL_TOKEN  the client publish token, made in the portal's
+#                               Admin → Launcher → RuneUO client; it publishes
+#                               the client and nothing else
+
+name: Publish to portal
+
+on:
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: Platforms to build and publish
+        type: choice
+        options: [all, win-x64, linux-x64, osx-x64]
+        default: all
+      version:
+        description: Version, four numbers (empty = 1.1.1.<run number>)
+        type: string
+        required: false
+
+# One publish at a time: the portal refuses a second one while the first uploads.
+concurrency:
+  group: publish-portal
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  OUTPUT_PATH: "dist"
+  CLIENT_PROJECT_PATH: "src/RuneUO.Client/RuneUO.Client.csproj"
+  BOOT_PROJECT_PATH: "src/RuneUO.Bootstrap/src/RuneUO.Bootstrap.csproj"
+
+  DOTNET_NOLOGO: false
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  NUGET_XMLDOC_MODE: skip
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      version: ${{ steps.plan.outputs.version }}
+
+    steps:
+      - name: Plan the build
+        id: plan
+        env:
+          PLATFORMS: ${{ inputs.platforms }}
+          VERSION: ${{ inputs.version }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          # The portal environment only admits main too; this stops a run from
+          # another branch before it spends a build.
+          if [[ "$GITHUB_REF" != refs/heads/main ]]; then
+            echo "::error::only main is published (this run is on ${GITHUB_REF_NAME})"
+            exit 1
+          fi
+
+          # The version is also the assemblies' version, which takes four numbers.
+          version="${VERSION:-1.1.1.$RUN_NUMBER}"
+          if [[ ! "$version" =~ ^[0-9]{1,5}(\.[0-9]{1,5}){3}$ ]]; then
+            echo "::error::version must be four numbers, like 1.1.1.42 (got '$version')"
+            exit 1
+          fi
+
+          all='[{"os":"windows-latest","target":"win-x64"},{"os":"ubuntu-22.04","target":"linux-x64"},{"os":"macos-14","target":"osx-x64"}]'
+          if [[ "$PLATFORMS" == all ]]; then
+            matrix="$all"
+          else
+            matrix="$(jq -c --arg t "$PLATFORMS" '[.[] | select(.target == $t)]' <<<"$all")"
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "matrix={\"include\":$matrix}" >> "$GITHUB_OUTPUT"
+          echo "Publishing $version for $PLATFORMS from main"
+
+  build:
+    needs: prepare
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+
+    env:
+      RUNEUO_VERSION: ${{ needs.prepare.outputs.version }}
+      ZIP_NAME: "RuneUO-${{ matrix.target }}-release.zip"
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Get submodules
+        run: git config --global url."https://".insteadOf git:// && git submodule update --init --recursive
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build Bootstrap app
+        run: dotnet publish "${{ env.BOOT_PROJECT_PATH }}" -c Release -o "${{ env.OUTPUT_PATH }}" /p:AssemblyVersion=${{ env.RUNEUO_VERSION }} /p:FileVersion=${{ env.RUNEUO_VERSION }} /p:OutputType=WinExe
+
+      - name: Build RuneUO
+        run: dotnet publish "${{ env.CLIENT_PROJECT_PATH }}" -c Release -r "${{ matrix.target }}" -o "${{ env.OUTPUT_PATH }}" /p:IS_DEV_BUILD=false /p:AssemblyVersion=${{ env.RUNEUO_VERSION }} /p:FileVersion=${{ env.RUNEUO_VERSION }} /p:NativeLib=Shared /p:OutputType=Library
+
+      # Zipped here, on its own runner, because an artifact keeps no file modes.
+      - name: Create package
+        uses: thedoctor0/zip-release@0.7.6
+        with:
+          type: "zip"
+          directory: ${{ env.OUTPUT_PATH }}
+          filename: ${{ env.ZIP_NAME }}
+
+      - name: Keep the package for the publish job
+        uses: actions/upload-artifact@v4
+        with:
+          name: RuneUO-${{ matrix.target }}-release
+          path: ${{ env.OUTPUT_PATH }}/${{ env.ZIP_NAME }}
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    environment:
+      name: portal
+      url: ${{ vars.RUNE_PORTAL_URL }}
+
+    steps:
+      - name: Get the packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: RuneUO-*-release
+          path: zips
+          merge-multiple: true
+
+      - name: Publish to the portal
+        env:
+          PORTAL: ${{ vars.RUNE_PORTAL_URL }}
+          PORTAL_TOKEN: ${{ secrets.RUNE_PORTAL_TOKEN }}
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          die() { echo "::error::$*"; exit 1; }
+
+          [[ -n "$PORTAL" ]] || die "the portal environment has no RUNE_PORTAL_URL variable"
+          [[ -n "$PORTAL_TOKEN" ]] || die "the portal environment has no RUNE_PORTAL_TOKEN secret"
+          portal="${PORTAL%/}"
+          work="$RUNNER_TEMP/portal"
+          mkdir -p "$work"
+          # The header goes through a file so the token is not on curl's command line.
+          printf 'Authorization: Bearer %s\n' "$PORTAL_TOKEN" > "$work/auth"
+          trap 'rm -f "$work/auth"' EXIT
+
+          {
+            echo "### Published $VERSION to $portal"
+            echo
+            echo "| Platform | Files | Size |"
+            echo "|---|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          shopt -s nullglob
+          zips=(zips/RuneUO-*-release.zip)
+          [[ ${#zips[@]} -gt 0 ]] || die "no package to publish"
+          for z in "${zips[@]}"; do
+            p="$(basename "$z")"; p="${p#RuneUO-}"; p="${p%-release.zip}"
+            echo "Publishing $p $VERSION ($(du -h "$z" | cut -f1))…"
+            status="$(curl -sS -o "$work/publish.json" -w '%{http_code}' -H @"$work/auth" \
+              -F "platform=$p" -F "version=$VERSION" -F "file=@$z;type=application/zip" \
+              "$portal/admin/runeuo-client/publish" || true)"
+            [[ "$status" != 000 ]] || die "cannot reach $portal"
+            [[ "$status" != 401 ]] || die "the portal refused the token: make a new one in Admin → Launcher → RuneUO client and update RUNE_PORTAL_TOKEN"
+            [[ "$status" == 200 ]] || die "$p: publish failed (HTTP $status): $(cat "$work/publish.json")"
+            cat "$work/publish.json"; echo
+            jq -r --arg p "$p" '"| \($p) | \(.files // "?") | \(.sizeHuman // "?") |"' "$work/publish.json" >> "$GITHUB_STEP_SUMMARY" || true
+          done
+
+          echo "Done. Launchers pick the new client up on their next check."
