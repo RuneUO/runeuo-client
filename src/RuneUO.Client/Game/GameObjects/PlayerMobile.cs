@@ -9,7 +9,6 @@ using RuneUO.Network;
 using RuneUO.Utility;
 using RuneUO.Utility.Logging;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RuneUO.Game.GameObjects
 {

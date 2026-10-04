@@ -15,7 +15,6 @@ namespace RuneUO.Game.UI.Controls
 
     internal class ScrollArea : Control
     {
-        private bool _isNormalScroll;
         private readonly ScrollBarBase _scrollBar;
 
         public ScrollArea
@@ -32,7 +31,6 @@ namespace RuneUO.Game.UI.Controls
             Y = y;
             Width = w;
             Height = h;
-            _isNormalScroll = normalScrollbar;
 
             if (normalScrollbar)
             {

@@ -249,18 +249,6 @@ namespace RuneUO.Input
         };
 
 
-        private static readonly Dictionary<SDL.SDL_Keymod, string> _mods = new Dictionary<SDL.SDL_Keymod, string>
-        {
-            { SDL.SDL_Keymod.SDL_KMOD_LSHIFT, "Shift" },
-            { SDL.SDL_Keymod.SDL_KMOD_RSHIFT, "R Shift" },
-
-            { SDL.SDL_Keymod.SDL_KMOD_LCTRL, "Ctrl" },
-            { SDL.SDL_Keymod.SDL_KMOD_RCTRL, "R Ctrl" },
-
-            { SDL.SDL_Keymod.SDL_KMOD_LALT, "Alt" },
-            { SDL.SDL_Keymod.SDL_KMOD_RALT, "R Alt" }
-        };
-
 
         public static string TryGetKey(SDL.SDL_Keycode key, SDL.SDL_Keymod mod = SDL.SDL_Keymod.SDL_KMOD_NONE)
         {

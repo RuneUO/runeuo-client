@@ -359,45 +359,6 @@ namespace RuneUO.Assets
             return data;
         }
 
-        private static void AddBlackBorder(Span<uint> pixels, int width, int height)
-        {
-            for (int yy = 0; yy < height; yy++)
-            {
-                int startY = yy != 0 ? -1 : 0;
-                int endY = yy + 1 < height ? 2 : 1;
-
-                for (int xx = 0; xx < width; xx++)
-                {
-                    ref uint pixel = ref pixels[yy * width + xx];
-
-                    if (pixel == 0)
-                    {
-                        continue;
-                    }
-
-                    int startX = xx != 0 ? -1 : 0;
-                    int endX = xx + 1 < width ? 2 : 1;
-
-                    for (int i = startY; i < endY; i++)
-                    {
-                        int currentY = yy + i;
-
-                        for (int j = startX; j < endX; j++)
-                        {
-                            int currentX = xx + j;
-
-                            ref uint currentPixel = ref pixels[currentY * width + currentX];
-
-                            if (currentPixel == 0u)
-                            {
-                                pixel = 0xFF_00_00_00;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         public ArtInfo GetArt(uint idx)
         {
             var loadLand = idx < MAX_LAND_DATA_INDEX_COUNT;

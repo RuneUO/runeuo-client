@@ -13,7 +13,6 @@ namespace RuneUO.Utility
         private readonly StringBuilder _sb = new StringBuilder();
         private int _Size;
         private string _string;
-        private bool _trim;
 
         public TextFileParser(string str, char[] delimiters, char[] comments, char[] quotes)
         {
@@ -118,7 +117,6 @@ namespace RuneUO.Utility
 
         public List<string> ReadTokens(bool trim = true)
         {
-            _trim = trim;
             List<string> result = new List<string>();
 
             if (_pos >= _Size)

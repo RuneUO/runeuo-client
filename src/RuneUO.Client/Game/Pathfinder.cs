@@ -17,7 +17,7 @@ namespace RuneUO.Game
         private const int PATHFINDER_MAX_NODES = 10000;
         private int _goalNode;
         private bool _goalFound;
-        private int _activeOpenNodes, _activeCloseNodes, _pathfindDistance;
+        private int _activeCloseNodes, _pathfindDistance;
         // Slots at or past these indices have not been used since the last reset.
         private int _openHigh, _closedHigh;
         private readonly List<PathObject> _minMaxList = new List<PathObject>();
@@ -715,8 +715,6 @@ namespace RuneUO.Game
                                     _goalNode = i;
                                 }
 
-                                _activeOpenNodes++;
-
                                 if (i >= _openHigh)
                                 {
                                     _openHigh = i + 1;
@@ -775,7 +773,6 @@ namespace RuneUO.Game
                         node.Y = parent.Y;
                         node.Z = parent.Z;
                         node.Parent = parent.Parent;
-                        _activeOpenNodes--;
                         _activeCloseNodes++;
 
                         if (i >= _closedHigh)
@@ -992,7 +989,6 @@ namespace RuneUO.Game
             _endPoint.Y = y;
             _goalNode = 0;
             _goalFound = false;
-            _activeOpenNodes = 0;
             _activeCloseNodes = 0;
             _pathfindDistance = distance;
             _pathSize = 0;

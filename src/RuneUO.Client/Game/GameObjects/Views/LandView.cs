@@ -4,7 +4,6 @@ using RuneUO.Configuration;
 using RuneUO.Renderer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace RuneUO.Game.GameObjects
 {

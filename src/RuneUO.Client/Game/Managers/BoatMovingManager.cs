@@ -377,34 +377,6 @@ namespace RuneUO.Game.Managers
             }
         }
 
-        private void GetEndPosition
-        (
-            Item item,
-            Deque<BoatStep> deque,
-            out ushort x,
-            out ushort y,
-            out sbyte z,
-            out Direction dir
-        )
-        {
-            if (deque.Count == 0)
-            {
-                x = item.X;
-                y = item.Y;
-                z = item.Z;
-                dir = item.Direction & Direction.Up;
-                dir &= Direction.Running;
-            }
-            else
-            {
-                ref BoatStep s = ref deque.Back();
-                x = s.X;
-                y = s.Y;
-                z = s.Z;
-                dir = s.MovingDir;
-            }
-        }
-
         private struct BoatStep
         {
             public uint Serial;

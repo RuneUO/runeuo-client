@@ -256,7 +256,6 @@ namespace RuneUO.Game.UI.Gumps
     internal class SkillListEntry : Control
     {
         private readonly SkillGumpAdvanced _gump;
-        private readonly Button _activeUse;
         private readonly Skill _skill;
 
         public SkillListEntry(
@@ -281,7 +280,7 @@ namespace RuneUO.Game.UI.Gumps
             if (skill.IsClickable)
             {
                 Add(
-                    _activeUse = new Button((int)Buttons.ActiveSkillUse, 0x837, 0x838)
+                    new Button((int)Buttons.ActiveSkillUse, 0x837, 0x838)
                     {
                         X = 0,
                         Y = 4,
