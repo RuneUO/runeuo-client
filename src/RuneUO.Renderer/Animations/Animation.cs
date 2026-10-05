@@ -13,6 +13,7 @@ namespace RuneUO.Renderer.Animations
         private readonly PixelPicker _picker = new PixelPicker();
         private readonly AnimationsLoader _animationLoader;
         private IndexAnimation[] _dataIndex = new IndexAnimation[MAX_ANIMATIONS_DATA_INDEX_COUNT];
+        private BodyConvFlags? _bodyConvFlags;
 
         public Animations(AnimationsLoader animationLoader, GraphicsDevice device)
         {
@@ -355,7 +356,14 @@ namespace RuneUO.Renderer.Animations
 
         public void UpdateAnimationTable(BodyConvFlags flags)
         {
+            if (_bodyConvFlags == flags)
+                return;
+
+            _bodyConvFlags = flags;
             _animationLoader.ProcessBodyConvDef(flags);
+
+            // An index resolved under the old flags points at the wrong file (or at nothing).
+            Array.Clear(_dataIndex);
         }
 
         public void ConvertBodyIfNeeded(

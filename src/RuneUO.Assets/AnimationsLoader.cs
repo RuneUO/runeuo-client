@@ -619,6 +619,9 @@ namespace RuneUO.Assets
                 return;
             }
 
+            // Rebuilt from scratch: a later login may grant fewer files than the last one.
+            _bodyConvInfos.Clear();
+
             var file = FileManager.GetUOFilePath("Bodyconv.def");
 
             if (!File.Exists(file))
