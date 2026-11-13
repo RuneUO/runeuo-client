@@ -477,12 +477,19 @@ namespace RuneUO.Game.UI.Gumps
 
                 _textbox.FocusLost += (s, e) =>
                 {
+                    bool wasEditing = _textbox.IsEditable;
                     _status = 0;
                     _gumpPic.IsVisible = true;
                     _textbox.IsEditable = false;
                     _textbox.AllowSelection = false;
                     UIManager.KeyboardFocusControl = null;
                     UIManager.SystemChat.SetFocus();
+
+                    // A click elsewhere ends the edit as Enter does, so the name is kept too.
+                    if (wasEditing)
+                    {
+                        ApplyGroupName(_textbox.Text);
+                    }
                 };
             }
 
@@ -615,6 +622,16 @@ namespace RuneUO.Game.UI.Gumps
 
             public override void OnKeyboardReturn(int textID, string text)
             {
+                ApplyGroupName(text);
+
+                UIManager.KeyboardFocusControl = null;
+                UIManager.SystemChat.SetFocus();
+
+                base.OnKeyboardReturn(textID, text);
+            }
+
+            private void ApplyGroupName(string text)
+            {
                 if (string.IsNullOrWhiteSpace(text))
                 {
                     text = ResGumps.NoName;
@@ -635,12 +652,7 @@ namespace RuneUO.Game.UI.Gumps
                     _gumpPic.IsVisible = false;
                 }
 
-                UIManager.KeyboardFocusControl = null;
-                UIManager.SystemChat.SetFocus();
-
                 _group.Name = text;
-
-                base.OnKeyboardReturn(textID, text);
             }
 
             protected override void OnKeyUp(SDL.SDL_Keycode key, SDL.SDL_Keymod mod)
