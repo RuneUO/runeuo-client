@@ -75,7 +75,7 @@ jobs:
             exit 1
           fi
 
-          all='[{"os":"windows-latest","target":"win-x64"},{"os":"ubuntu-22.04","target":"linux-x64"},{"os":"macos-14","target":"osx-x64"}]'
+          all='[{"os":"windows-latest","target":"win-x64"},{"os":"ubuntu-22.04","target":"linux-x64"},{"os":"macos-15-intel","target":"osx-x64"}]'
           if [[ "$PLATFORMS" == all ]]; then
             matrix="$all"
           else
