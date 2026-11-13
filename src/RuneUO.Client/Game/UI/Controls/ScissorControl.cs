@@ -32,7 +32,7 @@ namespace RuneUO.Game.UI.Controls
             {
                 if (DoScissor)
                 {
-                    batcher.ClipBegin(x, y, Width, Height);
+                    batcher.ClipBeginBalanced(x, y, Width, Height);
                 }
                 else
                 {
