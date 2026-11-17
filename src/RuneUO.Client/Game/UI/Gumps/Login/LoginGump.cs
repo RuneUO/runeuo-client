@@ -16,6 +16,12 @@ namespace RuneUO.Game.UI.Gumps.Login
 {
     internal class LoginGump : Gump
     {
+        // What a Rune Portal account may be: usernames up to 20 characters and
+        // passwords up to 30. Both fit the 30-byte fields of the 0x80 and 0x91
+        // logins (a 30-character value fills its field with no NUL).
+        private const int MaxAccountLength = 20;
+        private const int MaxPasswordLength = 30;
+
         private readonly ushort _buttonNormal;
         private readonly ushort _buttonOver;
         private readonly Checkbox _checkboxAutologin;
@@ -323,7 +329,7 @@ namespace RuneUO.Game.UI.Gumps.Login
                 _textboxAccount = new StbTextBox
                 (
                     5,
-                    16,
+                    MaxAccountLength,
                     190,
                     false,
                     hue: 0x034F
@@ -343,7 +349,7 @@ namespace RuneUO.Game.UI.Gumps.Login
                 _passwordFake = new PasswordStbTextBox
                 (
                     5,
-                    16,
+                    MaxPasswordLength,
                     190,
                     false,
                     hue: 0x034F

@@ -96,5 +96,26 @@ namespace RuneUO.UnitTests.IO
 
             writer.Dispose();
         }
+
+        // The login packets (0x80, 0x91) carry the account and password in 30-byte
+        // fields: what the login gump accepts (20 and 30 characters) must reach the
+        // wire whole, a 30-character value filling its field with no NUL.
+        [Theory]
+        [InlineData(20)]
+        [InlineData(29)]
+        [InlineData(30)]
+        public void Write_ASCII_FixedField_KeepsWholeValue(int length)
+        {
+            StackDataWriter writer = new StackDataWriter();
+            string value = new string('j', length);
+
+            writer.WriteASCII(value, 30);
+
+            Assert.Equal(30, writer.BytesWritten);
+            Assert.True(writer.Buffer.Slice(0, length).ToArray().All(c => c == (byte) 'j'));
+            Assert.True(writer.Buffer.Slice(length, 30 - length).ToArray().All(c => c == 0));
+
+            writer.Dispose();
+        }
     }
 }
